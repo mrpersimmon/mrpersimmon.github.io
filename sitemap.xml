@@ -368,20 +368,6 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/tags/Array/</loc>
-    <lastmod>2023-05-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.mrpersimmon.top/tags/TwoPointers/</loc>
-    <lastmod>2023-05-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.mrpersimmon.top/tags/LinkedList/</loc>
     <lastmod>2023-05-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -390,6 +376,20 @@
   
   <url>
     <loc>https://www.mrpersimmon.top/tags/Two-Pointers/</loc>
+    <lastmod>2023-05-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mrpersimmon.top/tags/Array/</loc>
+    <lastmod>2023-05-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mrpersimmon.top/tags/TwoPointers/</loc>
     <lastmod>2023-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -524,14 +524,14 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/Algorithm/BinarySearchAndSort/</loc>
+    <loc>https://www.mrpersimmon.top/categories/Algorithm/LinkedList/</loc>
     <lastmod>2023-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/Algorithm/LinkedList/</loc>
+    <loc>https://www.mrpersimmon.top/categories/Algorithm/BinarySearchAndSort/</loc>
     <lastmod>2023-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -594,14 +594,14 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/Algorithm/Array/</loc>
+    <loc>https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/</loc>
     <lastmod>2023-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/</loc>
+    <loc>https://www.mrpersimmon.top/categories/Algorithm/Array/</loc>
     <lastmod>2023-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
