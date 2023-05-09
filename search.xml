@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>nSum问题</title>
-    <url>/article/52a56299.html</url>
-    <content><![CDATA[<p>什么是 nSum 问题？</p>
-<p>给你输入一个数组 nums 和一个目标 target，让你从 nums 选择 n
-个数，使得这些数字之和为 target。</p>
-<span id="more"></span>
-<h3 id="twosum-问题">TwoSum 问题</h3>
-<ol type="1">
-<li>先对 nums 排序，使用左右双指针技巧，从两端相向而行即可：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-        <category>Framework</category>
-        <category>nSum</category>
-      </categories>
-      <tags>
-        <tag>AlgorithmFramework</tag>
-        <tag>nSum</tag>
-        <tag>Algorithm</tag>
-        <tag>Slim</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kubernetes集群搭建与配置原理详解</title>
     <url>/article/b3dc75ed.html</url>
     <content><![CDATA[<p>Kubernetes 不仅能运行 Java Web 与 MySQL 这样的常规组合，还能够处理
@@ -207,6 +182,92 @@ YAML 文件来实现，不要再碰 Docker 命令行了。</p></li>
       </tags>
   </entry>
   <entry>
+    <title>nSum问题</title>
+    <url>/article/52a56299.html</url>
+    <content><![CDATA[<p>什么是 nSum 问题？</p>
+<p>给你输入一个数组 nums 和一个目标 target，让你从 nums 选择 n
+个数，使得这些数字之和为 target。</p>
+<span id="more"></span>
+<h3 id="twosum-问题">TwoSum 问题</h3>
+<ol type="1">
+<li>先对 nums 排序，使用左右双指针技巧，从两端相向而行即可：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+        <category>Framework</category>
+        <category>nSum</category>
+      </categories>
+      <tags>
+        <tag>AlgorithmFramework</tag>
+        <tag>nSum</tag>
+        <tag>Algorithm</tag>
+        <tag>Slim</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二分查找与排序</title>
+    <url>/article/47bbfc8b.html</url>
+    <content><![CDATA[<h3 id="相似解法题目多元组">相似解法题目多元组</h3>
+<ul>
+<li><strong>归并排序：</strong>&lt; BM20 数组中的逆序对，BM5 合并 k
+个已排序的链表，BM12 单链表的排序 &gt;</li>
+</ul>
+<span id="more"></span>
+<h3 id="bm20-数组中的逆序对">BM20 数组中的逆序对</h3>
+<h4 id="描述">描述</h4>
+<p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将
+P 对 1000000007 取模的结果输出。 即输出 P mod 1000000007。</p>
+<p>题目保证输入的数组中没有的相同的数字。</p>
+<h4 id="思路">思路</h4>
+<p>归并排序</p>
+<p>在归并排序过程中会将数组换分成最小为 1
+个元素的子数组，然后依次比较子数组的每个元素的大小，依次取出较小的一个合并成大的子数组。</p>
+<p>主要流程：取中间 -&gt; 左右划分 -&gt; 合并</p>
+<p>我们可以用相同的方法划分，划分之后相邻一个元素的子数组可以根据大小统计逆序对。在不断往上合并的时候，因为已经排好序了，逆序对可以向上累计。</p>
+<h4 id="f1归并排序">F1：归并排序</h4>
+<h5 id="步骤">步骤</h5>
+<ol type="1">
+<li>划分阶段：将待划分区间从中点划分成两部分，两部分进入递归继续划分，直到子数组长度为
+1。</li>
+<li>排序阶段：
+<ul>
+<li>使用归并排序递归地处理子序列，同时统计逆序对，因为在归并排序中，我们会依次比较相邻两组子数组各个元素的大小，并累计遇到的逆序情况。</li>
+<li>对排好序的两组，右边大于左边时，它大于了左边的所有子序列，基于这个性质，我们可以不用每次加
+1 来统计，减少运算次数。</li>
+</ul></li>
+<li>合并阶段：将排好序的子序列合并，同时累加逆序对。</li>
+</ol>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/DM_20230406161242_001.gif"
+alt="归并排序统计逆序对" />
+<figcaption aria-hidden="true">归并排序统计逆序对</figcaption>
+</figure>
+<h5 id="代码">代码</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">mod</span> <span class="operator">=</span> <span class="number">1000000007</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">inversePairs</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> array.length;</span><br><span class="line">    <span class="type">int</span>[] help = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    <span class="keyword">return</span> mergeSort(<span class="number">0</span>, n - <span class="number">1</span>, array, help);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算逆序对的总数</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span>[] data, <span class="type">int</span>[] help)</span> &#123;</span><br><span class="line">    <span class="comment">// 停止划分</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="comment">// base case</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 取中间</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 左右划分合并</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> mergeSort(left, mid, data, help) + mergeSort(mid + <span class="number">1</span>, right, data, help);</span><br><span class="line">    <span class="comment">// 防止溢出</span></span><br><span class="line">    res %= mod;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left, j = mid + <span class="number">1</span>; <span class="comment">// 左、右指针</span></span><br><span class="line">    <span class="comment">// 将当前划分的数组全部填充到辅助数组中</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        help[k] = data[k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == mid + <span class="number">1</span>) &#123; <span class="comment">// 左指针到边界，后续只需右指针移动</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j == right + <span class="number">1</span>) &#123; <span class="comment">// 如果右指针到边界</span></span><br><span class="line">            data[k] = help[i]; <span class="comment">// 填充左边的值</span></span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (help[i] &lt;= help[j]) &#123; <span class="comment">// 左指针的值 &lt;= 右指针的值</span></span><br><span class="line">            data[k] = help[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 左右指针都没越界，左指针的值 &gt; 右指针的值</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">            <span class="comment">// 符合逆序对的定义</span></span><br><span class="line">            res += mid - i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res % mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="时间复杂度">时间复杂度</h5>
+<p><span class="math inline">\(O(nlog_2n)\)</span></p>
+<p>归并排序利用分治思想，树形递归每次二分，总共能分为 <span
+class="math inline">\(log_2n\)</span>
+层，每层合并都需要遍历数组所有元素，即 <span
+class="math inline">\(O(n)\)</span>。</p>
+<h5 id="空间复杂度">空间复杂度</h5>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>辅助数组 help 长度为 n 及递归栈最大深度不会超过 n。</p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+        <category>BinarySearchAndSort</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>NowCoder-TOP101</tag>
+        <tag>BinarySearchAndSort</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>二叉树与递归的框架思维「浓缩版」</title>
     <url>/article/ebfb7429.html</url>
     <content><![CDATA[<p>本文是 <a
@@ -301,67 +362,6 @@ for 循环</strong>，比如 Dijkstra
         <tag>二叉树</tag>
         <tag>递归</tag>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二分查找与排序</title>
-    <url>/article/47bbfc8b.html</url>
-    <content><![CDATA[<h3 id="相似解法题目多元组">相似解法题目多元组</h3>
-<ul>
-<li><strong>归并排序：</strong>&lt; BM20 数组中的逆序对，BM5 合并 k
-个已排序的链表，BM12 单链表的排序 &gt;</li>
-</ul>
-<span id="more"></span>
-<h3 id="bm20-数组中的逆序对">BM20 数组中的逆序对</h3>
-<h4 id="描述">描述</h4>
-<p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将
-P 对 1000000007 取模的结果输出。 即输出 P mod 1000000007。</p>
-<p>题目保证输入的数组中没有的相同的数字。</p>
-<h4 id="思路">思路</h4>
-<p>归并排序</p>
-<p>在归并排序过程中会将数组换分成最小为 1
-个元素的子数组，然后依次比较子数组的每个元素的大小，依次取出较小的一个合并成大的子数组。</p>
-<p>主要流程：取中间 -&gt; 左右划分 -&gt; 合并</p>
-<p>我们可以用相同的方法划分，划分之后相邻一个元素的子数组可以根据大小统计逆序对。在不断往上合并的时候，因为已经排好序了，逆序对可以向上累计。</p>
-<h4 id="f1归并排序">F1：归并排序</h4>
-<h5 id="步骤">步骤</h5>
-<ol type="1">
-<li>划分阶段：将待划分区间从中点划分成两部分，两部分进入递归继续划分，直到子数组长度为
-1。</li>
-<li>排序阶段：
-<ul>
-<li>使用归并排序递归地处理子序列，同时统计逆序对，因为在归并排序中，我们会依次比较相邻两组子数组各个元素的大小，并累计遇到的逆序情况。</li>
-<li>对排好序的两组，右边大于左边时，它大于了左边的所有子序列，基于这个性质，我们可以不用每次加
-1 来统计，减少运算次数。</li>
-</ul></li>
-<li>合并阶段：将排好序的子序列合并，同时累加逆序对。</li>
-</ol>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/DM_20230406161242_001.gif"
-alt="归并排序统计逆序对" />
-<figcaption aria-hidden="true">归并排序统计逆序对</figcaption>
-</figure>
-<h5 id="代码">代码</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">mod</span> <span class="operator">=</span> <span class="number">1000000007</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">inversePairs</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> array.length;</span><br><span class="line">    <span class="type">int</span>[] help = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    <span class="keyword">return</span> mergeSort(<span class="number">0</span>, n - <span class="number">1</span>, array, help);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算逆序对的总数</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span>[] data, <span class="type">int</span>[] help)</span> &#123;</span><br><span class="line">    <span class="comment">// 停止划分</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="comment">// base case</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 取中间</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 左右划分合并</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> mergeSort(left, mid, data, help) + mergeSort(mid + <span class="number">1</span>, right, data, help);</span><br><span class="line">    <span class="comment">// 防止溢出</span></span><br><span class="line">    res %= mod;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left, j = mid + <span class="number">1</span>; <span class="comment">// 左、右指针</span></span><br><span class="line">    <span class="comment">// 将当前划分的数组全部填充到辅助数组中</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        help[k] = data[k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == mid + <span class="number">1</span>) &#123; <span class="comment">// 左指针到边界，后续只需右指针移动</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j == right + <span class="number">1</span>) &#123; <span class="comment">// 如果右指针到边界</span></span><br><span class="line">            data[k] = help[i]; <span class="comment">// 填充左边的值</span></span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (help[i] &lt;= help[j]) &#123; <span class="comment">// 左指针的值 &lt;= 右指针的值</span></span><br><span class="line">            data[k] = help[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 左右指针都没越界，左指针的值 &gt; 右指针的值</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">            <span class="comment">// 符合逆序对的定义</span></span><br><span class="line">            res += mid - i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res % mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="时间复杂度">时间复杂度</h5>
-<p><span class="math inline">\(O(nlog_2n)\)</span></p>
-<p>归并排序利用分治思想，树形递归每次二分，总共能分为 <span
-class="math inline">\(log_2n\)</span>
-层，每层合并都需要遍历数组所有元素，即 <span
-class="math inline">\(O(n)\)</span>。</p>
-<h5 id="空间复杂度">空间复杂度</h5>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>辅助数组 help 长度为 n 及递归栈最大深度不会超过 n。</p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-        <category>BinarySearchAndSort</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>NowCoder-TOP101</tag>
-        <tag>BinarySearchAndSort</tag>
       </tags>
   </entry>
   <entry>
@@ -625,18 +625,6 @@ DFS 算法，没有 BFS 算法的性能的优势。</p>
       </tags>
   </entry>
   <entry>
-    <title>半亩良田</title>
-    <url>/article/3566a71a.html</url>
-    <content><![CDATA[<p>凡事有交代，件件有着落，事事有回应，做一个靠谱的技术人。</p>
-]]></content>
-      <categories>
-        <category>Miscellany</category>
-      </categories>
-      <tags>
-        <tag>Miscellany</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>从大厂面试题谈CompletableFuture的使用与案例说明</title>
     <url>/article/d299c68e.html</url>
     <content><![CDATA[<p>谈一谈 Future 和 CompletableFuture 的区别，有使用过 CompletableFuture
@@ -651,6 +639,18 @@ DFS 算法，没有 BFS 算法的性能的优势。</p>
         <tag>Java</tag>
         <tag>JUC</tag>
         <tag>CompletableFuture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>半亩良田</title>
+    <url>/article/3566a71a.html</url>
+    <content><![CDATA[<p>凡事有交代，件件有着落，事事有回应，做一个靠谱的技术人。</p>
+]]></content>
+      <categories>
+        <category>Miscellany</category>
+      </categories>
+      <tags>
+        <tag>Miscellany</tag>
       </tags>
   </entry>
   <entry>
@@ -1352,6 +1352,319 @@ p，取最大的字符串长度作为辅助字符数组的长度，设置进位 
       </tags>
   </entry>
   <entry>
+    <title>手撕面试算法题必备技巧(壹) —— 二分搜索</title>
+    <url>/article/3f91e5ac.html</url>
+    <content><![CDATA[<p>本文介绍了二分搜索最常见的几个场景的使用：<strong>寻找一个数</strong>、<strong>寻找左侧边界</strong>以及<strong>寻找右侧边界</strong>。文章内容既适合完全不知道二分搜索是什么的新同学，也适合老同学复习拓展。</p>
+<p>考察过该题目的公司有：拼多多、美团、腾讯、阿里巴巴...</p>
+<p>我相信，友好的讨论交流会让彼此快速进步！文章难免有疏漏之处，十分欢迎大家在评论区中批评指正。</p>
+<span id="more"></span>
+<h2 id="寻找一个数">寻找一个数</h2>
+<h3 id="题目描述">题目描述</h3>
+<p>在有序数组中搜索一个数，如果存在，返回其索引，否则返回 -1。</p>
+<h3 id="思路">思路</h3>
+<p>二分查找的思路非常简单，<strong>利用了数组的有序性</strong>。</p>
+<p>每次取数组中点的元素值与目标值比大小，每次共有三种情况：</p>
+<ol type="1">
+<li><p>如果找到了就直接返回索引；</p></li>
+<li><p>如果中点值比目标值小，说明中点值之前的值都比目标值小，因此目标值在右半区间；</p></li>
+<li><p>如果中点值比目标值大，说明中点值之后的值都比目标值大，因此目标值一定在左半区间。</p></li>
+</ol>
+<p>如果遍历完整个数组后都没找到目标值，那就说明没找到，返回 -1。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061247595.gif"
+alt="二分搜索-寻找一个数" />
+<figcaption aria-hidden="true">二分搜索-寻找一个数</figcaption>
+</figure>
+<h3 id="参考代码">参考代码</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="comment">// 搜索区间 [left, right]</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; </span><br><span class="line">        <span class="comment">// 计算 mid</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123; <span class="comment">// 找到目标值，返回索引</span></span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123; <span class="comment">// 搜索区间变为 [mid+1, right]</span></span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 搜索区间变为 [left, mid-1]</span></span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="深入分析">深入分析</h3>
+<blockquote>
+<p>计算 <code>mid</code>
+时需要防止溢出，<code>left + ((right - left) &gt;&gt; 1)</code> 和
+<code>(left + right) / 2</code> 的结果相同(<code>&gt;&gt; 1</code>
+相当于 <code>/ 2</code>)，但是有效防止了 <code>left</code> 和
+<code>right</code> 太大，直接相加导致溢出的情况。</p>
+</blockquote>
+<ul>
+<li><p><strong>搜索区间：</strong><code>[left, right]</code>，因为
+<code>right</code> 初始化时是
+<code>nums.length - 1</code>，即最后一个元素的索引。</p></li>
+<li><p><strong>停止搜索条件：</strong><code>nums[mid] == target</code>，找到目标值即停止。如果没有找到，while
+循环终止，并返回 -1。</p></li>
+<li><p><strong>循环终止条件：</strong>搜索区间为空的时候，循环终止。<code>while (left &lt;= right)</code>
+的循环终止条件是当 <code>left</code> 的值为 <code>right + 1</code>
+时，写成区间形式就是 [right + 1,
+right]，此时<strong>搜索区间为空</strong>。此时，while
+循环终止是正确的，直接返回 -1 即可。</p></li>
+<li><p><strong>区间移动：</strong>在搜索区间为
+<code>[left, right]</code> 时，若索引 <code>mid</code>
+上的元素不是要找的 <code>target</code> 时，要去
+<code>[left, mid - 1]</code> 或 <code>[mid + 1, right]</code>
+区间上搜索，<strong>因为 mid
+已经被搜索过了，应当从搜索区间中删除</strong>。</p></li>
+<li><p><strong>代码缺陷：</strong>无法找到升序数组中存在多个目标值的左右边界索引情况。假设有升序数组
+nums = [1, 2, 3, 3, 3, 3, 3]，target 为 3，该算法返回的索引是
+3。如果此时，我想得到 target 的左侧边界索引，即 2，或者想得到 target
+的右侧边界，即 6，上述代码是无法处理的。</p></li>
+</ul>
+<h3 id="时间复杂度">时间复杂度</h3>
+<p><span class="math inline">\(O(log_2n)\)</span></p>
+<p>对长度为 n 的数组进行二分，最坏情况就是取 2 的对数。</p>
+<h3 id="空间复杂度">空间复杂度</h3>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级变量，无额外辅助空间。</p>
+<p>为了解决上述的代码缺陷，我们来学习如何使用二分搜索找到目标值的左右边界。</p>
+<h2 id="寻找左侧边界的二分搜索">寻找左侧边界的二分搜索</h2>
+<h3 id="题目描述-1">题目描述</h3>
+<p>在一个有序数组中，存在多个大小为 <code>target</code>
+值的元素，请找到目标值在数组中的开始位置，即左侧边界。</p>
+<h3 id="思路-1">思路</h3>
+<p>这道题整体的思路与二分搜索寻找一个数基本是一致的，<strong>只有几处不同</strong>，且看我娓娓道来。</p>
+<p>我们以输入数组为 <code>[1, 3, 4, 5, 5, 5, 5, 5, 9]</code>，目标值为 5
+为例进行讲解。</p>
+<p>一开始，我们的中点值就是目标值(<code>nums[mid] == target</code>)，我们可以直接返回索引
+4 吗？当然不可以啦，我们要找的是第一个 5 出现的索引
+3，所以，我们应该继续缩小搜索区间，左移右指针(<code>right = mid - 1</code>，<code>right</code>
+此时为 3)。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061322171.png" /></p>
+<p>此时，新的 <code>mid</code> 值为
+1，该位置元素值小于目标值(<code>nums[mid] &lt; target</code>)，需要右移
+<code>left</code> 指针(<code>left = mid + 1</code>，<code>left</code> 为
+2)。</p>
+<p>新的 <code>mid</code> 值为 2，该位置元素值小于目标值，继续右移
+<code>left</code> 指针(<code>left</code> 为 3)。</p>
+<p>新的 <code>mid</code> 值为 3，该位置元素值与目标值相等，左移
+<code>right</code> 指针(<code>right</code> 为 2)，跳出循环，返回
+<code>left</code>。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061324453.png" /></p>
+<p>完整的过程如下。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061319649.gif"
+alt="二分搜索寻找左侧边界" />
+<figcaption aria-hidden="true">二分搜索寻找左侧边界</figcaption>
+</figure>
+<p>所以，不同的地方就是，与目标值相等时，不能直接返回索引，而是收缩右边界，也就是左移右指针(<code>right = mid - 1</code>)，最后返回左指针即可。</p>
+<h3 id="参考代码-1">参考代码</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>; <span class="comment">// 收缩右边界</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 越界检查，不存在检查</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="深入分析-1">深入分析</h3>
+<p><strong>1. 为什么能够搜索左侧边界？</strong></p>
+<p>关键点在于 <code>nums[mid] == target</code> 时的处理。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">    right = mid - <span class="number">1</span>; <span class="comment">// 收缩右边界</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当找到 <code>target</code> 时，不立即返回，而是缩小搜索区间的右边界
+<code>right</code>，在区间 <code>[left, mid - 1]</code>
+中继续搜索，也就是不断向左靠拢，达到锁定左侧边界的目的。</p>
+<p><strong>2. 为什么最终返回的是 <code>left</code> 而不是
+<code>right</code>？</strong></p>
+<p><code>while (left &lt;= right)</code> 的循环终止条件是
+<code>left == right + 1</code> ，因此左边界的索引值一定是在
+<code>left == right</code>
+时出现的。然而此时，循环无法停止，<code>right</code>
+还要继续收缩，因此只能返回左边界的索引值 <code>left</code>。</p>
+<p><strong>3. 为什么越界检查只检查左边界
+<code>left</code>？</strong></p>
+<p>我们最终返回的是左边界索引 <code>left</code>，因此只需校验左边界
+<code>left</code> 最终是否合法即可，另一方面，由于
+<code>nums[mid] == target</code> 时，<code>right = mid - 1;</code> 这样
+right 在很多情况下都会越界（比如，左边界的索引为 0
+时），校验其是否合法没有意义，还会导致返回错误。</p>
+<h3 id="时间复杂度-1">时间复杂度</h3>
+<p><span class="math inline">\(O(log_2n)\)</span></p>
+<h3 id="空间复杂度-1">空间复杂度</h3>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级变量，无额外辅助空间。</p>
+<h2 id="寻找右侧边界的二分查找">寻找右侧边界的二分查找</h2>
+<h3 id="题目描述-2">题目描述</h3>
+<p>在一个有序数组中，存在多个大小为 <code>target</code>
+值的元素，请找到目标值在数组中的结束位置，即右侧边界。</p>
+<h3 id="思路-2">思路</h3>
+<p>和寻找左侧边界相反，找到目标值的时候收缩左边界，也就是右移左指针。最终返回右指针索引。</p>
+<p>两者的不同如下。</p>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 45%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">寻找左侧边界</th>
+<th style="text-align: center;">寻找右侧边界</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">nums[mid] == target</td>
+<td style="text-align: center;">mid = right - 1</td>
+<td style="text-align: center;">mid = left + 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">返回值</td>
+<td style="text-align: center;">left</td>
+<td style="text-align: center;">right</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">越界判断</td>
+<td style="text-align: center;">left &gt;= nums.length || nums[left] !=
+target</td>
+<td style="text-align: center;">right &lt; 0 || nums[right] !=
+target</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参考代码-2">参考代码</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">// 收缩左边界</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="深入分析-2">深入分析</h3>
+<p><strong>1. 为什么能够搜索右侧边界？</strong></p>
+<p>关键点在于 <code>nums[mid] == target</code> 时的处理。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">    left = mid + <span class="number">1</span>; <span class="comment">// 收缩左边界</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当找到 <code>target</code> 时，不立即返回，而是增大搜索区间的左边界
+<code>left</code>，在区间 <code>[mid + 1, right]</code>
+中继续搜索，也就是不断向右靠拢，达到锁定右侧边界的目的。</p>
+<p><strong>2. 为什么最终返回的是 <code>right</code> 而不是
+<code>left</code>？</strong></p>
+<p><code>while (left &lt;= right)</code> 的循环终止条件是
+<code>left == right + 1</code> ，而右边界的索引值一定是在
+<code>left == right</code>
+时出现的。然而此时，循环无法停止，<code>left</code>
+还要继续增大，因此只能返回右边界的索引值 <code>right</code>。</p>
+<p><strong>3. 为什么越界检查只检查右边界
+<code>right</code>？</strong></p>
+<p>我们最终返回的是右边界索引 <code>right</code>，因此只需校验右边界
+right 最终是否合法即可，另一方面，由于 <code>nums[mid] == target</code>
+时，<code>left = mid + 1;</code> 这样 <code>left</code>
+在很多情况下都会越界（比如，右边界的索引为 0
+时），校验其是否合法没有意义，还会导致返回错误。</p>
+<h3 id="时间复杂度-2">时间复杂度</h3>
+<p><span class="math inline">\(O(log_2n)\)</span></p>
+<h3 id="空间复杂度-2">空间复杂度</h3>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级变量，无额外辅助空间。</p>
+<h2 id="总结">总结</h2>
+<p>首先，我们先来梳理汇总一下上面的内容。</p>
+<p><strong>1.
+搜索区间：</strong><code>[left, right]</code>，即搜索区间左右皆闭合。</p>
+<p><strong>2.
+循环条件：</strong><code>left &lt;= right</code>，因此，终止条件为
+<code>left == right + 1</code>。</p>
+<p><strong>3. 收缩区间：</strong>寻找左边界，找到目标值后，收缩
+<code>right</code>，即
+<code>right = mid - 1</code>；寻找右边界，找到目标值后，扩大
+<code>left</code>，即 <code>left = mid + 1</code>。</p>
+<p><strong>4. 越界校验：</strong>寻找左边界，跳出循环后，校验
+<code>left</code>；寻找右边界，跳出循环后，校验 <code>right</code>。</p>
+<p><strong>5. 返回值：</strong>寻找左边界，返回
+<code>left</code>；寻找右边界，返回 <code>right</code>。</p>
+<table>
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>寻找一个数</th>
+<th>寻找左侧边界</th>
+<th>寻找右侧边界</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>搜索区间</td>
+<td>[left, right]</td>
+<td>[left, right]</td>
+<td>[left, right]</td>
+</tr>
+<tr class="even">
+<td>循环条件</td>
+<td>left &lt;= right</td>
+<td>left &lt;= right</td>
+<td>left &lt;= right</td>
+</tr>
+<tr class="odd">
+<td>循环终止条件</td>
+<td>left == right + 1</td>
+<td>left == right + 1</td>
+<td>left == right + 1</td>
+</tr>
+<tr class="even">
+<td><code>nums[mid] == target</code>时，收缩区间</td>
+<td>return -1;</td>
+<td>right = mid - 1;</td>
+<td>left = mid + 1;</td>
+</tr>
+<tr class="odd">
+<td>越界检验</td>
+<td></td>
+<td>检验 left</td>
+<td>校验 right</td>
+</tr>
+<tr class="even">
+<td>返回值</td>
+<td>返回 mid</td>
+<td>返回 left</td>
+<td>返回 right</td>
+</tr>
+</tbody>
+</table>
+<p>再次回顾之前的代码：</p>
+<h3 id="寻找一个数-1"><strong>寻找一个数</strong></h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> mid; <span class="comment">// !!!</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="寻找左边界"><strong>寻找左边界</strong></h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>); </span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left; <span class="comment">// !!!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="寻找右边界">寻找右边界</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>); </span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123; </span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right; <span class="comment">// !!!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>最后，二分搜索最有价值的思想在于，<strong>通过已知信息尽可能多地收缩（折半）搜索空间</strong>，从而提高穷举效率，快速找到目标。</p>
+</blockquote>
+<h2 id="实战一下">实战一下</h2>
+<h3 id="二分查找力扣704"><a
+href="https://leetcode.cn/problems/binary-search/">二分查找(力扣704)</a></h3>
+<h4 id="题目描述-3"><strong>题目描述</strong></h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305021743923.png" alt="力扣-704-二分查找"   style="zoom:50%;" /></p>
+<h4 id="参考代码-3">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<h3 id="在排序数组中查找元素的第一个和最后一个位置力扣34"><a
+href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/">在排序数组中查找元素的第一个和最后一个位置(力扣34)</a></h3>
+<h4 id="题目描述-4">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305021712962.png" alt="力扣-34-在排序数组中查找元素的第一个和最后一个位置" style="zoom:50%;" /></p>
+<h4 id="参考代码-4"><strong>参考代码：</strong></h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] searchRange(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;searchLeftBound(nums, target), searchRightBound(nums, target)&#125;;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr />
+<h3 id="在排序数组中查找数字i剑指offer53-i"><a
+href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/">在排序数组中查找数字I(剑指Offer53-I)</a></h3>
+<h4 id="题目描述-5">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305021724655.png" alt="剑指 Offer 53 - I. 在排序数组中查找数字 I" style="zoom:50%;" /></p>
+<h4 id="参考代码-5"><strong>参考代码：</strong></h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">L</span> <span class="operator">=</span> searchLeftBound(nums, target);</span><br><span class="line">    <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> searchRightBound(nums, target);</span><br><span class="line">    <span class="keyword">if</span> ( L == -<span class="number">1</span> || R == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> R - L + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li>程序基地 - github</li>
+<li>牛客网</li>
+<li>labuladong 的算法小抄</li>
+<li>算法(4th)</li>
+<li>力扣网</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+        <category>算法框架</category>
+        <category>二分搜索</category>
+      </categories>
+      <tags>
+        <tag>算法框架</tag>
+        <tag>算法</tag>
+        <tag>二分搜索</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>手撕面试算法题必备技巧(贰) —— 双指针(链表篇)</title>
     <url>/article/631e5355.html</url>
     <content><![CDATA[<p>本文介绍了双指针技巧在链表、数组以及字符串中的使用，给出了大量大厂常见面试手撕题目的思路及代码，不仅适合完全不了解双指针技巧的读者，也适合老司机复习拓展。</p>
@@ -1678,20 +1991,6 @@ alt="反转链表" />
       </tags>
   </entry>
   <entry>
-    <title>深入剖析Java集合问题(三)</title>
-    <url>/article/92332d0.html</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>深入剖析Java集合问题（一）</title>
     <url>/article/24021d57.html</url>
     <content><![CDATA[<p>本篇文章主要介绍了使用集合的好处、集合的框架体系。</p>
@@ -1855,316 +2154,37 @@ Iterator，只能用于遍历集合或数组。</p>
       </tags>
   </entry>
   <entry>
-    <title>手撕面试算法题必备技巧(壹) —— 二分搜索</title>
-    <url>/article/3f91e5ac.html</url>
-    <content><![CDATA[<p>本文介绍了二分搜索最常见的几个场景的使用：<strong>寻找一个数</strong>、<strong>寻找左侧边界</strong>以及<strong>寻找右侧边界</strong>。文章内容既适合完全不知道二分搜索是什么的新同学，也适合老同学复习拓展。</p>
-<p>考察过该题目的公司有：拼多多、美团、腾讯、阿里巴巴...</p>
-<p>我相信，友好的讨论交流会让彼此快速进步！文章难免有疏漏之处，十分欢迎大家在评论区中批评指正。</p>
+    <title>深入剖析并发锁问题</title>
+    <url>/article/2e7bdfc.html</url>
+    <content><![CDATA[<p>现有两个线程，A 线程打印 1、3、5、7、9，B 线程打印
+2、4、6、8、10，要求两个线程交替打印，打印结果为
+1、2、3、4、5、6、7、8、9、10。</p>
+<p>请手写上述代码。</p>
 <span id="more"></span>
-<h2 id="寻找一个数">寻找一个数</h2>
-<h3 id="题目描述">题目描述</h3>
-<p>在有序数组中搜索一个数，如果存在，返回其索引，否则返回 -1。</p>
-<h3 id="思路">思路</h3>
-<p>二分查找的思路非常简单，<strong>利用了数组的有序性</strong>。</p>
-<p>每次取数组中点的元素值与目标值比大小，每次共有三种情况：</p>
-<ol type="1">
-<li><p>如果找到了就直接返回索引；</p></li>
-<li><p>如果中点值比目标值小，说明中点值之前的值都比目标值小，因此目标值在右半区间；</p></li>
-<li><p>如果中点值比目标值大，说明中点值之后的值都比目标值大，因此目标值一定在左半区间。</p></li>
-</ol>
-<p>如果遍历完整个数组后都没找到目标值，那就说明没找到，返回 -1。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061247595.gif"
-alt="二分搜索-寻找一个数" />
-<figcaption aria-hidden="true">二分搜索-寻找一个数</figcaption>
-</figure>
-<h3 id="参考代码">参考代码</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="comment">// 搜索区间 [left, right]</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; </span><br><span class="line">        <span class="comment">// 计算 mid</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123; <span class="comment">// 找到目标值，返回索引</span></span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123; <span class="comment">// 搜索区间变为 [mid+1, right]</span></span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 搜索区间变为 [left, mid-1]</span></span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="深入分析">深入分析</h3>
-<blockquote>
-<p>计算 <code>mid</code>
-时需要防止溢出，<code>left + ((right - left) &gt;&gt; 1)</code> 和
-<code>(left + right) / 2</code> 的结果相同(<code>&gt;&gt; 1</code>
-相当于 <code>/ 2</code>)，但是有效防止了 <code>left</code> 和
-<code>right</code> 太大，直接相加导致溢出的情况。</p>
-</blockquote>
-<ul>
-<li><p><strong>搜索区间：</strong><code>[left, right]</code>，因为
-<code>right</code> 初始化时是
-<code>nums.length - 1</code>，即最后一个元素的索引。</p></li>
-<li><p><strong>停止搜索条件：</strong><code>nums[mid] == target</code>，找到目标值即停止。如果没有找到，while
-循环终止，并返回 -1。</p></li>
-<li><p><strong>循环终止条件：</strong>搜索区间为空的时候，循环终止。<code>while (left &lt;= right)</code>
-的循环终止条件是当 <code>left</code> 的值为 <code>right + 1</code>
-时，写成区间形式就是 [right + 1,
-right]，此时<strong>搜索区间为空</strong>。此时，while
-循环终止是正确的，直接返回 -1 即可。</p></li>
-<li><p><strong>区间移动：</strong>在搜索区间为
-<code>[left, right]</code> 时，若索引 <code>mid</code>
-上的元素不是要找的 <code>target</code> 时，要去
-<code>[left, mid - 1]</code> 或 <code>[mid + 1, right]</code>
-区间上搜索，<strong>因为 mid
-已经被搜索过了，应当从搜索区间中删除</strong>。</p></li>
-<li><p><strong>代码缺陷：</strong>无法找到升序数组中存在多个目标值的左右边界索引情况。假设有升序数组
-nums = [1, 2, 3, 3, 3, 3, 3]，target 为 3，该算法返回的索引是
-3。如果此时，我想得到 target 的左侧边界索引，即 2，或者想得到 target
-的右侧边界，即 6，上述代码是无法处理的。</p></li>
-</ul>
-<h3 id="时间复杂度">时间复杂度</h3>
-<p><span class="math inline">\(O(log_2n)\)</span></p>
-<p>对长度为 n 的数组进行二分，最坏情况就是取 2 的对数。</p>
-<h3 id="空间复杂度">空间复杂度</h3>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级变量，无额外辅助空间。</p>
-<p>为了解决上述的代码缺陷，我们来学习如何使用二分搜索找到目标值的左右边界。</p>
-<h2 id="寻找左侧边界的二分搜索">寻找左侧边界的二分搜索</h2>
-<h3 id="题目描述-1">题目描述</h3>
-<p>在一个有序数组中，存在多个大小为 <code>target</code>
-值的元素，请找到目标值在数组中的开始位置，即左侧边界。</p>
-<h3 id="思路-1">思路</h3>
-<p>这道题整体的思路与二分搜索寻找一个数基本是一致的，<strong>只有几处不同</strong>，且看我娓娓道来。</p>
-<p>我们以输入数组为 <code>[1, 3, 4, 5, 5, 5, 5, 5, 9]</code>，目标值为 5
-为例进行讲解。</p>
-<p>一开始，我们的中点值就是目标值(<code>nums[mid] == target</code>)，我们可以直接返回索引
-4 吗？当然不可以啦，我们要找的是第一个 5 出现的索引
-3，所以，我们应该继续缩小搜索区间，左移右指针(<code>right = mid - 1</code>，<code>right</code>
-此时为 3)。</p>
-<p><img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061322171.png" /></p>
-<p>此时，新的 <code>mid</code> 值为
-1，该位置元素值小于目标值(<code>nums[mid] &lt; target</code>)，需要右移
-<code>left</code> 指针(<code>left = mid + 1</code>，<code>left</code> 为
-2)。</p>
-<p>新的 <code>mid</code> 值为 2，该位置元素值小于目标值，继续右移
-<code>left</code> 指针(<code>left</code> 为 3)。</p>
-<p>新的 <code>mid</code> 值为 3，该位置元素值与目标值相等，左移
-<code>right</code> 指针(<code>right</code> 为 2)，跳出循环，返回
-<code>left</code>。</p>
-<p><img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061324453.png" /></p>
-<p>完整的过程如下。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061319649.gif"
-alt="二分搜索寻找左侧边界" />
-<figcaption aria-hidden="true">二分搜索寻找左侧边界</figcaption>
-</figure>
-<p>所以，不同的地方就是，与目标值相等时，不能直接返回索引，而是收缩右边界，也就是左移右指针(<code>right = mid - 1</code>)，最后返回左指针即可。</p>
-<h3 id="参考代码-1">参考代码</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>; <span class="comment">// 收缩右边界</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 越界检查，不存在检查</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="深入分析-1">深入分析</h3>
-<p><strong>1. 为什么能够搜索左侧边界？</strong></p>
-<p>关键点在于 <code>nums[mid] == target</code> 时的处理。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">    right = mid - <span class="number">1</span>; <span class="comment">// 收缩右边界</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当找到 <code>target</code> 时，不立即返回，而是缩小搜索区间的右边界
-<code>right</code>，在区间 <code>[left, mid - 1]</code>
-中继续搜索，也就是不断向左靠拢，达到锁定左侧边界的目的。</p>
-<p><strong>2. 为什么最终返回的是 <code>left</code> 而不是
-<code>right</code>？</strong></p>
-<p><code>while (left &lt;= right)</code> 的循环终止条件是
-<code>left == right + 1</code> ，因此左边界的索引值一定是在
-<code>left == right</code>
-时出现的。然而此时，循环无法停止，<code>right</code>
-还要继续收缩，因此只能返回左边界的索引值 <code>left</code>。</p>
-<p><strong>3. 为什么越界检查只检查左边界
-<code>left</code>？</strong></p>
-<p>我们最终返回的是左边界索引 <code>left</code>，因此只需校验左边界
-<code>left</code> 最终是否合法即可，另一方面，由于
-<code>nums[mid] == target</code> 时，<code>right = mid - 1;</code> 这样
-right 在很多情况下都会越界（比如，左边界的索引为 0
-时），校验其是否合法没有意义，还会导致返回错误。</p>
-<h3 id="时间复杂度-1">时间复杂度</h3>
-<p><span class="math inline">\(O(log_2n)\)</span></p>
-<h3 id="空间复杂度-1">空间复杂度</h3>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级变量，无额外辅助空间。</p>
-<h2 id="寻找右侧边界的二分查找">寻找右侧边界的二分查找</h2>
-<h3 id="题目描述-2">题目描述</h3>
-<p>在一个有序数组中，存在多个大小为 <code>target</code>
-值的元素，请找到目标值在数组中的结束位置，即右侧边界。</p>
-<h3 id="思路-2">思路</h3>
-<p>和寻找左侧边界相反，找到目标值的时候收缩左边界，也就是右移左指针。最终返回右指针索引。</p>
-<p>两者的不同如下。</p>
-<table>
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 45%" />
-<col style="width: 36%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;"></th>
-<th style="text-align: center;">寻找左侧边界</th>
-<th style="text-align: center;">寻找右侧边界</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">nums[mid] == target</td>
-<td style="text-align: center;">mid = right - 1</td>
-<td style="text-align: center;">mid = left + 1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">返回值</td>
-<td style="text-align: center;">left</td>
-<td style="text-align: center;">right</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">越界判断</td>
-<td style="text-align: center;">left &gt;= nums.length || nums[left] !=
-target</td>
-<td style="text-align: center;">right &lt; 0 || nums[right] !=
-target</td>
-</tr>
-</tbody>
-</table>
-<h3 id="参考代码-2">参考代码</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">// 收缩左边界</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="深入分析-2">深入分析</h3>
-<p><strong>1. 为什么能够搜索右侧边界？</strong></p>
-<p>关键点在于 <code>nums[mid] == target</code> 时的处理。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">    left = mid + <span class="number">1</span>; <span class="comment">// 收缩左边界</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当找到 <code>target</code> 时，不立即返回，而是增大搜索区间的左边界
-<code>left</code>，在区间 <code>[mid + 1, right]</code>
-中继续搜索，也就是不断向右靠拢，达到锁定右侧边界的目的。</p>
-<p><strong>2. 为什么最终返回的是 <code>right</code> 而不是
-<code>left</code>？</strong></p>
-<p><code>while (left &lt;= right)</code> 的循环终止条件是
-<code>left == right + 1</code> ，而右边界的索引值一定是在
-<code>left == right</code>
-时出现的。然而此时，循环无法停止，<code>left</code>
-还要继续增大，因此只能返回右边界的索引值 <code>right</code>。</p>
-<p><strong>3. 为什么越界检查只检查右边界
-<code>right</code>？</strong></p>
-<p>我们最终返回的是右边界索引 <code>right</code>，因此只需校验右边界
-right 最终是否合法即可，另一方面，由于 <code>nums[mid] == target</code>
-时，<code>left = mid + 1;</code> 这样 <code>left</code>
-在很多情况下都会越界（比如，右边界的索引为 0
-时），校验其是否合法没有意义，还会导致返回错误。</p>
-<h3 id="时间复杂度-2">时间复杂度</h3>
-<p><span class="math inline">\(O(log_2n)\)</span></p>
-<h3 id="空间复杂度-2">空间复杂度</h3>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级变量，无额外辅助空间。</p>
-<h2 id="总结">总结</h2>
-<p>首先，我们先来梳理汇总一下上面的内容。</p>
-<p><strong>1.
-搜索区间：</strong><code>[left, right]</code>，即搜索区间左右皆闭合。</p>
-<p><strong>2.
-循环条件：</strong><code>left &lt;= right</code>，因此，终止条件为
-<code>left == right + 1</code>。</p>
-<p><strong>3. 收缩区间：</strong>寻找左边界，找到目标值后，收缩
-<code>right</code>，即
-<code>right = mid - 1</code>；寻找右边界，找到目标值后，扩大
-<code>left</code>，即 <code>left = mid + 1</code>。</p>
-<p><strong>4. 越界校验：</strong>寻找左边界，跳出循环后，校验
-<code>left</code>；寻找右边界，跳出循环后，校验 <code>right</code>。</p>
-<p><strong>5. 返回值：</strong>寻找左边界，返回
-<code>left</code>；寻找右边界，返回 <code>right</code>。</p>
-<table>
-<colgroup>
-<col style="width: 39%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>寻找一个数</th>
-<th>寻找左侧边界</th>
-<th>寻找右侧边界</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>搜索区间</td>
-<td>[left, right]</td>
-<td>[left, right]</td>
-<td>[left, right]</td>
-</tr>
-<tr class="even">
-<td>循环条件</td>
-<td>left &lt;= right</td>
-<td>left &lt;= right</td>
-<td>left &lt;= right</td>
-</tr>
-<tr class="odd">
-<td>循环终止条件</td>
-<td>left == right + 1</td>
-<td>left == right + 1</td>
-<td>left == right + 1</td>
-</tr>
-<tr class="even">
-<td><code>nums[mid] == target</code>时，收缩区间</td>
-<td>return -1;</td>
-<td>right = mid - 1;</td>
-<td>left = mid + 1;</td>
-</tr>
-<tr class="odd">
-<td>越界检验</td>
-<td></td>
-<td>检验 left</td>
-<td>校验 right</td>
-</tr>
-<tr class="even">
-<td>返回值</td>
-<td>返回 mid</td>
-<td>返回 left</td>
-<td>返回 right</td>
-</tr>
-</tbody>
-</table>
-<p>再次回顾之前的代码：</p>
-<h3 id="寻找一个数-1"><strong>寻找一个数</strong></h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> mid; <span class="comment">// !!!</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="寻找左边界"><strong>寻找左边界</strong></h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>); </span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left; <span class="comment">// !!!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="寻找右边界">寻找右边界</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>); </span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123; </span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">// !!!</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target) &#123; <span class="comment">// !!!</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right; <span class="comment">// !!!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>最后，二分搜索最有价值的思想在于，<strong>通过已知信息尽可能多地收缩（折半）搜索空间</strong>，从而提高穷举效率，快速找到目标。</p>
-</blockquote>
-<h2 id="实战一下">实战一下</h2>
-<h3 id="二分查找力扣704"><a
-href="https://leetcode.cn/problems/binary-search/">二分查找(力扣704)</a></h3>
-<h4 id="题目描述-3"><strong>题目描述</strong></h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305021743923.png" alt="力扣-704-二分查找"   style="zoom:50%;" /></p>
-<h4 id="参考代码-3">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr />
-<h3 id="在排序数组中查找元素的第一个和最后一个位置力扣34"><a
-href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/">在排序数组中查找元素的第一个和最后一个位置(力扣34)</a></h3>
-<h4 id="题目描述-4">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305021712962.png" alt="力扣-34-在排序数组中查找元素的第一个和最后一个位置" style="zoom:50%;" /></p>
-<h4 id="参考代码-4"><strong>参考代码：</strong></h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] searchRange(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;searchLeftBound(nums, target), searchRightBound(nums, target)&#125;;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr />
-<h3 id="在排序数组中查找数字i剑指offer53-i"><a
-href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/">在排序数组中查找数字I(剑指Offer53-I)</a></h3>
-<h4 id="题目描述-5">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305021724655.png" alt="剑指 Offer 53 - I. 在排序数组中查找数字 I" style="zoom:50%;" /></p>
-<h4 id="参考代码-5"><strong>参考代码：</strong></h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">L</span> <span class="operator">=</span> searchLeftBound(nums, target);</span><br><span class="line">    <span class="type">int</span> <span class="variable">R</span> <span class="operator">=</span> searchRightBound(nums, target);</span><br><span class="line">    <span class="keyword">if</span> ( L == -<span class="number">1</span> || R == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> R - L + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchLeftBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= nums.length || nums[left] != target)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">searchRightBound</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (right &lt; <span class="number">0</span> || nums[right] != target)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li>程序基地 - github</li>
-<li>牛客网</li>
-<li>labuladong 的算法小抄</li>
-<li>算法(4th)</li>
-<li>力扣网</li>
-</ol>
 ]]></content>
       <categories>
-        <category>算法</category>
-        <category>算法框架</category>
-        <category>二分搜索</category>
+        <category>Java</category>
+        <category>JUC</category>
       </categories>
       <tags>
-        <tag>算法框架</tag>
-        <tag>算法</tag>
-        <tag>二分搜索</tag>
+        <tag>Java</tag>
+        <tag>JUC</tag>
+        <tag>Synchronized</tag>
+        <tag>ReentrantLock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析Java集合问题(三)</title>
+    <url>/article/92332d0.html</url>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>集合</tag>
       </tags>
   </entry>
   <entry>
@@ -2718,26 +2738,6 @@ class="math inline">\(O(nlog_2n)\)</span>。</p>
         <tag>双指针</tag>
         <tag>链表</tag>
         <tag>牛客-TOP101</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析并发锁问题</title>
-    <url>/article/2e7bdfc.html</url>
-    <content><![CDATA[<p>现有两个线程，A 线程打印 1、3、5、7、9，B 线程打印
-2、4、6、8、10，要求两个线程交替打印，打印结果为
-1、2、3、4、5、6、7、8、9、10。</p>
-<p>请手写上述代码。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>JUC</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>JUC</tag>
-        <tag>Synchronized</tag>
-        <tag>ReentrantLock</tag>
       </tags>
   </entry>
 </search>
