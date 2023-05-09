@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>nSum问题</title>
+    <url>/article/52a56299.html</url>
+    <content><![CDATA[<p>什么是 nSum 问题？</p>
+<p>给你输入一个数组 nums 和一个目标 target，让你从 nums 选择 n
+个数，使得这些数字之和为 target。</p>
+<span id="more"></span>
+<h3 id="twosum-问题">TwoSum 问题</h3>
+<ol type="1">
+<li>先对 nums 排序，使用左右双指针技巧，从两端相向而行即可：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+        <category>Framework</category>
+        <category>nSum</category>
+      </categories>
+      <tags>
+        <tag>AlgorithmFramework</tag>
+        <tag>nSum</tag>
+        <tag>Algorithm</tag>
+        <tag>Slim</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kubernetes集群搭建与配置原理详解</title>
     <url>/article/b3dc75ed.html</url>
     <content><![CDATA[<p>Kubernetes 不仅能运行 Java Web 与 MySQL 这样的常规组合，还能够处理
@@ -182,92 +207,6 @@ YAML 文件来实现，不要再碰 Docker 命令行了。</p></li>
       </tags>
   </entry>
   <entry>
-    <title>nSum问题</title>
-    <url>/article/52a56299.html</url>
-    <content><![CDATA[<p>什么是 nSum 问题？</p>
-<p>给你输入一个数组 nums 和一个目标 target，让你从 nums 选择 n
-个数，使得这些数字之和为 target。</p>
-<span id="more"></span>
-<h3 id="twosum-问题">TwoSum 问题</h3>
-<ol type="1">
-<li>先对 nums 排序，使用左右双指针技巧，从两端相向而行即可：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-        <category>Framework</category>
-        <category>nSum</category>
-      </categories>
-      <tags>
-        <tag>AlgorithmFramework</tag>
-        <tag>nSum</tag>
-        <tag>Algorithm</tag>
-        <tag>Slim</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二分查找与排序</title>
-    <url>/article/47bbfc8b.html</url>
-    <content><![CDATA[<h3 id="相似解法题目多元组">相似解法题目多元组</h3>
-<ul>
-<li><strong>归并排序：</strong>&lt; BM20 数组中的逆序对，BM5 合并 k
-个已排序的链表，BM12 单链表的排序 &gt;</li>
-</ul>
-<span id="more"></span>
-<h3 id="bm20-数组中的逆序对">BM20 数组中的逆序对</h3>
-<h4 id="描述">描述</h4>
-<p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将
-P 对 1000000007 取模的结果输出。 即输出 P mod 1000000007。</p>
-<p>题目保证输入的数组中没有的相同的数字。</p>
-<h4 id="思路">思路</h4>
-<p>归并排序</p>
-<p>在归并排序过程中会将数组换分成最小为 1
-个元素的子数组，然后依次比较子数组的每个元素的大小，依次取出较小的一个合并成大的子数组。</p>
-<p>主要流程：取中间 -&gt; 左右划分 -&gt; 合并</p>
-<p>我们可以用相同的方法划分，划分之后相邻一个元素的子数组可以根据大小统计逆序对。在不断往上合并的时候，因为已经排好序了，逆序对可以向上累计。</p>
-<h4 id="f1归并排序">F1：归并排序</h4>
-<h5 id="步骤">步骤</h5>
-<ol type="1">
-<li>划分阶段：将待划分区间从中点划分成两部分，两部分进入递归继续划分，直到子数组长度为
-1。</li>
-<li>排序阶段：
-<ul>
-<li>使用归并排序递归地处理子序列，同时统计逆序对，因为在归并排序中，我们会依次比较相邻两组子数组各个元素的大小，并累计遇到的逆序情况。</li>
-<li>对排好序的两组，右边大于左边时，它大于了左边的所有子序列，基于这个性质，我们可以不用每次加
-1 来统计，减少运算次数。</li>
-</ul></li>
-<li>合并阶段：将排好序的子序列合并，同时累加逆序对。</li>
-</ol>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/DM_20230406161242_001.gif"
-alt="归并排序统计逆序对" />
-<figcaption aria-hidden="true">归并排序统计逆序对</figcaption>
-</figure>
-<h5 id="代码">代码</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">mod</span> <span class="operator">=</span> <span class="number">1000000007</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">inversePairs</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> array.length;</span><br><span class="line">    <span class="type">int</span>[] help = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    <span class="keyword">return</span> mergeSort(<span class="number">0</span>, n - <span class="number">1</span>, array, help);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算逆序对的总数</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span>[] data, <span class="type">int</span>[] help)</span> &#123;</span><br><span class="line">    <span class="comment">// 停止划分</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="comment">// base case</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 取中间</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 左右划分合并</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> mergeSort(left, mid, data, help) + mergeSort(mid + <span class="number">1</span>, right, data, help);</span><br><span class="line">    <span class="comment">// 防止溢出</span></span><br><span class="line">    res %= mod;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left, j = mid + <span class="number">1</span>; <span class="comment">// 左、右指针</span></span><br><span class="line">    <span class="comment">// 将当前划分的数组全部填充到辅助数组中</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        help[k] = data[k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == mid + <span class="number">1</span>) &#123; <span class="comment">// 左指针到边界，后续只需右指针移动</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j == right + <span class="number">1</span>) &#123; <span class="comment">// 如果右指针到边界</span></span><br><span class="line">            data[k] = help[i]; <span class="comment">// 填充左边的值</span></span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (help[i] &lt;= help[j]) &#123; <span class="comment">// 左指针的值 &lt;= 右指针的值</span></span><br><span class="line">            data[k] = help[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 左右指针都没越界，左指针的值 &gt; 右指针的值</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">            <span class="comment">// 符合逆序对的定义</span></span><br><span class="line">            res += mid - i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res % mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="时间复杂度">时间复杂度</h5>
-<p><span class="math inline">\(O(nlog_2n)\)</span></p>
-<p>归并排序利用分治思想，树形递归每次二分，总共能分为 <span
-class="math inline">\(log_2n\)</span>
-层，每层合并都需要遍历数组所有元素，即 <span
-class="math inline">\(O(n)\)</span>。</p>
-<h5 id="空间复杂度">空间复杂度</h5>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>辅助数组 help 长度为 n 及递归栈最大深度不会超过 n。</p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-        <category>BinarySearchAndSort</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>NowCoder-TOP101</tag>
-        <tag>BinarySearchAndSort</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>二叉树与递归的框架思维「浓缩版」</title>
     <url>/article/ebfb7429.html</url>
     <content><![CDATA[<p>本文是 <a
@@ -362,6 +301,67 @@ for 循环</strong>，比如 Dijkstra
         <tag>二叉树</tag>
         <tag>递归</tag>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二分查找与排序</title>
+    <url>/article/47bbfc8b.html</url>
+    <content><![CDATA[<h3 id="相似解法题目多元组">相似解法题目多元组</h3>
+<ul>
+<li><strong>归并排序：</strong>&lt; BM20 数组中的逆序对，BM5 合并 k
+个已排序的链表，BM12 单链表的排序 &gt;</li>
+</ul>
+<span id="more"></span>
+<h3 id="bm20-数组中的逆序对">BM20 数组中的逆序对</h3>
+<h4 id="描述">描述</h4>
+<p>在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将
+P 对 1000000007 取模的结果输出。 即输出 P mod 1000000007。</p>
+<p>题目保证输入的数组中没有的相同的数字。</p>
+<h4 id="思路">思路</h4>
+<p>归并排序</p>
+<p>在归并排序过程中会将数组换分成最小为 1
+个元素的子数组，然后依次比较子数组的每个元素的大小，依次取出较小的一个合并成大的子数组。</p>
+<p>主要流程：取中间 -&gt; 左右划分 -&gt; 合并</p>
+<p>我们可以用相同的方法划分，划分之后相邻一个元素的子数组可以根据大小统计逆序对。在不断往上合并的时候，因为已经排好序了，逆序对可以向上累计。</p>
+<h4 id="f1归并排序">F1：归并排序</h4>
+<h5 id="步骤">步骤</h5>
+<ol type="1">
+<li>划分阶段：将待划分区间从中点划分成两部分，两部分进入递归继续划分，直到子数组长度为
+1。</li>
+<li>排序阶段：
+<ul>
+<li>使用归并排序递归地处理子序列，同时统计逆序对，因为在归并排序中，我们会依次比较相邻两组子数组各个元素的大小，并累计遇到的逆序情况。</li>
+<li>对排好序的两组，右边大于左边时，它大于了左边的所有子序列，基于这个性质，我们可以不用每次加
+1 来统计，减少运算次数。</li>
+</ul></li>
+<li>合并阶段：将排好序的子序列合并，同时累加逆序对。</li>
+</ol>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/DM_20230406161242_001.gif"
+alt="归并排序统计逆序对" />
+<figcaption aria-hidden="true">归并排序统计逆序对</figcaption>
+</figure>
+<h5 id="代码">代码</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">mod</span> <span class="operator">=</span> <span class="number">1000000007</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">inversePairs</span><span class="params">(<span class="type">int</span>[] array)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> array.length;</span><br><span class="line">    <span class="type">int</span>[] help = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    <span class="keyword">return</span> mergeSort(<span class="number">0</span>, n - <span class="number">1</span>, array, help);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算逆序对的总数</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span> left, <span class="type">int</span> right, <span class="type">int</span>[] data, <span class="type">int</span>[] help)</span> &#123;</span><br><span class="line">    <span class="comment">// 停止划分</span></span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="comment">// base case</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 取中间</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 左右划分合并</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> mergeSort(left, mid, data, help) + mergeSort(mid + <span class="number">1</span>, right, data, help);</span><br><span class="line">    <span class="comment">// 防止溢出</span></span><br><span class="line">    res %= mod;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left, j = mid + <span class="number">1</span>; <span class="comment">// 左、右指针</span></span><br><span class="line">    <span class="comment">// 将当前划分的数组全部填充到辅助数组中</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        help[k] = data[k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> left; k &lt;= right; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == mid + <span class="number">1</span>) &#123; <span class="comment">// 左指针到边界，后续只需右指针移动</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j == right + <span class="number">1</span>) &#123; <span class="comment">// 如果右指针到边界</span></span><br><span class="line">            data[k] = help[i]; <span class="comment">// 填充左边的值</span></span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (help[i] &lt;= help[j]) &#123; <span class="comment">// 左指针的值 &lt;= 右指针的值</span></span><br><span class="line">            data[k] = help[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 左右指针都没越界，左指针的值 &gt; 右指针的值</span></span><br><span class="line">            data[k] = help[j]; <span class="comment">// 填充右边的值</span></span><br><span class="line">            j++;</span><br><span class="line">            <span class="comment">// 符合逆序对的定义</span></span><br><span class="line">            res += mid - i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res % mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="时间复杂度">时间复杂度</h5>
+<p><span class="math inline">\(O(nlog_2n)\)</span></p>
+<p>归并排序利用分治思想，树形递归每次二分，总共能分为 <span
+class="math inline">\(log_2n\)</span>
+层，每层合并都需要遍历数组所有元素，即 <span
+class="math inline">\(O(n)\)</span>。</p>
+<h5 id="空间复杂度">空间复杂度</h5>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>辅助数组 help 长度为 n 及递归栈最大深度不会超过 n。</p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+        <category>BinarySearchAndSort</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>NowCoder-TOP101</tag>
+        <tag>BinarySearchAndSort</tag>
       </tags>
   </entry>
   <entry>
@@ -625,6 +625,18 @@ DFS 算法，没有 BFS 算法的性能的优势。</p>
       </tags>
   </entry>
   <entry>
+    <title>半亩良田</title>
+    <url>/article/3566a71a.html</url>
+    <content><![CDATA[<p>凡事有交代，件件有着落，事事有回应，做一个靠谱的技术人。</p>
+]]></content>
+      <categories>
+        <category>Miscellany</category>
+      </categories>
+      <tags>
+        <tag>Miscellany</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从大厂面试题谈CompletableFuture的使用与案例说明</title>
     <url>/article/d299c68e.html</url>
     <content><![CDATA[<p>谈一谈 Future 和 CompletableFuture 的区别，有使用过 CompletableFuture
@@ -639,18 +651,6 @@ DFS 算法，没有 BFS 算法的性能的优势。</p>
         <tag>Java</tag>
         <tag>JUC</tag>
         <tag>CompletableFuture</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>半亩良田</title>
-    <url>/article/3566a71a.html</url>
-    <content><![CDATA[<p>凡事有交代，件件有着落，事事有回应，做一个靠谱的技术人。</p>
-]]></content>
-      <categories>
-        <category>Miscellany</category>
-      </categories>
-      <tags>
-        <tag>Miscellany</tag>
       </tags>
   </entry>
   <entry>
@@ -1352,6 +1352,509 @@ p，取最大的字符串长度作为辅助字符数组的长度，设置进位 
       </tags>
   </entry>
   <entry>
+    <title>手撕面试算法题必备技巧(贰) —— 双指针(链表篇)</title>
+    <url>/article/631e5355.html</url>
+    <content><![CDATA[<p>本文介绍了双指针技巧在链表、数组以及字符串中的使用，给出了大量大厂常见面试手撕题目的思路及代码，不仅适合完全不了解双指针技巧的读者，也适合老司机复习拓展。</p>
+<p>考察过该技巧的公司有阿里巴巴、腾讯、美团、拼多多、百度等大厂。</p>
+<p>我相信，友好的讨论交流会让彼此快速进步！文章难免有疏漏之处，十分欢迎大家在评论区中批评指正。</p>
+<span id="more"></span>
+<h2 id="双指针技巧是什么">双指针技巧是什么？</h2>
+<p>双指针技巧指的就是在遍历链表、数组或者字符串的过程中，不是使用一个指针来进行访问，而是使用两个指针（甚至可以多个，合并
+k 个有序链表中将会用到）进行遍历访问。</p>
+<p>以链表为例，两个指针要么<strong>同方向访问两个链表</strong>、要么<strong>同方向访问一个链表（快慢指针）</strong>、要么<strong>相反方向遍历一个链表（左右指针）</strong>，数组和字符串也是如此。</p>
+<p>下面，先来看看双指针技巧在链表问题中的应用。我们以题目入手，从易到难，逐步感受双指针技巧的精妙之处。</p>
+<p>几乎所有题目都提供了使用双指针技巧的思路，以及动画示意图，希望可以通过这一篇文章让你<strong>彻底弄懂双指针技巧</strong>。</p>
+<h2 id="双指针秒杀链表问题">双指针秒杀链表问题</h2>
+<h3 id="合并两个有序链表力扣21"><a
+href="https://leetcode.cn/problems/merge-two-sorted-lists/">合并两个有序链表(力扣21)</a></h3>
+<h4 id="题目描述"><strong>题目描述</strong></h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305042052248.png" alt="力扣-21-合并两个有序链表" style="zoom:50%;" /></p>
+<h4 id="思路双指针">思路(双指针)</h4>
+<p>题目中两个链表已经排好序，我们可以使用两个指针同向访问两个链表，每次比较两个指针的元素，谁小谁加到新的链表上。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305032331487.gif" alt="合并两个有序链表"/></p>
+<h4 id="参考代码"><strong>参考代码</strong></h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode list1, ListNode list2)</span> &#123;</span><br><span class="line">    <span class="comment">// 一条链表为空，必然返回另一条链表，即使另一条链表也为空</span></span><br><span class="line">    <span class="keyword">if</span> (list1 == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> list2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (list2 == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> list1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 新建一个虚拟头节点(新链表)，后面连接两条链表排序后的节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 三个指针分别指向虚拟头节点，list1，list2</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p</span> <span class="operator">=</span> dummy, p1 = list1, p2 = list2;</span><br><span class="line">    <span class="comment">// 当两条链表都不为空的时候遍历</span></span><br><span class="line">    <span class="keyword">while</span> (p1 != <span class="literal">null</span> &amp;&amp; p2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 小的节点加在新链表后面</span></span><br><span class="line">        <span class="keyword">if</span> (p1.val &lt;= p2.val) &#123;</span><br><span class="line">            p.next = p1;</span><br><span class="line">            <span class="comment">// 只移动取值的指针</span></span><br><span class="line">            p1 = p1.next;</span><br><span class="line">            <span class="comment">// 新链表指针也要移动</span></span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p.next = p2;</span><br><span class="line">            <span class="comment">// 只移动取值的指针</span></span><br><span class="line">            p2 = p2.next;</span><br><span class="line">            <span class="comment">// 新链表指针也要移动</span></span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 哪条链表有剩余(剩余的值一定比前面都大)，就直接连在新链表后面。</span></span><br><span class="line">    <span class="keyword">if</span> (p1 != <span class="literal">null</span>) &#123;</span><br><span class="line">        p.next = p1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (p2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        p.next = p2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回时去掉虚拟头结点</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips</strong></p>
+<p>虚拟头节点，即代码中的 <code>dummy</code>
+节点。使用虚拟头节点可以避免处理指针 <code>p</code>
+为空的情况，降低代码的复杂性。</p>
+<p><strong>当我们需要创造一条新链表的时候，可以使用虚拟头节点简化边界情况的处理。</strong>比如本题中两条链表要合并成一条新的有序链表，这时需要创造一条新链表就可以使用。再比如要将一条链表分解成两条链表，这时候要创建两条新链表，也可以使用。</p>
+</blockquote>
+<h4 id="时间复杂度"><strong>时间复杂度</strong></h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>最坏情况下，遍历两个链表一共 2 * N 个节点</p>
+<h4 id="空间复杂度">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>无额外辅助空间，返回的链表是原有节点组装，是必要空间。</p>
+<hr />
+<h3 id="分隔链表力扣86"><a
+href="https://leetcode.cn/problems/partition-list/">分隔链表(力扣86)</a></h3>
+<h4 id="题目描述-1">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305040007027.png" alt="力扣-86-分隔链表" style="zoom:50%;" /></p>
+<h4 id="思路双指针-1">思路(双指针)</h4>
+<p>在上一题中，合并两个有序链表，是将两个有序链表合二为一。而本题是将原链表一分为二，然后再合并成一条链表。具体来说，就是将原链表分成两条小链表，一条链表的元素都小于
+x，另一条链表中的元素都大于等于
+x，最后将两条链表再拼接到一起就可以了。两条小链表的构建过程就需要用到<strong>「双指针」</strong>技巧。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061634381.gif"
+alt="分割链表" />
+<figcaption aria-hidden="true">分割链表</figcaption>
+</figure>
+<h4 id="参考代码-1">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">partition</span><span class="params">(ListNode head, <span class="type">int</span> x)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 存放小于 x 的链表的虚拟头节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummyLess</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 存放大于等于 x 的链表的虚拟头节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummyMore</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">2</span>);</span><br><span class="line">    <span class="comment">// p 指针负责遍历原链表，pLess 负责生成小于 x 的结果链表，pMore 负责生成大于等于 x 的结果链表</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p</span> <span class="operator">=</span> head, pLess = dummyLess, pMore = dummyMore;</span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">null</span>) &#123; <span class="comment">// 原链表不为空</span></span><br><span class="line">        <span class="keyword">if</span> (p.val &lt; x) &#123;</span><br><span class="line">            pLess.next = p;</span><br><span class="line">            pLess = pLess.next;    </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pMore.next = p;</span><br><span class="line">            pMore = pMore.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// !!! 如果不断开，会成环报错，新手务必注意！</span></span><br><span class="line">        <span class="comment">// 断开原链表中的每个节点的 next 指针</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">nxt</span> <span class="operator">=</span> p.next; <span class="comment">// 记录原链表中当前节点的下个节点</span></span><br><span class="line">        p.next = <span class="literal">null</span>; <span class="comment">// 当前节点的 next 指针设为空</span></span><br><span class="line">        p = nxt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 小 x 链表连接大 x 链表</span></span><br><span class="line">    pLess.next = dummyMore.next;</span><br><span class="line">    <span class="comment">// 返回时去掉虚拟头结点</span></span><br><span class="line">    <span class="keyword">return</span> dummyLess.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips</strong></p>
+<p>在循环代码块中，必须断开原链表中每个节点的 next
+指针，即将原链表节点的 next 指针设为
+null，然后才能向后移动指针，否则就会连接成环从而导致答案错误。</p>
+</blockquote>
+<h4 id="时间复杂度-1"><strong>时间复杂度</strong></h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>最坏情况下，需要完整遍历一遍原链表。</p>
+<h4 id="空间复杂度-1">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>使用了常数个指针，没有额外辅助空间。</p>
+<hr />
+<h3 id="合并-k-个升序链表力扣23"><a
+href="https://leetcode.cn/problems/merge-k-sorted-lists/">合并 K
+个升序链表(力扣23)</a></h3>
+<h4 id="题目描述-2">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051038520.png" alt="力扣-23-合并 K 个升序链表" style="zoom:50%;" /></p>
+<h4 id="思路k个指针">思路(k个指针)</h4>
+<p>我们可以准备 k 个指针，分别放在 k
+个链表头，每次取出最小的元素，加入到新的大链表中，指针后移，继续比较，每次出去的都是最小元素，就完成了题目的要求。</p>
+<p>在 Java 中，我们可以借助优先级队列 PriorityQueue
+来实现。优先级队列本质上是一种堆排序容器，根据传入的比较器确定是大根堆还是小根堆，默认是小根堆。小根堆的堆顶是容器中最小的元素，其余更大的元素在堆下方。想要了解这种结构，可以访问<a
+href="https://www.cs.usfca.edu/~galles/visualization/Heap.html">Data
+Structure Visualizations</a>网站去查看小根堆的排序过程。</p>
+<h4 id="参考代码-2">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeKLists</span><span class="params">(ListNode[] lists)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (lists == <span class="literal">null</span> || lists.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 优先级队列，小根堆</span></span><br><span class="line">    PriorityQueue&lt;ListNode&gt; pq = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((a, b) -&gt; a.val - b.val);</span><br><span class="line">    <span class="comment">// 将 k 个链表的头节点加入小根堆</span></span><br><span class="line">    <span class="keyword">for</span> (ListNode head : lists) &#123;</span><br><span class="line">        <span class="comment">// 头节点不为空才能加入</span></span><br><span class="line">        <span class="keyword">if</span> (head != <span class="literal">null</span>)</span><br><span class="line">            pq.add(head);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 要新建一个结果链表，所以新建一个虚拟头节点，指针 p 用于构建结果链表</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>), p = dummy;</span><br><span class="line">    <span class="keyword">while</span> (!pq.isEmpty()) &#123;</span><br><span class="line">        <span class="comment">// 取出最小元素的节点</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> pq.poll();</span><br><span class="line">        <span class="comment">// 连接到结果链表上</span></span><br><span class="line">        p.next = cur;</span><br><span class="line">        p = p.next;</span><br><span class="line">        <span class="comment">// 如果被取出的节点后续有节点，加入到小根堆中</span></span><br><span class="line">        <span class="keyword">if</span> (cur.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            pq.add(cur.next);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回时去掉虚拟头节点</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-2">时间复杂度</h4>
+<p><span class="math inline">\(O(nlog_2k)\)</span></p>
+<p>n 为所有链表总节点数，最坏要遍历所有节点，每次加入优先级队列排序需要
+<span class="math inline">\(O(log_2k)\)</span>。</p>
+<h4 id="空间复杂度-2">空间复杂度</h4>
+<p><span class="math inline">\(O(k)\)</span></p>
+<p>优先队列的大小不会超过 k。</p>
+<hr />
+<h3 id="删除链表的倒数第-n-个结点力扣19"><a
+href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">删除链表的倒数第
+N 个结点(力扣19)</a></h3>
+<h4 id="题目描述-3">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051340584.png" alt="力扣-19-删除链表的倒数第 N 个结点" style="zoom:50%;" /></p>
+<h4 id="思路双指针-2">思路(双指针)</h4>
+<p>我们直接讲进阶的实现方式，也就是使用双指针技巧，一趟扫描实现这道题目。</p>
+<p>这道题目要用到「双指针」技巧的<strong>「快慢指针」</strong>，假设 n =
+3，我们可以先让快指针走 3
+步，然后慢指针此时从链表头结点出发，快慢指针同步前进，当快指针走到 null
+时，慢指针正好指向要删除的节点。</p>
+<p>由于要删除这个节点，我们还需准备一个虚拟头节点，以及一个指向虚拟头节点的指针(前置指针)，前置指针与慢指针同时同步前进，当慢指针指向要删除节点的时候，前置指针正好指向要删除节点的前一个，然后将前置指针的
+next 指针指向要删除节点的下一个节点即可。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051429999.gif"
+alt="力扣-19-删除链表的倒数第 N 个结点" />
+<figcaption aria-hidden="true">力扣-19-删除链表的倒数第 N
+个结点</figcaption>
+</figure>
+<h4 id="参考代码-3">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">removeNthFromEnd</span><span class="params">(ListNode head, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">// 快指针先走 n 步</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 给原链表添加一个虚拟头节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    dummy.next = head;</span><br><span class="line">    <span class="comment">// 准备前置指针和慢指针</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> dummy;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="comment">// 前置、快慢指针同步前进，当快指针为空时，慢指针就到了倒数第 n 个位置</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        pre = pre.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 删除慢指针处的节点(倒数第 n 个节点)</span></span><br><span class="line">    pre.next = slow.next; <span class="comment">// help GC</span></span><br><span class="line">    <span class="comment">// 返回时去掉表头</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-3">时间复杂度</h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>最坏情况下，遍历 n 个链表节点。</p>
+<h4 id="空间复杂度-3">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级指针变量，无额外辅助空间使用</p>
+<hr />
+<h3 id="链表的中间结点力扣876"><a
+href="https://leetcode.cn/problems/middle-of-the-linked-list/">链表的中间结点(力扣876)</a></h3>
+<h4 id="题目描述-4">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051443079.png" alt="力扣-876-链表的中间结点" style="zoom:50%;" /></p>
+<h4 id="思路双指针-3">思路(双指针)</h4>
+<p>这道题用到了「双指针」技巧的
+「快慢指针」技巧，我们快慢指针分别指向链表头节点 head。</p>
+<p>快指针每次走两步，慢指针每次走一步，当快指针走到链表末尾时，慢指针正好指向链表的中点。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061630323.gif"
+alt="链表的中间节点" />
+<figcaption aria-hidden="true">链表的中间节点</figcaption>
+</figure>
+<h4 id="参考代码-4">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">middleNode</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快慢指针分别指向链表头节点 head</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="comment">// 快指针走到链表末尾时停止</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 快指针一次走两步，慢指针一次走一步</span></span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 慢指针指向链表中点</span></span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-4">时间复杂度</h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<h4 id="空间复杂度-4">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级指针变量，无额外辅助空间使用。</p>
+<hr />
+<h3 id="环形链表力扣141"><a
+href="https://leetcode.cn/problems/linked-list-cycle/">环形链表(力扣141)</a></h3>
+<h4 id="题目描述-5">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051657040.png" alt="环形链表(力扣141)" style="zoom:50%;" /></p>
+<h4 id="思路双指针-4">思路(双指针)</h4>
+<p>这道题用到的也是<strong>「快慢指针」</strong>技巧。<strong>环形链表的环一定在链表末尾，并且末尾没有
+null
+了</strong>。根据这个特点，我们使用快慢指针同向访问链表，因为速度不一致，如果有环的话，快慢指针一定会相遇；如果没有环的话，快指针一定会遇到空指针。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051715771.gif"
+alt="双指针判断链表是否有环" />
+<figcaption aria-hidden="true">双指针判断链表是否有环</figcaption>
+</figure>
+<h4 id="参考代码-5">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快慢双指针，初始指向链表头 head</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="comment">// 快指针走到末尾时停止</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 快慢指针移动</span></span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        <span class="comment">// 快慢指针相遇则有环</span></span><br><span class="line">        <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快指针走到末尾，则没有环</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-5">时间复杂度</h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>最坏情况下遍历链表 n 个节点。</p>
+<h4 id="空间复杂度-5">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>仅使用了两个指针，没有额外辅助空间。</p>
+<hr />
+<h3 id="环形链表入口节点力扣142"><a
+href="https://leetcode.cn/problems/linked-list-cycle-ii/">环形链表入口节点(力扣142)</a></h3>
+<h4 id="题目描述-6">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051730296.png" alt="环形链表入口节点(力扣142)" style="zoom:50%;" /></p>
+<p>我觉得这道题叫做「环形链表入口节点」更为贴切。</p>
+<h4 id="思路双指针-5">思路(双指针)</h4>
+<p>这道题也是使用「快慢指针」技巧，难点在于如何找到环的入口节点。我会先说如何解决这道题，理论推导过程我也会给出，如果觉得很难懂可以直接跳过，记住解题方法就可以了。</p>
+<p>解法就是使用上一题(判断链表是否有环)的方法，找到相遇节点，然后慢指针留在相遇节点，快指针回到链表头节点，之后两个指针同步逐个元素地遍历链表，当两者再次相遇的节点就是环的入口节点。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051751665.gif"
+alt="快慢指针找环入口节点" />
+<figcaption aria-hidden="true">快慢指针找环入口节点</figcaption>
+</figure>
+<p>为什么这样就能找到环的入口节点了呢？</p>
+<p>假设在一个有环链表中。快指针在环中走了 <span
+class="math inline">\(n\)</span> 圈，慢指针走了 <span
+class="math inline">\(m\)</span>
+圈，两者相遇。此时，链表头节点到环入口点距离为 <span
+class="math inline">\(x\)</span>，环入口到相遇点距离为 <span
+class="math inline">\(y\)</span>，相遇点到环入口点距离为 <span
+class="math inline">\(z\)</span>。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051801727.png"
+alt="快慢指针相遇时，入口节点为3" />
+<figcaption aria-hidden="true">快慢指针相遇时，入口节点为3</figcaption>
+</figure>
+<p>这个过程中，快指针一共走了 <span class="math inline">\(x + n(y + z) +
+y\)</span> 步，慢指针一共走了 <span class="math inline">\(x + m(y + z) +
+y\)</span> 步。</p>
+<p>快指针走的步数是慢指针的两倍，则 <span class="math display">\[
+x + n(y + z) + y = 2(x + m(y + z) + y)
+\]</span> 进一步推导 <span class="math display">\[
+x+y=(n-2m)(y+z)
+\]</span> <span class="math inline">\(y+z\)</span>
+就是环的大小，这说明<strong>从链表头经过环入口到达相遇地方经过的距离(x +
+y)等于整数倍环的大小(y + z)</strong>。</p>
+<p>那么此时，我们从头开始遍历到相遇位置(x +
+y)，从相遇位置开始在环中遍历(y +
+z)，会使用相同的步数，而<strong>双方最后都会经过入口到相遇位置这 <span
+class="math inline">\(y\)</span> 个节点，说明这 <span
+class="math inline">\(y\)</span>
+个节点它们就是重叠遍历的，那它们从入口位置就相遇了</strong>，这样就找到了入口节点。</p>
+<h4 id="参考代码-6">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 定义快慢双指针，初始化指向链表头节点 head</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head, slow = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) &#123; <span class="comment">// 相遇跳出循环</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 跳出循环有两种可能</span></span><br><span class="line">    <span class="comment">// 1. 快指针到末尾了，链表无环</span></span><br><span class="line">    <span class="comment">// 2. 链表有环，快慢指针相遇了</span></span><br><span class="line">    <span class="comment">// 情况 2</span></span><br><span class="line">    <span class="keyword">if</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = head; <span class="comment">// 快指针重新指向头结点</span></span><br><span class="line">        <span class="comment">// 快慢指针同步遍历链表，再次相遇的节点就是环入口节点</span></span><br><span class="line">        <span class="keyword">while</span> (fast != slow) &#123; </span><br><span class="line">            fast = fast.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fast;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 情况 1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-6">时间复杂度</h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>最坏情况下遍历链表两次</p>
+<h4 id="空间复杂度-6">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>使用了常数个指针，没有额外辅助空间</p>
+<hr />
+<h3 id="相交链表力扣160"><a
+href="https://leetcode.cn/problems/intersection-of-two-linked-lists/">相交链表(力扣160)</a></h3>
+<h4 id="题目描述-7">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051842006.png" alt="相交链表(力扣160)" style="zoom:50%;" /></p>
+<p>这道题就是要寻找到两个链表的第一个公共节点。</p>
+<h4 id="思路双指针-6">思路(双指针)</h4>
+<p>我们使用两个指针 p1、p2 分别在链表 1、链表 2
+上同步前进，但是无法同时走到公共节点。因此，<strong>解决这道题的关键在于，如何能够让两个指针同时到达相交节点
+6。</strong></p>
+<p>两个指针的速度是一样的，那么如何才能同时到达相同点呢？那么应该要让两个指针走同样的长度。</p>
+<p>因此，两个指针一起遍历，如果 p1 先遍历完链表 1 的话，就从链表 2
+的头节点继续遍历。同样的，如果 p2 先遍历完链表 2 的话，就从链表 1
+的头节点继续遍历。也就是说，p1 和 p2 都会遍历链表 1 和链表 2。</p>
+<p>两个指针，同样的速度，走完同样的长度(链表 1 + 链表
+2)，不管两条链表有无相同节点，都能够同时到达终点。</p>
+<p>也就是说，如果有公共节点，两个指针一定会相遇，相遇节点就是第一个公共节点；如果没有公共节点，两个指针都会走到终点，此时都是
+null，也算是相等了。</p>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051844821.gif"
+alt="双指针确定两链表第一个公共节点" />
+<figcaption
+aria-hidden="true">双指针确定两链表第一个公共节点</figcaption>
+</figure>
+<h4 id="参考代码-7">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (headA == <span class="literal">null</span> || headB == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化 p1 和 p2 两个指针，分别指向两个链表头</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p1</span> <span class="operator">=</span> headA, p2 = headB;</span><br><span class="line">    <span class="keyword">while</span> (p1 != p2) &#123;</span><br><span class="line">        <span class="comment">// 如果 p1 不为空，前进一步，为空则从链表 B 头节点开始</span></span><br><span class="line">        <span class="keyword">if</span> (p1 != <span class="literal">null</span>) &#123;</span><br><span class="line">            p1 = p1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p1 = headB;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果 p2 不为空，前进一步，为空则从链表 A 头节点开始</span></span><br><span class="line">        <span class="keyword">if</span> (p2 != <span class="literal">null</span>) &#123;</span><br><span class="line">            p2 = p2.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p2 = headA;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-7">时间复杂度</h4>
+<p><span class="math inline">\(O(m+n)\)</span></p>
+<p>链表 1 和链表 2 的长度之和。</p>
+<h4 id="空间复杂度-7">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级指针变量，无额外辅助空间使用。</p>
+<hr />
+<h3 id="反转链表力扣206"><a
+href="https://leetcode.cn/problems/reverse-linked-list/">反转链表(力扣206)</a></h3>
+<h4 id="题目描述-8">题目描述</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061506639.png" alt="反转链表(力扣206)" style="zoom:50%;" /></p>
+<h4 id="思路三指针">思路(三指针)</h4>
+<p>初始化三个指针分别是 pre(黄色)、cur(红色)、nxt(绿色)。</p>
+<ul>
+<li>pre
+指针用于<strong>指向已经反转好的链表的最后一个节点</strong>，最开始没有反转，所以为空。</li>
+<li>cur
+指针<strong>指向待反转链表(原链表)的第一个节点</strong>，最开始第一个节点待反转，所以指向
+head。</li>
+<li>nxt
+指针<strong>指向待反转链表(原链表)的第二节点，用于保存链表</strong>，因为
+cur 的 next 指针指向改变后，后面的链表就失效了，所以需要保存。</li>
+</ul>
+<figure>
+<img
+src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061651083.gif"
+alt="反转链表" />
+<figcaption aria-hidden="true">反转链表</figcaption>
+</figure>
+<h4 id="参考代码-8">参考代码</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化三个指针</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="literal">null</span>, cur = head, nxt = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">null</span>) &#123;</span><br><span class="line">        nxt = cur.next; <span class="comment">// 保存 cur 的下一个节点</span></span><br><span class="line">        cur.next = pre; <span class="comment">// 反转 </span></span><br><span class="line">        <span class="comment">// 指针后移，操作下一个未反转链表的第一个节点</span></span><br><span class="line">        pre = cur; <span class="comment">// 移动 pre 到 cur</span></span><br><span class="line">        cur = nxt; <span class="comment">// 移动 cur 到 nxt</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回反转后的头节点</span></span><br><span class="line">    <span class="keyword">return</span> pre;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间复杂度-8">时间复杂度</h4>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>遍历一次链表</p>
+<h4 id="空间复杂度-8">空间复杂度</h4>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>常数级指针变量，无额外辅助空间使用。</p>
+<h2 id="重排链表">重排链表</h2>
+<h3 id="题目描述-9">题目描述</h3>
+<h2 id="更新日志">更新日志</h2>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>更新时间</th>
+<th>更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2023.05.06</td>
+<td>发布文章，详解双指针技巧，详解 9
+道大厂常见手撕题目：合并两个有序链表、分割链表、合并 K
+个升序链表、删除链表的倒数第 N
+个节点、链表的中间节点、环形链表、环形链表的入口节点、相交链表、反转链表。</td>
+</tr>
+<tr class="even">
+<td>2023.05.09</td>
+<td>新增题目：链表的奇偶重排</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li>牛客网</li>
+<li>力扣网</li>
+<li>算法基地 - github</li>
+<li>labuladong 的算法小抄</li>
+<li>代码随想录</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+        <category>双指针</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>双指针</tag>
+        <tag>链表</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析Java集合问题(三)</title>
+    <url>/article/92332d0.html</url>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析Java集合问题（一）</title>
+    <url>/article/24021d57.html</url>
+    <content><![CDATA[<p>本篇文章主要介绍了使用集合的好处、集合的框架体系。</p>
+<span id="more"></span>
+<h2 id="集合的理解和好处">集合的理解和好处</h2>
+<p>我们需要对比一下集合和数组。</p>
+<h3 id="数组的不足">数组的不足</h3>
+<ol type="1">
+<li><strong>长度开始时必须指定，而且一旦指定，就不能更改；</strong></li>
+<li><strong>保存的必须为同一类型的元素；</strong></li>
+<li><strong>使用数组进行增加/删除元素，比较麻烦。</strong></li>
+</ol>
+<p>下面，我来演示一下 Person 数组扩容。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person[] pers = <span class="keyword">new</span> <span class="title class_">Person</span>[<span class="number">1</span>]; <span class="comment">// 大小是 1</span></span><br><span class="line">pers[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 增加新的 Person 对象</span></span><br><span class="line">Person[] pers2 = <span class="keyword">new</span> <span class="title class_">Person</span>[pers.length + <span class="number">1</span>]; <span class="comment">// 新创建数组</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; pers.length; i++) &#123; <span class="comment">// 拷贝 pers 数组的元素到 pers2 中</span></span><br><span class="line">    pers2[i] = pers[i];</span><br><span class="line">&#125;</span><br><span class="line">pers2[pers2.length - <span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>(); <span class="comment">// 添加新的对象</span></span><br></pre></td></tr></table></figure>
+<p>可以看到数组扩容添加元素十分麻烦。</p>
+<h3 id="集合的优势">集合的优势</h3>
+<ol type="1">
+<li><strong>可以动态保存任意多个对象，使用比较方便；</strong></li>
+<li><strong>提供了一系列方便的操作对象的方法，如 add、remove、set、get
+等方法；</strong></li>
+<li><strong>使用集合添加、删除新元素，方便简洁。</strong></li>
+</ol>
+<p>下面，我来演示一下集合的基本使用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">list.add(<span class="string">&quot;jack&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;tom&quot;</span>);</span><br><span class="line"></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;No1&quot;</span>, <span class="string">&quot;北京&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;No2&quot;</span>, <span class="string">&quot;上海&quot;</span>);</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="集合的框架体系需记忆">集合的框架体系（需记忆）</h2>
+<p>Java 的集合共分为两大类，一类是单列集合，一类是双列集合，存放 k-v
+键值对。</p>
+<h3 id="collection-接口框架图单列集合">Collection
+接口框架图（单列集合）</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251443337.png" alt="Collection 接口框架图" style="zoom:60%;" /></p>
+<h3 id="map-接口框架图双列集合">Map 接口框架图（双列集合）</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251512547.png" alt="Map 接口框架图" style="zoom:80%;" /></p>
+<p><strong>注意：实线是继承（extend），虚线是实现（implements）</strong></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析Java集合问题(二)</title>
+    <url>/article/77d012fb.html</url>
+    <content><![CDATA[<p>本篇文章主要介绍 Collection 接口和常用方法，讲解了 Collection
+接口实现类的特点，以及两种遍历 Collection 接口元素的方法，Iterator
+遍历与增强 for 循环遍历。</p>
+<span id="more"></span>
+<h2 id="collection-接口和常用方法">Collection 接口和常用方法</h2>
+<h3 id="collection-接口实现类的特点">Collection 接口实现类的特点</h3>
+<p><code>public interface Collection&lt;E&gt; extends Iterable&lt;E&gt;</code></p>
+<ol type="1">
+<li>Collection 实现子类可以存放多个元素，每个元素可以是 Object；</li>
+<li>有些 Collection 的实现类，可以存放重复的元素，有些不可以；</li>
+<li>有些 Collection
+的实现类，有些是有序的（List），有些不是有序（Set）；</li>
+<li>Collection 接口没有直接的实现子类，是通过它的子接口 Set 和 List
+来实现的。</li>
+</ol>
+<p>下面，以 List 接口的实现类 ArrayList 为例，演示常用方法的使用。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">方法名</th>
+<th style="text-align: center;">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>add</code></td>
+<td style="text-align: center;">添加单个元素</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>remove</code></td>
+<td style="text-align: center;">删除指定元素</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>contains</code></td>
+<td style="text-align: center;">判断元素是否存在</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>size</code></td>
+<td style="text-align: center;">获取集合中元素的个数</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>isEmpty</code></td>
+<td style="text-align: center;">判断集合是否为空</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>clear</code></td>
+<td style="text-align: center;">清空集合</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>addAll</code></td>
+<td style="text-align: center;">添加多个元素</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>containsAll</code></td>
+<td style="text-align: center;">判断多个元素是否都在</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>removeAll</code></td>
+<td style="text-align: center;">删除多个元素</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="comment">// add 添加单个元素</span></span><br><span class="line">list.add(<span class="string">&quot;N1&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;N2&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;N3&quot;</span>);</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// remove 删除指定元素</span></span><br><span class="line">list.remove(<span class="number">0</span>); <span class="comment">// 删除第一个元素</span></span><br><span class="line">list.remove(<span class="string">&quot;N2&quot;</span>); <span class="comment">// 删除某个指定元素</span></span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// contains 判断元素是否存在</span></span><br><span class="line">System.out.println(list.contains(<span class="string">&quot;N3&quot;</span>));</span><br><span class="line"><span class="comment">// size 获取集合中元素个数</span></span><br><span class="line">System.out.println(list.size());</span><br><span class="line"><span class="comment">// isEmpty 判断是否为空</span></span><br><span class="line">System.out.println(list.isEmpty());</span><br><span class="line"><span class="comment">// clear 清空</span></span><br><span class="line">list.clear();</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// addAll 添加多个元素</span></span><br><span class="line">ArrayList&lt;String&gt; list2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list2.add(<span class="string">&quot;N4&quot;</span>);</span><br><span class="line">list2.add(<span class="string">&quot;N5&quot;</span>);</span><br><span class="line">list.addAll(list2);</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// containsAll 查找多个元素是否都存在</span></span><br><span class="line">System.out.println(list.containsAll(list2));</span><br><span class="line"><span class="comment">// removeAll 删除多个元素</span></span><br><span class="line">list.add(<span class="string">&quot;N6&quot;</span>);</span><br><span class="line">list.removeAll(list2);</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br></pre></td></tr></table></figure>
+<h3 id="使用-iterator迭代器遍历-collection-接口元素">使用
+Iterator（迭代器）遍历 Collection 接口元素</h3>
+<h4 id="iteratore-接口的基本介绍"><code>Iterator&lt;E&gt;</code>
+接口的基本介绍</h4>
+<ol type="1">
+<li>Iterator 对象称为迭代器，主要用于遍历 Collection 集合中的元素；</li>
+<li>所有实现了 Collection 接口的集合类都有一个 iterator()
+方法，用以返回一个实现了 Iterator
+接口的对象，即可以返回一个迭代器。</li>
+<li>Iterator 仅用于遍历集合，Iterator 本身并不存放对象。</li>
+</ol>
+<hr />
+<h4 id="迭代器的执行原理">迭代器的执行原理</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251704393.png" alt="Iterator 结构" style="zoom:20%;" /></p>
+<p><strong>具体流程如下：</strong></p>
+<ol type="1">
+<li>得到一个集合的迭代器；</li>
+<li>使用 it.hasNext() 循环判断集合中是否还有下一元素；</li>
+<li>如果有元素，使用 it.next() 方法下移指针并返回下移后的集合元素。</li>
+</ol>
+<p><strong>核心代码如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Iterator</span> <span class="variable">iterator</span> <span class="operator">=</span> col.iterator(); <span class="comment">// 得到一个集合的迭代器</span></span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext()) &#123; <span class="comment">// hasNext() 判断是否还有下一个元素</span></span><br><span class="line">    <span class="comment">// next() 作用：1. 指针下移；2. 返回下移后集合位置上的元素</span></span><br><span class="line">	System.out.println(iterator.next()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：在调用 <code>iterator.next()</code> 方法之前必须要调用
+<code>iterator.hasNext()</code>
+进行检测。若不调用，且下一条记录无效，直接调用
+<code>iterator.next()</code> 会抛出 <code>NoSuchElementException</code>
+异常。</p>
+</blockquote>
+<hr />
+<h4 id="迭代器的使用案例">迭代器的使用案例</h4>
+<p>下面，我们来看一个迭代器的使用案例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test03</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Collection&lt;Book&gt; col = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;罗贯中&quot;</span>, <span class="number">10.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;小李飞刀&quot;</span>, <span class="string">&quot;古龙&quot;</span>, <span class="number">5.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;曹雪芹&quot;</span>, <span class="number">34.6</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1、使用迭代器遍历集合元素，快捷键 itit</span></span><br><span class="line">        <span class="type">Iterator</span> <span class="variable">it</span> <span class="operator">=</span> col.iterator(); <span class="comment">// 1. 得到 col 的迭代器</span></span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123; <span class="comment">// 2. 使用 while 循环，利用 hasNext() 判断集合是否还有其他元素</span></span><br><span class="line">            System.out.println(it.next()); <span class="comment">// 3. 返回下一个元素</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 当退出 while 循环后，这时 iterator 迭代器，指向最后的元素</span></span><br><span class="line">        <span class="comment">// it.next(); // 会报错，NoSuchElementException</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 如果希望再次遍历，需要重置迭代器</span></span><br><span class="line">        it = col.iterator();</span><br><span class="line">        System.out.println(<span class="string">&quot;===== 第二次遍历 =====&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            <span class="comment">// 编译型类型为 Object，运行时类型为 Book</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> it.next(); </span><br><span class="line">            System.out.println(<span class="string">&quot;obj=&quot;</span> + obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Book</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String author;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Book</span><span class="params">(String name, String author, <span class="type">double</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.author = author;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAuthor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAuthor</span><span class="params">(String author)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getPrice</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrice</span><span class="params">(<span class="type">double</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Book&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, author=&#x27;&quot;</span> + author + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, price=&quot;</span> + price +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="使用增强-for-循环遍历-collection-接口元素">使用增强 for 循环遍历
+Collection 接口元素</h3>
+<h4 id="增强-for-循环本质">增强 for 循环本质</h4>
+<p>增强 for 循环，可以代替 Iterator 迭代器，其本质就是简化版的
+Iterator，只能用于遍历集合或数组。</p>
+<h4 id="基本语法">基本语法</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (元素类型 元素名 : 集合名或数组名) &#123;</span><br><span class="line">    访问元素</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用案例">使用案例</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test04</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Collection&lt;Book&gt; col = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;罗贯中&quot;</span>, <span class="number">10.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;小李飞刀&quot;</span>, <span class="string">&quot;古龙&quot;</span>, <span class="number">5.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;曹雪芹&quot;</span>, <span class="number">34.6</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Book b : col) &#123;</span><br><span class="line">            System.out.println(b);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>手撕面试算法题必备技巧(壹) —— 二分搜索</title>
     <url>/article/3f91e5ac.html</url>
     <content><![CDATA[<p>本文介绍了二分搜索最常见的几个场景的使用：<strong>寻找一个数</strong>、<strong>寻找左侧边界</strong>以及<strong>寻找右侧边界</strong>。文章内容既适合完全不知道二分搜索是什么的新同学，也适合老同学复习拓展。</p>
@@ -1662,535 +2165,6 @@ href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
         <tag>算法框架</tag>
         <tag>算法</tag>
         <tag>二分搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手撕面试算法题必备技巧(贰) —— 双指针(链表篇)</title>
-    <url>/article/631e5355.html</url>
-    <content><![CDATA[<p>本文介绍了双指针技巧在链表、数组以及字符串中的使用，给出了大量大厂常见面试手撕题目的思路及代码，不仅适合完全不了解双指针技巧的读者，也适合老司机复习拓展。</p>
-<p>考察过该技巧的公司有阿里巴巴、腾讯、美团、拼多多、百度等大厂。</p>
-<p>我相信，友好的讨论交流会让彼此快速进步！文章难免有疏漏之处，十分欢迎大家在评论区中批评指正。</p>
-<span id="more"></span>
-<h2 id="双指针技巧是什么">双指针技巧是什么？</h2>
-<p>双指针技巧指的就是在遍历链表、数组或者字符串的过程中，不是使用一个指针来进行访问，而是使用两个指针（甚至可以多个，合并
-k 个有序链表中将会用到）进行遍历访问。</p>
-<p>以链表为例，两个指针要么<strong>同方向访问两个链表</strong>、要么<strong>同方向访问一个链表（快慢指针）</strong>、要么<strong>相反方向遍历一个链表（左右指针）</strong>，数组和字符串也是如此。</p>
-<p>下面，先来看看双指针技巧在链表问题中的应用。我们以题目入手，从易到难，逐步感受双指针技巧的精妙之处。</p>
-<p>几乎所有题目都提供了使用双指针技巧的思路，以及动画示意图，希望可以通过这一篇文章让你<strong>彻底弄懂双指针技巧</strong>。</p>
-<h2 id="双指针秒杀链表问题">双指针秒杀链表问题</h2>
-<h3 id="合并两个有序链表力扣21"><a
-href="https://leetcode.cn/problems/merge-two-sorted-lists/">合并两个有序链表(力扣21)</a></h3>
-<h4 id="题目描述"><strong>题目描述</strong></h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305042052248.png" alt="力扣-21-合并两个有序链表" style="zoom:50%;" /></p>
-<h4 id="思路双指针">思路(双指针)</h4>
-<p>题目中两个链表已经排好序，我们可以使用两个指针同向访问两个链表，每次比较两个指针的元素，谁小谁加到新的链表上。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305032331487.gif" alt="合并两个有序链表"/></p>
-<h4 id="参考代码"><strong>参考代码</strong></h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode list1, ListNode list2)</span> &#123;</span><br><span class="line">    <span class="comment">// 一条链表为空，必然返回另一条链表，即使另一条链表也为空</span></span><br><span class="line">    <span class="keyword">if</span> (list1 == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> list2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (list2 == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> list1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 新建一个虚拟头节点(新链表)，后面连接两条链表排序后的节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 三个指针分别指向虚拟头节点，list1，list2</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p</span> <span class="operator">=</span> dummy, p1 = list1, p2 = list2;</span><br><span class="line">    <span class="comment">// 当两条链表都不为空的时候遍历</span></span><br><span class="line">    <span class="keyword">while</span> (p1 != <span class="literal">null</span> &amp;&amp; p2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 小的节点加在新链表后面</span></span><br><span class="line">        <span class="keyword">if</span> (p1.val &lt;= p2.val) &#123;</span><br><span class="line">            p.next = p1;</span><br><span class="line">            <span class="comment">// 只移动取值的指针</span></span><br><span class="line">            p1 = p1.next;</span><br><span class="line">            <span class="comment">// 新链表指针也要移动</span></span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p.next = p2;</span><br><span class="line">            <span class="comment">// 只移动取值的指针</span></span><br><span class="line">            p2 = p2.next;</span><br><span class="line">            <span class="comment">// 新链表指针也要移动</span></span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 哪条链表有剩余(剩余的值一定比前面都大)，就直接连在新链表后面。</span></span><br><span class="line">    <span class="keyword">if</span> (p1 != <span class="literal">null</span>) &#123;</span><br><span class="line">        p.next = p1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (p2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        p.next = p2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回时去掉虚拟头结点</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips</strong></p>
-<p>虚拟头节点，即代码中的 <code>dummy</code>
-节点。使用虚拟头节点可以避免处理指针 <code>p</code>
-为空的情况，降低代码的复杂性。</p>
-<p><strong>当我们需要创造一条新链表的时候，可以使用虚拟头节点简化边界情况的处理。</strong>比如本题中两条链表要合并成一条新的有序链表，这时需要创造一条新链表就可以使用。再比如要将一条链表分解成两条链表，这时候要创建两条新链表，也可以使用。</p>
-</blockquote>
-<h4 id="时间复杂度"><strong>时间复杂度</strong></h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>最坏情况下，遍历两个链表一共 2 * N 个节点</p>
-<h4 id="空间复杂度">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>无额外辅助空间，返回的链表是原有节点组装，是必要空间。</p>
-<hr />
-<h3 id="分隔链表力扣86"><a
-href="https://leetcode.cn/problems/partition-list/">分隔链表(力扣86)</a></h3>
-<h4 id="题目描述-1">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305040007027.png" alt="力扣-86-分隔链表" style="zoom:50%;" /></p>
-<h4 id="思路双指针-1">思路(双指针)</h4>
-<p>在上一题中，合并两个有序链表，是将两个有序链表合二为一。而本题是将原链表一分为二，然后再合并成一条链表。具体来说，就是将原链表分成两条小链表，一条链表的元素都小于
-x，另一条链表中的元素都大于等于
-x，最后将两条链表再拼接到一起就可以了。两条小链表的构建过程就需要用到<strong>「双指针」</strong>技巧。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061634381.gif"
-alt="分割链表" />
-<figcaption aria-hidden="true">分割链表</figcaption>
-</figure>
-<h4 id="参考代码-1">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">partition</span><span class="params">(ListNode head, <span class="type">int</span> x)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 存放小于 x 的链表的虚拟头节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummyLess</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 存放大于等于 x 的链表的虚拟头节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummyMore</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">2</span>);</span><br><span class="line">    <span class="comment">// p 指针负责遍历原链表，pLess 负责生成小于 x 的结果链表，pMore 负责生成大于等于 x 的结果链表</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p</span> <span class="operator">=</span> head, pLess = dummyLess, pMore = dummyMore;</span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">null</span>) &#123; <span class="comment">// 原链表不为空</span></span><br><span class="line">        <span class="keyword">if</span> (p.val &lt; x) &#123;</span><br><span class="line">            pLess.next = p;</span><br><span class="line">            pLess = pLess.next;    </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pMore.next = p;</span><br><span class="line">            pMore = pMore.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// !!! 如果不断开，会成环报错，新手务必注意！</span></span><br><span class="line">        <span class="comment">// 断开原链表中的每个节点的 next 指针</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">nxt</span> <span class="operator">=</span> p.next; <span class="comment">// 记录原链表中当前节点的下个节点</span></span><br><span class="line">        p.next = <span class="literal">null</span>; <span class="comment">// 当前节点的 next 指针设为空</span></span><br><span class="line">        p = nxt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 小 x 链表连接大 x 链表</span></span><br><span class="line">    pLess.next = dummyMore.next;</span><br><span class="line">    <span class="comment">// 返回时去掉虚拟头结点</span></span><br><span class="line">    <span class="keyword">return</span> dummyLess.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Tips</strong></p>
-<p>在循环代码块中，必须断开原链表中每个节点的 next
-指针，即将原链表节点的 next 指针设为
-null，然后才能向后移动指针，否则就会连接成环从而导致答案错误。</p>
-</blockquote>
-<h4 id="时间复杂度-1"><strong>时间复杂度</strong></h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>最坏情况下，需要完整遍历一遍原链表。</p>
-<h4 id="空间复杂度-1">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>使用了常数个指针，没有额外辅助空间。</p>
-<hr />
-<h3 id="合并-k-个升序链表力扣23"><a
-href="https://leetcode.cn/problems/merge-k-sorted-lists/">合并 K
-个升序链表(力扣23)</a></h3>
-<h4 id="题目描述-2">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051038520.png" alt="力扣-23-合并 K 个升序链表" style="zoom:50%;" /></p>
-<h4 id="思路k个指针">思路(k个指针)</h4>
-<p>我们可以准备 k 个指针，分别放在 k
-个链表头，每次取出最小的元素，加入到新的大链表中，指针后移，继续比较，每次出去的都是最小元素，就完成了题目的要求。</p>
-<p>在 Java 中，我们可以借助优先级队列 PriorityQueue
-来实现。优先级队列本质上是一种堆排序容器，根据传入的比较器确定是大根堆还是小根堆，默认是小根堆。小根堆的堆顶是容器中最小的元素，其余更大的元素在堆下方。想要了解这种结构，可以访问<a
-href="https://www.cs.usfca.edu/~galles/visualization/Heap.html">Data
-Structure Visualizations</a>网站去查看小根堆的排序过程。</p>
-<h4 id="参考代码-2">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeKLists</span><span class="params">(ListNode[] lists)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (lists == <span class="literal">null</span> || lists.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 优先级队列，小根堆</span></span><br><span class="line">    PriorityQueue&lt;ListNode&gt; pq = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((a, b) -&gt; a.val - b.val);</span><br><span class="line">    <span class="comment">// 将 k 个链表的头节点加入小根堆</span></span><br><span class="line">    <span class="keyword">for</span> (ListNode head : lists) &#123;</span><br><span class="line">        <span class="comment">// 头节点不为空才能加入</span></span><br><span class="line">        <span class="keyword">if</span> (head != <span class="literal">null</span>)</span><br><span class="line">            pq.add(head);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 要新建一个结果链表，所以新建一个虚拟头节点，指针 p 用于构建结果链表</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>), p = dummy;</span><br><span class="line">    <span class="keyword">while</span> (!pq.isEmpty()) &#123;</span><br><span class="line">        <span class="comment">// 取出最小元素的节点</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> pq.poll();</span><br><span class="line">        <span class="comment">// 连接到结果链表上</span></span><br><span class="line">        p.next = cur;</span><br><span class="line">        p = p.next;</span><br><span class="line">        <span class="comment">// 如果被取出的节点后续有节点，加入到小根堆中</span></span><br><span class="line">        <span class="keyword">if</span> (cur.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            pq.add(cur.next);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回时去掉虚拟头节点</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-2">时间复杂度</h4>
-<p><span class="math inline">\(O(nlog_2k)\)</span></p>
-<p>n 为所有链表总节点数，最坏要遍历所有节点，每次加入优先级队列排序需要
-<span class="math inline">\(O(log_2k)\)</span>。</p>
-<h4 id="空间复杂度-2">空间复杂度</h4>
-<p><span class="math inline">\(O(k)\)</span></p>
-<p>优先队列的大小不会超过 k。</p>
-<hr />
-<h3 id="删除链表的倒数第-n-个结点力扣19"><a
-href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">删除链表的倒数第
-N 个结点(力扣19)</a></h3>
-<h4 id="题目描述-3">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051340584.png" alt="力扣-19-删除链表的倒数第 N 个结点" style="zoom:50%;" /></p>
-<h4 id="思路双指针-2">思路(双指针)</h4>
-<p>我们直接讲进阶的实现方式，也就是使用双指针技巧，一趟扫描实现这道题目。</p>
-<p>这道题目要用到「双指针」技巧的<strong>「快慢指针」</strong>，假设 n =
-3，我们可以先让快指针走 3
-步，然后慢指针此时从链表头结点出发，快慢指针同步前进，当快指针走到 null
-时，慢指针正好指向要删除的节点。</p>
-<p>由于要删除这个节点，我们还需准备一个虚拟头节点，以及一个指向虚拟头节点的指针(前置指针)，前置指针与慢指针同时同步前进，当慢指针指向要删除节点的时候，前置指针正好指向要删除节点的前一个，然后将前置指针的
-next 指针指向要删除节点的下一个节点即可。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051429999.gif"
-alt="力扣-19-删除链表的倒数第 N 个结点" />
-<figcaption aria-hidden="true">力扣-19-删除链表的倒数第 N
-个结点</figcaption>
-</figure>
-<h4 id="参考代码-3">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">removeNthFromEnd</span><span class="params">(ListNode head, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">// 快指针先走 n 步</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 给原链表添加一个虚拟头节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    dummy.next = head;</span><br><span class="line">    <span class="comment">// 准备前置指针和慢指针</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> dummy;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="comment">// 前置、快慢指针同步前进，当快指针为空时，慢指针就到了倒数第 n 个位置</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        pre = pre.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 删除慢指针处的节点(倒数第 n 个节点)</span></span><br><span class="line">    pre.next = slow.next; <span class="comment">// help GC</span></span><br><span class="line">    <span class="comment">// 返回时去掉表头</span></span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-3">时间复杂度</h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>最坏情况下，遍历 n 个链表节点。</p>
-<h4 id="空间复杂度-3">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级指针变量，无额外辅助空间使用</p>
-<hr />
-<h3 id="链表的中间结点力扣876"><a
-href="https://leetcode.cn/problems/middle-of-the-linked-list/">链表的中间结点(力扣876)</a></h3>
-<h4 id="题目描述-4">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051443079.png" alt="力扣-876-链表的中间结点" style="zoom:50%;" /></p>
-<h4 id="思路双指针-3">思路(双指针)</h4>
-<p>这道题用到了「双指针」技巧的
-「快慢指针」技巧，我们快慢指针分别指向链表头节点 head。</p>
-<p>快指针每次走两步，慢指针每次走一步，当快指针走到链表末尾时，慢指针正好指向链表的中点。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061630323.gif"
-alt="链表的中间节点" />
-<figcaption aria-hidden="true">链表的中间节点</figcaption>
-</figure>
-<h4 id="参考代码-4">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">middleNode</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快慢指针分别指向链表头节点 head</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="comment">// 快指针走到链表末尾时停止</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 快指针一次走两步，慢指针一次走一步</span></span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 慢指针指向链表中点</span></span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-4">时间复杂度</h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<h4 id="空间复杂度-4">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级指针变量，无额外辅助空间使用。</p>
-<hr />
-<h3 id="环形链表力扣141"><a
-href="https://leetcode.cn/problems/linked-list-cycle/">环形链表(力扣141)</a></h3>
-<h4 id="题目描述-5">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051657040.png" alt="环形链表(力扣141)" style="zoom:50%;" /></p>
-<h4 id="思路双指针-4">思路(双指针)</h4>
-<p>这道题用到的也是<strong>「快慢指针」</strong>技巧。<strong>环形链表的环一定在链表末尾，并且末尾没有
-null
-了</strong>。根据这个特点，我们使用快慢指针同向访问链表，因为速度不一致，如果有环的话，快慢指针一定会相遇；如果没有环的话，快指针一定会遇到空指针。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051715771.gif"
-alt="双指针判断链表是否有环" />
-<figcaption aria-hidden="true">双指针判断链表是否有环</figcaption>
-</figure>
-<h4 id="参考代码-5">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快慢双指针，初始指向链表头 head</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="comment">// 快指针走到末尾时停止</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 快慢指针移动</span></span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        <span class="comment">// 快慢指针相遇则有环</span></span><br><span class="line">        <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快指针走到末尾，则没有环</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-5">时间复杂度</h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>最坏情况下遍历链表 n 个节点。</p>
-<h4 id="空间复杂度-5">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>仅使用了两个指针，没有额外辅助空间。</p>
-<hr />
-<h3 id="环形链表入口节点力扣142"><a
-href="https://leetcode.cn/problems/linked-list-cycle-ii/">环形链表入口节点(力扣142)</a></h3>
-<h4 id="题目描述-6">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051730296.png" alt="环形链表入口节点(力扣142)" style="zoom:50%;" /></p>
-<p>我觉得这道题叫做「环形链表入口节点」更为贴切。</p>
-<h4 id="思路双指针-5">思路(双指针)</h4>
-<p>这道题也是使用「快慢指针」技巧，难点在于如何找到环的入口节点。我会先说如何解决这道题，理论推导过程我也会给出，如果觉得很难懂可以直接跳过，记住解题方法就可以了。</p>
-<p>解法就是使用上一题(判断链表是否有环)的方法，找到相遇节点，然后慢指针留在相遇节点，快指针回到链表头节点，之后两个指针同步逐个元素地遍历链表，当两者再次相遇的节点就是环的入口节点。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051751665.gif"
-alt="快慢指针找环入口节点" />
-<figcaption aria-hidden="true">快慢指针找环入口节点</figcaption>
-</figure>
-<p>为什么这样就能找到环的入口节点了呢？</p>
-<p>假设在一个有环链表中。快指针在环中走了 <span
-class="math inline">\(n\)</span> 圈，慢指针走了 <span
-class="math inline">\(m\)</span>
-圈，两者相遇。此时，链表头节点到环入口点距离为 <span
-class="math inline">\(x\)</span>，环入口到相遇点距离为 <span
-class="math inline">\(y\)</span>，相遇点到环入口点距离为 <span
-class="math inline">\(z\)</span>。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051801727.png"
-alt="快慢指针相遇时，入口节点为3" />
-<figcaption aria-hidden="true">快慢指针相遇时，入口节点为3</figcaption>
-</figure>
-<p>这个过程中，快指针一共走了 <span class="math inline">\(x + n(y + z) +
-y\)</span> 步，慢指针一共走了 <span class="math inline">\(x + m(y + z) +
-y\)</span> 步。</p>
-<p>快指针走的步数是慢指针的两倍，则 <span class="math display">\[
-x + n(y + z) + y = 2(x + m(y + z) + y)
-\]</span> 进一步推导 <span class="math display">\[
-x+y=(n-2m)(y+z)
-\]</span> <span class="math inline">\(y+z\)</span>
-就是环的大小，这说明<strong>从链表头经过环入口到达相遇地方经过的距离(x +
-y)等于整数倍环的大小(y + z)</strong>。</p>
-<p>那么此时，我们从头开始遍历到相遇位置(x +
-y)，从相遇位置开始在环中遍历(y +
-z)，会使用相同的步数，而<strong>双方最后都会经过入口到相遇位置这 <span
-class="math inline">\(y\)</span> 个节点，说明这 <span
-class="math inline">\(y\)</span>
-个节点它们就是重叠遍历的，那它们从入口位置就相遇了</strong>，这样就找到了入口节点。</p>
-<h4 id="参考代码-6">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 定义快慢双指针，初始化指向链表头节点 head</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head, slow = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) &#123; <span class="comment">// 相遇跳出循环</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 跳出循环有两种可能</span></span><br><span class="line">    <span class="comment">// 1. 快指针到末尾了，链表无环</span></span><br><span class="line">    <span class="comment">// 2. 链表有环，快慢指针相遇了</span></span><br><span class="line">    <span class="comment">// 情况 2</span></span><br><span class="line">    <span class="keyword">if</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        fast = head; <span class="comment">// 快指针重新指向头结点</span></span><br><span class="line">        <span class="comment">// 快慢指针同步遍历链表，再次相遇的节点就是环入口节点</span></span><br><span class="line">        <span class="keyword">while</span> (fast != slow) &#123; </span><br><span class="line">            fast = fast.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fast;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 情况 1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-6">时间复杂度</h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>最坏情况下遍历链表两次</p>
-<h4 id="空间复杂度-6">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>使用了常数个指针，没有额外辅助空间</p>
-<hr />
-<h3 id="相交链表力扣160"><a
-href="https://leetcode.cn/problems/intersection-of-two-linked-lists/">相交链表(力扣160)</a></h3>
-<h4 id="题目描述-7">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051842006.png" alt="相交链表(力扣160)" style="zoom:50%;" /></p>
-<p>这道题就是要寻找到两个链表的第一个公共节点。</p>
-<h4 id="思路双指针-6">思路(双指针)</h4>
-<p>我们使用两个指针 p1、p2 分别在链表 1、链表 2
-上同步前进，但是无法同时走到公共节点。因此，<strong>解决这道题的关键在于，如何能够让两个指针同时到达相交节点
-6。</strong></p>
-<p>两个指针的速度是一样的，那么如何才能同时到达相同点呢？那么应该要让两个指针走同样的长度。</p>
-<p>因此，两个指针一起遍历，如果 p1 先遍历完链表 1 的话，就从链表 2
-的头节点继续遍历。同样的，如果 p2 先遍历完链表 2 的话，就从链表 1
-的头节点继续遍历。也就是说，p1 和 p2 都会遍历链表 1 和链表 2。</p>
-<p>两个指针，同样的速度，走完同样的长度(链表 1 + 链表
-2)，不管两条链表有无相同节点，都能够同时到达终点。</p>
-<p>也就是说，如果有公共节点，两个指针一定会相遇，相遇节点就是第一个公共节点；如果没有公共节点，两个指针都会走到终点，此时都是
-null，也算是相等了。</p>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051844821.gif"
-alt="双指针确定两链表第一个公共节点" />
-<figcaption
-aria-hidden="true">双指针确定两链表第一个公共节点</figcaption>
-</figure>
-<h4 id="参考代码-7">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> &#123;</span><br><span class="line">    <span class="comment">// 判空</span></span><br><span class="line">    <span class="keyword">if</span> (headA == <span class="literal">null</span> || headB == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化 p1 和 p2 两个指针，分别指向两个链表头</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p1</span> <span class="operator">=</span> headA, p2 = headB;</span><br><span class="line">    <span class="keyword">while</span> (p1 != p2) &#123;</span><br><span class="line">        <span class="comment">// 如果 p1 不为空，前进一步，为空则从链表 B 头节点开始</span></span><br><span class="line">        <span class="keyword">if</span> (p1 != <span class="literal">null</span>) &#123;</span><br><span class="line">            p1 = p1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p1 = headB;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果 p2 不为空，前进一步，为空则从链表 A 头节点开始</span></span><br><span class="line">        <span class="keyword">if</span> (p2 != <span class="literal">null</span>) &#123;</span><br><span class="line">            p2 = p2.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p2 = headA;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-7">时间复杂度</h4>
-<p><span class="math inline">\(O(m+n)\)</span></p>
-<p>链表 1 和链表 2 的长度之和。</p>
-<h4 id="空间复杂度-7">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级指针变量，无额外辅助空间使用。</p>
-<hr />
-<h3 id="反转链表力扣206"><a
-href="https://leetcode.cn/problems/reverse-linked-list/">反转链表(力扣206)</a></h3>
-<h4 id="题目描述-8">题目描述</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061506639.png" alt="反转链表(力扣206)" style="zoom:50%;" /></p>
-<h4 id="思路三指针">思路(三指针)</h4>
-<p>初始化三个指针分别是 pre(黄色)、cur(红色)、nxt(绿色)。</p>
-<ul>
-<li>pre
-指针用于<strong>指向已经反转好的链表的最后一个节点</strong>，最开始没有反转，所以为空。</li>
-<li>cur
-指针<strong>指向待反转链表(原链表)的第一个节点</strong>，最开始第一个节点待反转，所以指向
-head。</li>
-<li>nxt
-指针<strong>指向待反转链表(原链表)的第二节点，用于保存链表</strong>，因为
-cur 的 next 指针指向改变后，后面的链表就失效了，所以需要保存。</li>
-</ul>
-<figure>
-<img
-src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305061651083.gif"
-alt="反转链表" />
-<figcaption aria-hidden="true">反转链表</figcaption>
-</figure>
-<h4 id="参考代码-8">参考代码</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化三个指针</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="literal">null</span>, cur = head, nxt = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">null</span>) &#123;</span><br><span class="line">        nxt = cur.next; <span class="comment">// 保存 cur 的下一个节点</span></span><br><span class="line">        cur.next = pre; <span class="comment">// 反转 </span></span><br><span class="line">        <span class="comment">// 指针后移，操作下一个未反转链表的第一个节点</span></span><br><span class="line">        pre = cur; <span class="comment">// 移动 pre 到 cur</span></span><br><span class="line">        cur = nxt; <span class="comment">// 移动 cur 到 nxt</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回反转后的头节点</span></span><br><span class="line">    <span class="keyword">return</span> pre;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="时间复杂度-8">时间复杂度</h4>
-<p><span class="math inline">\(O(n)\)</span></p>
-<p>遍历一次链表</p>
-<h4 id="空间复杂度-8">空间复杂度</h4>
-<p><span class="math inline">\(O(1)\)</span></p>
-<p>常数级指针变量，无额外辅助空间使用。</p>
-<h2 id="重排链表">重排链表</h2>
-<h3 id="题目描述-9">题目描述</h3>
-<figure>
-<img
-src="../../../../Library/Application%20Support/typora-user-images/image-20230509195905109.png"
-alt="image-20230509195905109" />
-<figcaption aria-hidden="true">image-20230509195905109</figcaption>
-</figure>
-<h2 id="更新日志">更新日志</h2>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 85%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>更新时间</th>
-<th>更新内容</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>2023.05.06</td>
-<td>发布文章，详解双指针技巧，详解 9
-道大厂常见手撕题目：合并两个有序链表、分割链表、合并 K
-个升序链表、删除链表的倒数第 N
-个节点、链表的中间节点、环形链表、环形链表的入口节点、相交链表、反转链表。</td>
-</tr>
-<tr class="even">
-<td>2023.05.09</td>
-<td>新增题目：链表的奇偶重排</td>
-</tr>
-</tbody>
-</table>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li>牛客网</li>
-<li>力扣网</li>
-<li>算法基地 - github</li>
-<li>labuladong 的算法小抄</li>
-<li>代码随想录</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-        <category>双指针</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>双指针</tag>
-        <tag>链表</tag>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析Java集合问题（一）</title>
-    <url>/article/24021d57.html</url>
-    <content><![CDATA[<p>本篇文章主要介绍了使用集合的好处、集合的框架体系。</p>
-<span id="more"></span>
-<h2 id="集合的理解和好处">集合的理解和好处</h2>
-<p>我们需要对比一下集合和数组。</p>
-<h3 id="数组的不足">数组的不足</h3>
-<ol type="1">
-<li><strong>长度开始时必须指定，而且一旦指定，就不能更改；</strong></li>
-<li><strong>保存的必须为同一类型的元素；</strong></li>
-<li><strong>使用数组进行增加/删除元素，比较麻烦。</strong></li>
-</ol>
-<p>下面，我来演示一下 Person 数组扩容。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person[] pers = <span class="keyword">new</span> <span class="title class_">Person</span>[<span class="number">1</span>]; <span class="comment">// 大小是 1</span></span><br><span class="line">pers[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 增加新的 Person 对象</span></span><br><span class="line">Person[] pers2 = <span class="keyword">new</span> <span class="title class_">Person</span>[pers.length + <span class="number">1</span>]; <span class="comment">// 新创建数组</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; pers.length; i++) &#123; <span class="comment">// 拷贝 pers 数组的元素到 pers2 中</span></span><br><span class="line">    pers2[i] = pers[i];</span><br><span class="line">&#125;</span><br><span class="line">pers2[pers2.length - <span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>(); <span class="comment">// 添加新的对象</span></span><br></pre></td></tr></table></figure>
-<p>可以看到数组扩容添加元素十分麻烦。</p>
-<h3 id="集合的优势">集合的优势</h3>
-<ol type="1">
-<li><strong>可以动态保存任意多个对象，使用比较方便；</strong></li>
-<li><strong>提供了一系列方便的操作对象的方法，如 add、remove、set、get
-等方法；</strong></li>
-<li><strong>使用集合添加、删除新元素，方便简洁。</strong></li>
-</ol>
-<p>下面，我来演示一下集合的基本使用。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">list.add(<span class="string">&quot;jack&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;tom&quot;</span>);</span><br><span class="line"></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;No1&quot;</span>, <span class="string">&quot;北京&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;No2&quot;</span>, <span class="string">&quot;上海&quot;</span>);</span><br></pre></td></tr></table></figure>
-<hr />
-<h2 id="集合的框架体系需记忆">集合的框架体系（需记忆）</h2>
-<p>Java 的集合共分为两大类，一类是单列集合，一类是双列集合，存放 k-v
-键值对。</p>
-<h3 id="collection-接口框架图单列集合">Collection
-接口框架图（单列集合）</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251443337.png" alt="Collection 接口框架图" style="zoom:60%;" /></p>
-<h3 id="map-接口框架图双列集合">Map 接口框架图（双列集合）</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251512547.png" alt="Map 接口框架图" style="zoom:80%;" /></p>
-<p><strong>注意：实线是继承（extend），虚线是实现（implements）</strong></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析Java集合问题(三)</title>
-    <url>/article/92332d0.html</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析Java集合问题(二)</title>
-    <url>/article/77d012fb.html</url>
-    <content><![CDATA[<p>本篇文章主要介绍 Collection 接口和常用方法，讲解了 Collection
-接口实现类的特点，以及两种遍历 Collection 接口元素的方法，Iterator
-遍历与增强 for 循环遍历。</p>
-<span id="more"></span>
-<h2 id="collection-接口和常用方法">Collection 接口和常用方法</h2>
-<h3 id="collection-接口实现类的特点">Collection 接口实现类的特点</h3>
-<p><code>public interface Collection&lt;E&gt; extends Iterable&lt;E&gt;</code></p>
-<ol type="1">
-<li>Collection 实现子类可以存放多个元素，每个元素可以是 Object；</li>
-<li>有些 Collection 的实现类，可以存放重复的元素，有些不可以；</li>
-<li>有些 Collection
-的实现类，有些是有序的（List），有些不是有序（Set）；</li>
-<li>Collection 接口没有直接的实现子类，是通过它的子接口 Set 和 List
-来实现的。</li>
-</ol>
-<p>下面，以 List 接口的实现类 ArrayList 为例，演示常用方法的使用。</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">方法名</th>
-<th style="text-align: center;">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><code>add</code></td>
-<td style="text-align: center;">添加单个元素</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>remove</code></td>
-<td style="text-align: center;">删除指定元素</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>contains</code></td>
-<td style="text-align: center;">判断元素是否存在</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>size</code></td>
-<td style="text-align: center;">获取集合中元素的个数</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>isEmpty</code></td>
-<td style="text-align: center;">判断集合是否为空</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>clear</code></td>
-<td style="text-align: center;">清空集合</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>addAll</code></td>
-<td style="text-align: center;">添加多个元素</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>containsAll</code></td>
-<td style="text-align: center;">判断多个元素是否都在</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>removeAll</code></td>
-<td style="text-align: center;">删除多个元素</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="comment">// add 添加单个元素</span></span><br><span class="line">list.add(<span class="string">&quot;N1&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;N2&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;N3&quot;</span>);</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// remove 删除指定元素</span></span><br><span class="line">list.remove(<span class="number">0</span>); <span class="comment">// 删除第一个元素</span></span><br><span class="line">list.remove(<span class="string">&quot;N2&quot;</span>); <span class="comment">// 删除某个指定元素</span></span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// contains 判断元素是否存在</span></span><br><span class="line">System.out.println(list.contains(<span class="string">&quot;N3&quot;</span>));</span><br><span class="line"><span class="comment">// size 获取集合中元素个数</span></span><br><span class="line">System.out.println(list.size());</span><br><span class="line"><span class="comment">// isEmpty 判断是否为空</span></span><br><span class="line">System.out.println(list.isEmpty());</span><br><span class="line"><span class="comment">// clear 清空</span></span><br><span class="line">list.clear();</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// addAll 添加多个元素</span></span><br><span class="line">ArrayList&lt;String&gt; list2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list2.add(<span class="string">&quot;N4&quot;</span>);</span><br><span class="line">list2.add(<span class="string">&quot;N5&quot;</span>);</span><br><span class="line">list.addAll(list2);</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br><span class="line"><span class="comment">// containsAll 查找多个元素是否都存在</span></span><br><span class="line">System.out.println(list.containsAll(list2));</span><br><span class="line"><span class="comment">// removeAll 删除多个元素</span></span><br><span class="line">list.add(<span class="string">&quot;N6&quot;</span>);</span><br><span class="line">list.removeAll(list2);</span><br><span class="line">System.out.println(<span class="string">&quot;list=&quot;</span> + list);</span><br></pre></td></tr></table></figure>
-<h3 id="使用-iterator迭代器遍历-collection-接口元素">使用
-Iterator（迭代器）遍历 Collection 接口元素</h3>
-<h4 id="iteratore-接口的基本介绍"><code>Iterator&lt;E&gt;</code>
-接口的基本介绍</h4>
-<ol type="1">
-<li>Iterator 对象称为迭代器，主要用于遍历 Collection 集合中的元素；</li>
-<li>所有实现了 Collection 接口的集合类都有一个 iterator()
-方法，用以返回一个实现了 Iterator
-接口的对象，即可以返回一个迭代器。</li>
-<li>Iterator 仅用于遍历集合，Iterator 本身并不存放对象。</li>
-</ol>
-<hr />
-<h4 id="迭代器的执行原理">迭代器的执行原理</h4>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251704393.png" alt="Iterator 结构" style="zoom:20%;" /></p>
-<p><strong>具体流程如下：</strong></p>
-<ol type="1">
-<li>得到一个集合的迭代器；</li>
-<li>使用 it.hasNext() 循环判断集合中是否还有下一元素；</li>
-<li>如果有元素，使用 it.next() 方法下移指针并返回下移后的集合元素。</li>
-</ol>
-<p><strong>核心代码如下：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Iterator</span> <span class="variable">iterator</span> <span class="operator">=</span> col.iterator(); <span class="comment">// 得到一个集合的迭代器</span></span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext()) &#123; <span class="comment">// hasNext() 判断是否还有下一个元素</span></span><br><span class="line">    <span class="comment">// next() 作用：1. 指针下移；2. 返回下移后集合位置上的元素</span></span><br><span class="line">	System.out.println(iterator.next()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：在调用 <code>iterator.next()</code> 方法之前必须要调用
-<code>iterator.hasNext()</code>
-进行检测。若不调用，且下一条记录无效，直接调用
-<code>iterator.next()</code> 会抛出 <code>NoSuchElementException</code>
-异常。</p>
-</blockquote>
-<hr />
-<h4 id="迭代器的使用案例">迭代器的使用案例</h4>
-<p>下面，我们来看一个迭代器的使用案例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test03</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Collection&lt;Book&gt; col = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;罗贯中&quot;</span>, <span class="number">10.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;小李飞刀&quot;</span>, <span class="string">&quot;古龙&quot;</span>, <span class="number">5.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;曹雪芹&quot;</span>, <span class="number">34.6</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1、使用迭代器遍历集合元素，快捷键 itit</span></span><br><span class="line">        <span class="type">Iterator</span> <span class="variable">it</span> <span class="operator">=</span> col.iterator(); <span class="comment">// 1. 得到 col 的迭代器</span></span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123; <span class="comment">// 2. 使用 while 循环，利用 hasNext() 判断集合是否还有其他元素</span></span><br><span class="line">            System.out.println(it.next()); <span class="comment">// 3. 返回下一个元素</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 当退出 while 循环后，这时 iterator 迭代器，指向最后的元素</span></span><br><span class="line">        <span class="comment">// it.next(); // 会报错，NoSuchElementException</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 如果希望再次遍历，需要重置迭代器</span></span><br><span class="line">        it = col.iterator();</span><br><span class="line">        System.out.println(<span class="string">&quot;===== 第二次遍历 =====&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            <span class="comment">// 编译型类型为 Object，运行时类型为 Book</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> it.next(); </span><br><span class="line">            System.out.println(<span class="string">&quot;obj=&quot;</span> + obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Book</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String author;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">double</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Book</span><span class="params">(String name, String author, <span class="type">double</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.author = author;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAuthor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAuthor</span><span class="params">(String author)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">getPrice</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPrice</span><span class="params">(<span class="type">double</span> price)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Book&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, author=&#x27;&quot;</span> + author + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, price=&quot;</span> + price +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="使用增强-for-循环遍历-collection-接口元素">使用增强 for 循环遍历
-Collection 接口元素</h3>
-<h4 id="增强-for-循环本质">增强 for 循环本质</h4>
-<p>增强 for 循环，可以代替 Iterator 迭代器，其本质就是简化版的
-Iterator，只能用于遍历集合或数组。</p>
-<h4 id="基本语法">基本语法</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (元素类型 元素名 : 集合名或数组名) &#123;</span><br><span class="line">    访问元素</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="使用案例">使用案例</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test04</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Collection&lt;Book&gt; col = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;三国演义&quot;</span>, <span class="string">&quot;罗贯中&quot;</span>, <span class="number">10.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;小李飞刀&quot;</span>, <span class="string">&quot;古龙&quot;</span>, <span class="number">5.1</span>));</span><br><span class="line">        col.add(<span class="keyword">new</span> <span class="title class_">Book</span>(<span class="string">&quot;红楼梦&quot;</span>, <span class="string">&quot;曹雪芹&quot;</span>, <span class="number">34.6</span>));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Book b : col) &#123;</span><br><span class="line">            System.out.println(b);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析并发锁问题</title>
-    <url>/article/2e7bdfc.html</url>
-    <content><![CDATA[<p>现有两个线程，A 线程打印 1、3、5、7、9，B 线程打印
-2、4、6、8、10，要求两个线程交替打印，打印结果为
-1、2、3、4、5、6、7、8、9、10。</p>
-<p>请手写上述代码。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>JUC</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>JUC</tag>
-        <tag>Synchronized</tag>
-        <tag>ReentrantLock</tag>
       </tags>
   </entry>
   <entry>
@@ -2744,6 +2718,26 @@ class="math inline">\(O(nlog_2n)\)</span>。</p>
         <tag>双指针</tag>
         <tag>链表</tag>
         <tag>牛客-TOP101</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析并发锁问题</title>
+    <url>/article/2e7bdfc.html</url>
+    <content><![CDATA[<p>现有两个线程，A 线程打印 1、3、5、7、9，B 线程打印
+2、4、6、8、10，要求两个线程交替打印，打印结果为
+1、2、3、4、5、6、7、8、9、10。</p>
+<p>请手写上述代码。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>JUC</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JUC</tag>
+        <tag>Synchronized</tag>
+        <tag>ReentrantLock</tag>
       </tags>
   </entry>
 </search>
