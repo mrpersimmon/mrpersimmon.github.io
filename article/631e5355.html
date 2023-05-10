@@ -33,6 +33,8 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051340584.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051443079.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305101601846.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305110028596.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305110034658.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051657040.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051730296.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305051842006.png">
@@ -41,7 +43,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305101025202.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305092048079.png">
 <meta property="article:published_time" content="2023-05-03T14:37:08.000Z">
-<meta property="article:modified_time" content="2023-05-10T15:39:52.794Z">
+<meta property="article:modified_time" content="2023-05-10T16:42:45.048Z">
 <meta property="article:author" content="柿子先生">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="双指针">
@@ -276,7 +278,7 @@ N 个结点(力扣19)</span></a><ol class="nav-child"><li class="nav-item nav-le
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-10 23:39:52" itemprop="dateModified" datetime="2023-05-10T23:39:52+08:00">2023-05-10</time>
+      <time title="修改时间：2023-05-11 00:42:45" itemprop="dateModified" datetime="2023-05-11T00:42:45+08:00">2023-05-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -317,14 +319,14 @@ N 个结点(力扣19)</span></a><ol class="nav-child"><li class="nav-item nav-le
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.7k</span>
+      <span>6.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>24 分钟</span>
+      <span>25 分钟</span>
     </span>
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
       <span class="post-meta-item-icon">
@@ -474,11 +476,11 @@ next 指针指向要删除节点的下一个节点即可。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305101601846.png" alt="回文链表(力扣234)" style="zoom:50%;"></p>
 <h4 id="思路双指针-4">思路(双指针)</h4>
 <p>这道题我们直接讲最优方案，也就是时间复杂度为 <span class="math inline">\(O(n)\)</span>，空间复杂度为 <span class="math inline">\(O(1)\)</span> 的解题思路。</p>
-<p>我们首先使用<strong>快慢指针寻中法</strong>找到链表的中点，然后反转后半部分的链表，然后使用「左右指针」依次比对链表节点值是否相等。</p>
-<figure>
-<img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305101627947.gif" alt="判断回文链表">
-<figcaption aria-hidden="true">判断回文链表</figcaption>
-</figure>
+<p>我们首先使用 <strong>「快慢指针寻中法」</strong> 找到链表的中点。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305110028596.png" alt="双指针寻中法" style="zoom:28%;"></p>
+<p>然后反转后半部分的链表，然后重定向「快慢指针」使用
+<strong>「左右指针技巧」</strong> 依次比对链表节点值是否相等。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305110034658.png" alt="反转链表并重定向快慢指针" style="zoom:28%;"></p>
 <h4 id="参考代码-5">参考代码</h4>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isPalindrome</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// 空链表为回文链表</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 快慢指针寻中法</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head, slow = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 中点处反转</span></span><br><span class="line">    slow = reverseList(slow); <span class="comment">// slow 现在指向右半部分的第一个节点</span></span><br><span class="line">    fast = head; <span class="comment">// fast 现在指向左半部分的第一个节点</span></span><br><span class="line">    <span class="keyword">while</span> (slow != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 比较判断节点值是否相等</span></span><br><span class="line">        <span class="keyword">if</span> (slow.val != fast.val) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="literal">null</span>, cur = head, succ = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="literal">null</span>) &#123;</span><br><span class="line">        succ = cur.next;</span><br><span class="line">        cur.next = pre;</span><br><span class="line">        pre = cur;</span><br><span class="line">        cur = succ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="时间复杂度-5">时间复杂度</h4>
@@ -725,7 +727,11 @@ cur 的 next 指针指向改变后，后面的链表就失效了，所以需要�
 <tr class="odd">
 <td>2023.05.10</td>
 <td>新增食用指南；新增题目：K
-个一组翻转链表(力扣25)、回文链表(力扣234)</td>
+个一组翻转链表(力扣25)、回文链表(力扣234)。</td>
+</tr>
+<tr class="even">
+<td>2023.05.11</td>
+<td>更新回文链表(力扣234)图示。</td>
 </tr>
 </tbody>
 </table>
