@@ -603,6 +603,36 @@ Java 虚拟机将字节转换得到的，相比较于字节流更加耗时。</l
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testFileReader1</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;mrpersimmon-1.txt&quot;</span>))) &#123;</span><br><span class="line">        <span class="type">char</span>[] cbuf = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">8</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((readLen = br.read(cbuf)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.print(<span class="keyword">new</span> <span class="title class_">String</span>(cbuf, <span class="number">0</span>, readLen));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>运行结果</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Hi,Mrpersimmon!</span><br><span class="line">欢迎你</span><br><span class="line">来到柿子博客</span><br></pre></td></tr></table></figure>
+<h2 id="字节字符缓冲流">字节/字符缓冲流</h2>
+<p>IO
+操作是很消耗性能的，缓冲流将数据加载至缓冲区，一次性读取/写入多个字节/字符，从而避免频繁的
+IO 操作，提高流的传输效率。</p>
+<p>字节缓冲流这里采用了<strong>装饰器模式</strong>来增强
+<code>InputStream</code>
+和<code>OutputStream</code>子类对象的功能。字符缓冲流同理。</p>
+<p>常见的使用方式已在上面的使用案例中给出，使用方式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;mrpersimmon-1.txt&quot;</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="字节流和字节缓冲流性能对比">字节流和字节缓冲流性能对比</h3>
+<p>字节流和字节缓冲流的性能差别主要体现在调用 <code>write(int b)</code>
+和 <code>read()</code>
+这两种一次只写入/读取一个节点的方式时。由于字节缓冲流内部有缓冲区(字节数组)，因此，<strong>字节缓冲流会先将读取到的字节存放在缓存区</strong>，大幅减少
+IO 次数，提高读取效率。</p>
+<h4 id="测试对比单字节读取">测试对比(单字节读取)</h4>
+<p>分别使用字节流和字节缓冲流的方式复制一个 207 MB 的 PDF
+文件，查看耗时对比。</p>
+<h4 id="代码-1">代码</h4>
+<ol type="1">
+<li>使用字节流复制 PDF 文件</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">copyFileByStream</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;使用字节流复制 PDF 文件测试开始&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录开始时间</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">srcPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes.pdf&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">destPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes-stream.pdf&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(srcPath);</span><br><span class="line">         <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(destPath)) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">content</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((content = fis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">            fos.write(content);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录结束时间</span></span><br><span class="line">    System.out.println(<span class="string">&quot;使用字节流复制 PDF 文件总耗时 &quot;</span> + (endTime - startTime) + <span class="string">&quot; 毫秒&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2" type="1">
+<li>使用缓冲字节流复制 PDF 文件</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">copyFileByBufferStream</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;使用缓冲字节流复制 PDF 文件测试开始&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录开始时间</span></span><br><span class="line">    <span class="comment">// 文件大小 207 MB</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">srcPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes.pdf&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">destPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes-buffer-stream.pdf&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(srcPath));</span><br><span class="line">         <span class="type">BufferedOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(destPath))) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">content</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((content = bis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">            bos.write(content);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录结束时间</span></span><br><span class="line">    System.out.println(<span class="string">&quot;使用缓冲字节流复制 PDF 文件总耗时 &quot;</span> + (endTime - startTime) + <span class="string">&quot; 毫秒&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结果对比">结果对比</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">使用字节流复制 PDF 文件总耗时 1052141 毫秒</span><br><span class="line"></span><br><span class="line">使用缓冲字节流复制 PDF 文件总耗时 6521 毫秒</span><br><span class="line"></span><br><span class="line">使用缓冲字节流+字节数组复制 PDF 文件总耗时 391 毫秒</span><br><span class="line"></span><br><span class="line">使用字节流 + 字节数组复制 PDF 文件总耗时 478 毫秒</span><br></pre></td></tr></table></figure>
+<p>可以看到，两者耗时差别绝大，相较于字节流，使用缓冲字节流节省约 161
+倍的耗时。</p>
 ]]></content>
       <categories>
         <category>Java</category>
@@ -967,14 +997,31 @@ for 循环</strong>，比如 Dijkstra
 ]]></content>
       <categories>
         <category>算法</category>
-        <category>算法框架</category>
         <category>二叉树</category>
+        <category>算法框架</category>
       </categories>
       <tags>
         <tag>算法框架</tag>
         <tag>二叉树</tag>
         <tag>递归</tag>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从大厂面试题谈CompletableFuture的使用与案例说明</title>
+    <url>/article/d299c68e.html</url>
+    <content><![CDATA[<p>谈一谈 Future 和 CompletableFuture 的区别，有使用过 CompletableFuture
+吗？</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>JUC</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JUC</tag>
+        <tag>CompletableFuture</tag>
       </tags>
   </entry>
   <entry>
@@ -1227,31 +1274,14 @@ DFS 算法，没有 BFS 算法的性能的优势。</p>
 ]]></content>
       <categories>
         <category>算法</category>
-        <category>算法框架</category>
         <category>二叉树</category>
+        <category>算法框架</category>
       </categories>
       <tags>
         <tag>算法框架</tag>
         <tag>二叉树</tag>
         <tag>递归</tag>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从大厂面试题谈CompletableFuture的使用与案例说明</title>
-    <url>/article/d299c68e.html</url>
-    <content><![CDATA[<p>谈一谈 Future 和 CompletableFuture 的区别，有使用过 CompletableFuture
-吗？</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>JUC</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>JUC</tag>
-        <tag>CompletableFuture</tag>
       </tags>
   </entry>
   <entry>
@@ -1702,56 +1732,6 @@ class="math inline">\(O(n^2)\)</span></p>
 ]]></content>
   </entry>
   <entry>
-    <title>字符串</title>
-    <url>/article/fc81fbfd.html</url>
-    <content><![CDATA[<h3 id="相似解法题目多元组">相似解法题目多元组</h3>
-<ul>
-<li><strong>模拟：</strong>&lt;BM86 大数加法，BM11 链表相加(二)&gt;</li>
-</ul>
-<span id="more"></span>
-<h3 id="bm86-大数相加">BM86 大数相加</h3>
-<h4 id="描述">描述</h4>
-<p>以字符串的形式读入两个数字，编写一个函数计算它们的和，以字符串形式返回。</p>
-<p>例如，输入 "1", "99"，返回 "100"。</p>
-<h4 id="思路">思路</h4>
-<p>模拟</p>
-<p>大整数相加，可以按照整数相加的方式，从个位开始，逐渐向上累加。在字符串中就是从两个字符串的末尾开始相加。</p>
-<h4 id="f1模拟法">F1：模拟法</h4>
-<h5 id="步骤">步骤</h5>
-<p>做法与 <strong>BM11
-链表相加（二）</strong>几乎一致。不同的地方，一个是字符串可以直接从后向前遍历；二是在于最后的进位需要在返回前进行判断，再决定是否给字符串添加进位'1'。</p>
-<ol type="1">
-<li>若是其中一个字符串为空，直接返回另一个，不用加了。</li>
-<li>设置两个用于遍历各自字符串的下标 i，j 以及用于遍历辅助字符数组的下标
-p，取最大的字符串长度作为辅助字符数组的长度，设置进位 carry = 0。</li>
-<li>从后开始遍历两个字符串，直到两个下标都为 -1。每次取出非 -1
-的下标的字符转换成数字，如果是 -1 就设置为 0，将两个转换好的数字与carry
-相加，然后查看是否进位，将进位后的结果（对 10
-取模）放入对应辅助字符数组内，并继续向前遍历。</li>
-<li>遍历结束后，将辅助字符数组转换成字符串，如果存在进位，则直接在字符串前增加一个字符
-'1'。</li>
-</ol>
-<h5 id="代码">代码</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">solve</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 其中一个为空，返回另一个</span></span><br><span class="line">    <span class="keyword">if</span> (s.length() &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    <span class="keyword">if</span> (t.length() &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    <span class="comment">// 2. 设置辅助参数</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">carry</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 设置进位</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> s.length() - <span class="number">1</span>; <span class="comment">// s 下标</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> t.length() - <span class="number">1</span>; <span class="comment">// t 下标</span></span><br><span class="line">    <span class="type">char</span>[] help = <span class="keyword">new</span> <span class="title class_">char</span>[Math.max(i, j) + <span class="number">1</span>]; <span class="comment">// 取最大的字符串长度作为辅助字符数组的长度</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">p</span> <span class="operator">=</span> help.length - <span class="number">1</span>; <span class="comment">// 辅助数组下标</span></span><br><span class="line">    <span class="comment">// 3. 只要某个字符串还有字符</span></span><br><span class="line">    <span class="keyword">while</span> (i != -<span class="number">1</span> || j != -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 下标不为 -1，取出字符并转换成数字，否则为 0。</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> i == -<span class="number">1</span> ? <span class="number">0</span> : s.charAt(i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> j == -<span class="number">1</span> ? <span class="number">0</span> : t.charAt(j) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="comment">// 相加</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> a + b + carry;</span><br><span class="line">        <span class="comment">// 获取进位</span></span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">        <span class="comment">// 获取放入辅助数组的值，取模去掉十位</span></span><br><span class="line">        sum %= <span class="number">10</span>;</span><br><span class="line">        <span class="comment">// 将数值转换成字符</span></span><br><span class="line">        help[p] = (<span class="type">char</span>)(sum + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        p--;</span><br><span class="line">        <span class="comment">// 下标不为 -1，向前移动</span></span><br><span class="line">        <span class="keyword">if</span> (i != -<span class="number">1</span>)</span><br><span class="line">            i--;</span><br><span class="line">        <span class="keyword">if</span> (j != -<span class="number">1</span>)</span><br><span class="line">            j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4. 将辅助字符数组转换成字符串</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">output</span> <span class="operator">=</span> String.valueOf(help);</span><br><span class="line">    <span class="comment">// 如果进位还存在，在字符串前增加一个字符 &#x27;1&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> (carry == <span class="number">1</span>)</span><br><span class="line">        output = <span class="string">&#x27;1&#x27;</span> + output;</span><br><span class="line">    <span class="keyword">return</span> output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="时间复杂度">时间复杂度</h5>
-<p><span class="math inline">\(O(max(m,n))\)</span></p>
-<p>其中 m 与 n 分别为两个字符串的长度。</p>
-<h5 id="空间复杂度">空间复杂度</h5>
-<p><span class="math inline">\(O(max(m,n))\)</span></p>
-<p>其中 m 与 n 分别为两个字符串的长度，用于辅助字符数组。</p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-        <category>Simulation</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>NowCoder-TOP101</tag>
-        <tag>String</tag>
-        <tag>Simulation</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基于算法(4th)单词查找树的改进</title>
     <url>/article/84520ef4.html</url>
     <content><![CDATA[<p>Trie
@@ -1950,6 +1930,56 @@ href="https://leetcode.cn/problems/map-sum-pairs/">力扣-677-键值映射</a></
         <tag>算法框架</tag>
         <tag>算法</tag>
         <tag>Trie</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字符串</title>
+    <url>/article/fc81fbfd.html</url>
+    <content><![CDATA[<h3 id="相似解法题目多元组">相似解法题目多元组</h3>
+<ul>
+<li><strong>模拟：</strong>&lt;BM86 大数加法，BM11 链表相加(二)&gt;</li>
+</ul>
+<span id="more"></span>
+<h3 id="bm86-大数相加">BM86 大数相加</h3>
+<h4 id="描述">描述</h4>
+<p>以字符串的形式读入两个数字，编写一个函数计算它们的和，以字符串形式返回。</p>
+<p>例如，输入 "1", "99"，返回 "100"。</p>
+<h4 id="思路">思路</h4>
+<p>模拟</p>
+<p>大整数相加，可以按照整数相加的方式，从个位开始，逐渐向上累加。在字符串中就是从两个字符串的末尾开始相加。</p>
+<h4 id="f1模拟法">F1：模拟法</h4>
+<h5 id="步骤">步骤</h5>
+<p>做法与 <strong>BM11
+链表相加（二）</strong>几乎一致。不同的地方，一个是字符串可以直接从后向前遍历；二是在于最后的进位需要在返回前进行判断，再决定是否给字符串添加进位'1'。</p>
+<ol type="1">
+<li>若是其中一个字符串为空，直接返回另一个，不用加了。</li>
+<li>设置两个用于遍历各自字符串的下标 i，j 以及用于遍历辅助字符数组的下标
+p，取最大的字符串长度作为辅助字符数组的长度，设置进位 carry = 0。</li>
+<li>从后开始遍历两个字符串，直到两个下标都为 -1。每次取出非 -1
+的下标的字符转换成数字，如果是 -1 就设置为 0，将两个转换好的数字与carry
+相加，然后查看是否进位，将进位后的结果（对 10
+取模）放入对应辅助字符数组内，并继续向前遍历。</li>
+<li>遍历结束后，将辅助字符数组转换成字符串，如果存在进位，则直接在字符串前增加一个字符
+'1'。</li>
+</ol>
+<h5 id="代码">代码</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">solve</span><span class="params">(String s, String t)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 其中一个为空，返回另一个</span></span><br><span class="line">    <span class="keyword">if</span> (s.length() &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    <span class="keyword">if</span> (t.length() &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    <span class="comment">// 2. 设置辅助参数</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">carry</span> <span class="operator">=</span> <span class="number">0</span>; <span class="comment">// 设置进位</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> s.length() - <span class="number">1</span>; <span class="comment">// s 下标</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> t.length() - <span class="number">1</span>; <span class="comment">// t 下标</span></span><br><span class="line">    <span class="type">char</span>[] help = <span class="keyword">new</span> <span class="title class_">char</span>[Math.max(i, j) + <span class="number">1</span>]; <span class="comment">// 取最大的字符串长度作为辅助字符数组的长度</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">p</span> <span class="operator">=</span> help.length - <span class="number">1</span>; <span class="comment">// 辅助数组下标</span></span><br><span class="line">    <span class="comment">// 3. 只要某个字符串还有字符</span></span><br><span class="line">    <span class="keyword">while</span> (i != -<span class="number">1</span> || j != -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 下标不为 -1，取出字符并转换成数字，否则为 0。</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> i == -<span class="number">1</span> ? <span class="number">0</span> : s.charAt(i) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> j == -<span class="number">1</span> ? <span class="number">0</span> : t.charAt(j) - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="comment">// 相加</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> a + b + carry;</span><br><span class="line">        <span class="comment">// 获取进位</span></span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">        <span class="comment">// 获取放入辅助数组的值，取模去掉十位</span></span><br><span class="line">        sum %= <span class="number">10</span>;</span><br><span class="line">        <span class="comment">// 将数值转换成字符</span></span><br><span class="line">        help[p] = (<span class="type">char</span>)(sum + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        p--;</span><br><span class="line">        <span class="comment">// 下标不为 -1，向前移动</span></span><br><span class="line">        <span class="keyword">if</span> (i != -<span class="number">1</span>)</span><br><span class="line">            i--;</span><br><span class="line">        <span class="keyword">if</span> (j != -<span class="number">1</span>)</span><br><span class="line">            j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4. 将辅助字符数组转换成字符串</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">output</span> <span class="operator">=</span> String.valueOf(help);</span><br><span class="line">    <span class="comment">// 如果进位还存在，在字符串前增加一个字符 &#x27;1&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> (carry == <span class="number">1</span>)</span><br><span class="line">        output = <span class="string">&#x27;1&#x27;</span> + output;</span><br><span class="line">    <span class="keyword">return</span> output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="时间复杂度">时间复杂度</h5>
+<p><span class="math inline">\(O(max(m,n))\)</span></p>
+<p>其中 m 与 n 分别为两个字符串的长度。</p>
+<h5 id="空间复杂度">空间复杂度</h5>
+<p><span class="math inline">\(O(max(m,n))\)</span></p>
+<p>其中 m 与 n 分别为两个字符串的长度，用于辅助字符数组。</p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+        <category>Simulation</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>NowCoder-TOP101</tag>
+        <tag>String</tag>
+        <tag>Simulation</tag>
       </tags>
   </entry>
   <entry>
@@ -2263,51 +2293,6 @@ href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
         <tag>算法框架</tag>
         <tag>算法</tag>
         <tag>二分搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析Java集合问题（一）</title>
-    <url>/article/24021d57.html</url>
-    <content><![CDATA[<p>本篇文章主要介绍了使用集合的好处、集合的框架体系。</p>
-<span id="more"></span>
-<h2 id="集合的理解和好处">集合的理解和好处</h2>
-<p>我们需要对比一下集合和数组。</p>
-<h3 id="数组的不足">数组的不足</h3>
-<ol type="1">
-<li><strong>长度开始时必须指定，而且一旦指定，就不能更改；</strong></li>
-<li><strong>保存的必须为同一类型的元素；</strong></li>
-<li><strong>使用数组进行增加/删除元素，比较麻烦。</strong></li>
-</ol>
-<p>下面，我来演示一下 Person 数组扩容。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person[] pers = <span class="keyword">new</span> <span class="title class_">Person</span>[<span class="number">1</span>]; <span class="comment">// 大小是 1</span></span><br><span class="line">pers[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 增加新的 Person 对象</span></span><br><span class="line">Person[] pers2 = <span class="keyword">new</span> <span class="title class_">Person</span>[pers.length + <span class="number">1</span>]; <span class="comment">// 新创建数组</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; pers.length; i++) &#123; <span class="comment">// 拷贝 pers 数组的元素到 pers2 中</span></span><br><span class="line">    pers2[i] = pers[i];</span><br><span class="line">&#125;</span><br><span class="line">pers2[pers2.length - <span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>(); <span class="comment">// 添加新的对象</span></span><br></pre></td></tr></table></figure>
-<p>可以看到数组扩容添加元素十分麻烦。</p>
-<h3 id="集合的优势">集合的优势</h3>
-<ol type="1">
-<li><strong>可以动态保存任意多个对象，使用比较方便；</strong></li>
-<li><strong>提供了一系列方便的操作对象的方法，如 add、remove、set、get
-等方法；</strong></li>
-<li><strong>使用集合添加、删除新元素，方便简洁。</strong></li>
-</ol>
-<p>下面，我来演示一下集合的基本使用。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">list.add(<span class="string">&quot;jack&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;tom&quot;</span>);</span><br><span class="line"></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;No1&quot;</span>, <span class="string">&quot;北京&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;No2&quot;</span>, <span class="string">&quot;上海&quot;</span>);</span><br></pre></td></tr></table></figure>
-<hr />
-<h2 id="集合的框架体系需记忆">集合的框架体系（需记忆）</h2>
-<p>Java 的集合共分为两大类，一类是单列集合，一类是双列集合，存放 k-v
-键值对。</p>
-<h3 id="collection-接口框架图单列集合">Collection
-接口框架图（单列集合）</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251443337.png" alt="Collection 接口框架图" style="zoom:60%;" /></p>
-<h3 id="map-接口框架图双列集合">Map 接口框架图（双列集合）</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251512547.png" alt="Map 接口框架图" style="zoom:80%;" /></p>
-<p><strong>注意：实线是继承（extend），虚线是实现（implements）</strong></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>集合</tag>
       </tags>
   </entry>
   <entry>
@@ -2779,6 +2764,51 @@ alt="双指针同向遍历" />
     <title>深入剖析Java集合问题(三)</title>
     <url>/article/92332d0.html</url>
     <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析Java集合问题（一）</title>
+    <url>/article/24021d57.html</url>
+    <content><![CDATA[<p>本篇文章主要介绍了使用集合的好处、集合的框架体系。</p>
+<span id="more"></span>
+<h2 id="集合的理解和好处">集合的理解和好处</h2>
+<p>我们需要对比一下集合和数组。</p>
+<h3 id="数组的不足">数组的不足</h3>
+<ol type="1">
+<li><strong>长度开始时必须指定，而且一旦指定，就不能更改；</strong></li>
+<li><strong>保存的必须为同一类型的元素；</strong></li>
+<li><strong>使用数组进行增加/删除元素，比较麻烦。</strong></li>
+</ol>
+<p>下面，我来演示一下 Person 数组扩容。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person[] pers = <span class="keyword">new</span> <span class="title class_">Person</span>[<span class="number">1</span>]; <span class="comment">// 大小是 1</span></span><br><span class="line">pers[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 增加新的 Person 对象</span></span><br><span class="line">Person[] pers2 = <span class="keyword">new</span> <span class="title class_">Person</span>[pers.length + <span class="number">1</span>]; <span class="comment">// 新创建数组</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; pers.length; i++) &#123; <span class="comment">// 拷贝 pers 数组的元素到 pers2 中</span></span><br><span class="line">    pers2[i] = pers[i];</span><br><span class="line">&#125;</span><br><span class="line">pers2[pers2.length - <span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">Person</span>(); <span class="comment">// 添加新的对象</span></span><br></pre></td></tr></table></figure>
+<p>可以看到数组扩容添加元素十分麻烦。</p>
+<h3 id="集合的优势">集合的优势</h3>
+<ol type="1">
+<li><strong>可以动态保存任意多个对象，使用比较方便；</strong></li>
+<li><strong>提供了一系列方便的操作对象的方法，如 add、remove、set、get
+等方法；</strong></li>
+<li><strong>使用集合添加、删除新元素，方便简洁。</strong></li>
+</ol>
+<p>下面，我来演示一下集合的基本使用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">list.add(<span class="string">&quot;jack&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;tom&quot;</span>);</span><br><span class="line"></span><br><span class="line">HashMap&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">map.put(<span class="string">&quot;No1&quot;</span>, <span class="string">&quot;北京&quot;</span>);</span><br><span class="line">map.put(<span class="string">&quot;No2&quot;</span>, <span class="string">&quot;上海&quot;</span>);</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="集合的框架体系需记忆">集合的框架体系（需记忆）</h2>
+<p>Java 的集合共分为两大类，一类是单列集合，一类是双列集合，存放 k-v
+键值对。</p>
+<h3 id="collection-接口框架图单列集合">Collection
+接口框架图（单列集合）</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251443337.png" alt="Collection 接口框架图" style="zoom:60%;" /></p>
+<h3 id="map-接口框架图双列集合">Map 接口框架图（双列集合）</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251512547.png" alt="Map 接口框架图" style="zoom:80%;" /></p>
+<p><strong>注意：实线是继承（extend），虚线是实现（implements）</strong></p>
 ]]></content>
       <categories>
         <category>Java</category>
