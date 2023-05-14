@@ -26,15 +26,23 @@
 <meta property="og:site_name" content="柿子先生的博客">
 <meta property="og:description" content="Java IO 一直以来是大厂面试题中的高频考点，本文将从 Java IO 基础使用说起，讲解文件、字节流、字符流、缓冲流、打印流、随机访问流等基础内容，再深入到 Java IO 模型与设计模式，从而构建起对 Java IO 的全面认知。 我相信，友好的讨论交流会让彼此快速进步！文章难免有疏漏之处，十分欢迎大家在评论区中批评指正。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132234784.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131514442.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132235515.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132236058.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131437368.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132237922.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132237936.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132234849.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305141552401.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305141606118.png">
 <meta property="article:published_time" content="2023-05-12T13:09:43.000Z">
-<meta property="article:modified_time" content="2023-05-13T08:13:34.754Z">
+<meta property="article:modified_time" content="2023-05-14T08:16:21.459Z">
 <meta property="article:author" content="柿子先生">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="IO">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131514442.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132234784.png">
 
 
 <link rel="canonical" href="https://www.mrpersimmon.top/article/4aa40f26.html">
@@ -143,7 +151,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">创建文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">常用构造方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">获取文件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4"><span class="nav-number">1.3.</span> <span class="nav-text">目录操作与文件删除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#io-%E6%B5%81%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">IO 流概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E6%B5%81"><span class="nav-number">3.</span> <span class="nav-text">字节流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#outputstream%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><span class="nav-number">3.1.</span> <span class="nav-text">OutputStream(字节输出流)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fileoutputstream"><span class="nav-number">3.1.2.</span> <span class="nav-text">FileOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-3"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dataoutputstream"><span class="nav-number">3.1.3.</span> <span class="nav-text">DataOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-4"><span class="nav-number">3.1.3.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objectoutputstream"><span class="nav-number">3.1.4.</span> <span class="nav-text">ObjectOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-5"><span class="nav-number">3.1.4.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inputstream%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81"><span class="nav-number">3.2.</span> <span class="nav-text">InputStream(字节输入流)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="nav-number">3.2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fileinputstream"><span class="nav-number">3.2.2.</span> <span class="nav-text">FileInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-6"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#datainputstream"><span class="nav-number">3.2.3.</span> <span class="nav-text">DataInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-7"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objectinputstream"><span class="nav-number">3.2.4.</span> <span class="nav-text">ObjectInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-8"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><span class="nav-number">4.</span> <span class="nav-text">字符流</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">创建文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">常用构造方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">获取文件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4"><span class="nav-number">1.3.</span> <span class="nav-text">目录操作与文件删除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#io-%E6%B5%81%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">IO 流概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E6%B5%81"><span class="nav-number">3.</span> <span class="nav-text">字节流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#outputstream%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><span class="nav-number">3.1.</span> <span class="nav-text">OutputStream(字节输出流)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fileoutputstream"><span class="nav-number">3.1.2.</span> <span class="nav-text">FileOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-3"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dataoutputstream"><span class="nav-number">3.1.3.</span> <span class="nav-text">DataOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-4"><span class="nav-number">3.1.3.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objectoutputstream"><span class="nav-number">3.1.4.</span> <span class="nav-text">ObjectOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-5"><span class="nav-number">3.1.4.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inputstream%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81"><span class="nav-number">3.2.</span> <span class="nav-text">InputStream(字节输入流)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="nav-number">3.2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fileinputstream"><span class="nav-number">3.2.2.</span> <span class="nav-text">FileInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-6"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#datainputstream"><span class="nav-number">3.2.3.</span> <span class="nav-text">DataInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-7"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objectinputstream"><span class="nav-number">3.2.4.</span> <span class="nav-text">ObjectInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-8"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B"><span class="nav-number">3.3.</span> <span class="nav-text">综合案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">3.3.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">3.3.2.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><span class="nav-number">4.</span> <span class="nav-text">字符流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%B5%81%E4%B8%8E%E5%AD%97%E8%8A%82%E6%B5%81%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">4.1.</span> <span class="nav-text">字符流与字节流的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#writer%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><span class="nav-number">4.2.</span> <span class="nav-text">Writer(字符输出流)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-3"><span class="nav-number">4.2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#filewriter"><span class="nav-number">4.2.2.</span> <span class="nav-text">FileWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-9"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reader%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81"><span class="nav-number">4.3.</span> <span class="nav-text">Reader(字符输入流)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-4"><span class="nav-number">4.3.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#filereader"><span class="nav-number">4.3.2.</span> <span class="nav-text">FileReader</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B-10"><span class="nav-number">4.3.2.1.</span> <span class="nav-text">使用案例</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -259,7 +267,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-13 16:13:34" itemprop="dateModified" datetime="2023-05-13T16:13:34+08:00">2023-05-13</time>
+      <time title="修改时间：2023-05-14 16:16:21" itemprop="dateModified" datetime="2023-05-14T16:16:21+08:00">2023-05-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -300,14 +308,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3k</span>
+      <span>4.2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>11 分钟</span>
+      <span>15 分钟</span>
     </span>
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
       <span class="post-meta-item-icon">
@@ -542,6 +550,8 @@ IO 流。</p>
 <h4 id="fileoutputstream">FileOutputStream</h4>
 <p><code>FileOutputStream</code>
 是最常用的字节输出流子类，可直接指定文件路径，可以直接输出单字节数据，也可以输出指定的字节数组。</p>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132234784.png" style="zoom:50%;"></p>
 <p><strong>常用构造函数</strong></p>
 <p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131514442.png" alt="FileOutputStream 构造函数" style="zoom:50%;"></p>
 <p><code>append</code> 为 true 时，表明追加写入。</p>
@@ -564,11 +574,13 @@ Hi,Mrpersimmon!</strong></p>
 <h4 id="dataoutputstream">DataOutputStream</h4>
 <p><strong><code>DataOutputStream</code></strong>
 用于写入指定类型数据，不能单独使用，必须结合
-<code>FileOutputStream</code>。</p>
+<code>FileOutputStream</code>，构造函数源码如下：</p>
 <figure>
 <img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131529547.png" alt="DataOutputStream 构造函数">
 <figcaption aria-hidden="true">DataOutputStream 构造函数</figcaption>
 </figure>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132235515.png" style="zoom:50%;"></p>
 <h5 id="使用案例-4">使用案例</h5>
 <p>需求：向 mrpersimmon2.txt 写入 Hi,Mrpersimmon!</p>
 <p>代码：</p>
@@ -580,6 +592,8 @@ Hi,Mrpersimmon!</strong></p>
 <p><code>ObjectOutputStream</code>
 用于将对象写入到输出流(序列化)。与之相对反地，<code>ObjectInputStream</code>
 用于从输入流中读取 Java 对象(反序列化)。</p>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132236103.png"></p>
 <p><strong>什么是序列化和反序列化？</strong>序列化就是在保存数据时，保存数据的值和数据类型；反序列化就是在恢复数据时，恢复数据的值和数据类型。</p>
 <p><strong>如何让类支持序列化机制呢？</strong>必须让类实现
 <code>Serializable</code> 接口(一个标记接口，没有方法)或者
@@ -689,6 +703,8 @@ Hi,Mrpersimmon!</strong></p>
 <h4 id="fileinputstream">FileInputStream</h4>
 <p><code>FileInputStream</code>
 是一个比较常用的字节输入流子类，可<strong>直接指定文件路径</strong>，可以<strong>直接读取单字节数据</strong>，也可以<strong>读取至字节数组中</strong>。</p>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132236058.png" style="zoom:50%;"></p>
 <h5 id="使用案例-6">使用案例</h5>
 <p><strong>需求：读取 mrpersimmon.txt
 文件，并将文件内容显示到控制台中。</strong></p>
@@ -716,8 +732,10 @@ Hi,Mrpersimmon!</strong></p>
 <h4 id="datainputstream">DataInputStream</h4>
 <p><code>DataInputStream</code>
 用于读取指定类型数据，不能单独使用，必须结合 <code>InputStream</code>
-的一个实现类使用。</p>
+的一个实现类使用，构造函数源码如下：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131437368.png" alt="DataInputStream 源码中的构造函数" style="zoom:50%;"></p>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132237922.png" style="zoom:50%;"></p>
 <h5 id="使用案例-7">使用案例</h5>
 <p><strong>需求：读取 mrpersimmon2.txt
 文件，并将文件内容显示到控制台中。</strong></p>
@@ -728,13 +746,182 @@ Hi,Mrpersimmon!</strong></p>
 <h4 id="objectinputstream">ObjectInputStream</h4>
 <p><code>ObjectInputStream</code> 用于从输入流中读取 Java
 对象（反序列化）。</p>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132237936.png" style="zoom:50%;"></p>
 <h5 id="使用案例-8">使用案例</h5>
 <p><strong>需求：读取 mrpersimmon3.txt 中的 Blog 对象。</strong></p>
 <p>代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testObjectInputStream</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;mrpersimmon3.txt&quot;</span>))) &#123;</span><br><span class="line">        System.out.println(ois.readObject());</span><br><span class="line">        System.out.println(<span class="string">&quot;数据读取完毕(反序列化完成)&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行结果</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Blog&#123;name=&#x27;mrpersimmon&#x27;, url=&#x27;https://www.mrpersimmon.top&#x27;&#125;</span><br><span class="line">数据读取完毕(反序列化完成)</span><br></pre></td></tr></table></figure>
+<h3 id="综合案例">综合案例</h3>
+<h4 id="需求">需求</h4>
+<p>完成图片的拷贝。</p>
+<h4 id="代码">代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testCopyPic</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">srcPicPath</span> <span class="operator">=</span> <span class="string">&quot;data.png&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">destPicPath</span> <span class="operator">=</span> <span class="string">&quot;data2.png&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(srcPicPath));</span><br><span class="line">         <span class="type">BufferedOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(destPicPath))) &#123;</span><br><span class="line">        <span class="type">byte</span>[] buf = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((readLen = bis.read(buf)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// bis 输入流从源图片文件读取数据后，写入到 bos 输出流的目标文件地址</span></span><br><span class="line">            bos.write(buf, <span class="number">0</span>, readLen);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="字符流">字符流</h2>
+<h3 id="字符流与字节流的对比">字符流与字节流的对比</h3>
+<p><strong>为什么 I/O
+流操作要分为字节流操作和字符流操作呢？</strong></p>
+<ol type="1">
+<li>不管是文件读写还是网络发送接收，信息的最小存储单元都是字节。因此，字节流是必要的。而字符流是由
+Java 虚拟机将字节转换得到的，相比较于字节流更加耗时。</li>
+<li>字节流在不知道编码类型的情况下很容易出现乱码问题，因此我们需要字符流来读取文本文件。</li>
+</ol>
+<p><strong>何时使用字节流，何时使用字符流？</strong></p>
+<p>如果是音频文件、图片等媒体文件使用用字节流会有更好的性能优势；</p>
+<p>如果涉及到字符的话(如，文本文件等)使用字符流比较好。</p>
+<p><strong>常用字符编码所占字节数？</strong></p>
+<p>字符流默认采用的是 <code>Unicode</code>
+编码，我们可以通过构造方法自定义编码。</p>
+<p><code>utf8</code>，英文占 1 字节，中文占 3 字节；</p>
+<p><code>unicode</code>：任何字符都占 2 个字节；</p>
+<p><code>gbk</code>：英文占 1 字节，中文占 2 字节。</p>
+<h3 id="writer字符输出流">Writer(字符输出流)</h3>
+<p><code>Writer</code>用于将内存数据(字符信息)写入到文件，<code>java.io.Writer</code>抽象类是所有字符输出流的父类。</p>
+<h4 id="常用方法-3">常用方法</h4>
+<table>
+<colgroup>
+<col style="width: 5%">
+<col style="width: 35%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>返回值</th>
+<th>方法名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>void</td>
+<td>write(int c)</td>
+<td>写入单个字符。</td>
+</tr>
+<tr class="even">
+<td>void</td>
+<td>write(char[] cbuf)</td>
+<td>写入字符数组
+<code>cbuf</code>，等价于<code>write(cbuf, 0, cbuf.length)</code>。</td>
+</tr>
+<tr class="odd">
+<td>void</td>
+<td>write(char[] cbuf, int off, int len)</td>
+<td>在<code>write(char[] cbuf)</code> 方法的基础上增加了
+<code>off</code> 参数（偏移量）和 <code>len</code>
+参数（要读取的最大字符数）。</td>
+</tr>
+<tr class="even">
+<td>void</td>
+<td>write(String str)</td>
+<td>写入字符串，等价于 <code>write(str, 0, str.length())</code> 。</td>
+</tr>
+<tr class="odd">
+<td>void</td>
+<td>write(String str, int off, int len)</td>
+<td>在<code>write(String str)</code> 方法的基础上增加了 <code>off</code>
+参数（偏移量）和 <code>len</code> 参数（要读取的最大字符数）。</td>
+</tr>
+<tr class="even">
+<td>Writer</td>
+<td>append(CharSequence csq)</td>
+<td>将指定的字符序列附加到指定的 <code>Writer</code> 对象并返回该
+<code>Writer</code> 对象。</td>
+</tr>
+<tr class="odd">
+<td>Writer</td>
+<td>append(char c)</td>
+<td>将指定的字符附加到指定的 <code>Writer</code> 对象并返回该
+<code>Writer</code> 对象.</td>
+</tr>
+<tr class="even">
+<td>void</td>
+<td>flush()</td>
+<td>刷新此输出流并强制写出所有缓冲的输出字符。</td>
+</tr>
+<tr class="odd">
+<td>void</td>
+<td>close()</td>
+<td>关闭输出流释放相关的系统资源。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="filewriter">FileWriter</h4>
+<p><code>OutputStreamWriter</code> 是字符流转换为字节流的桥梁，其子类
+<code>FileWriter</code>
+是基于该基础上的封装，可以直接将字符写入到文件。</p>
+<p>类图如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132234849.png" style="zoom:50%;"></p>
+<h5 id="使用案例-9">使用案例</h5>
+<p><strong>代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testFileWriter</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> <span class="string">&quot;mrpersimmon-1.txt&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedWriter</span> <span class="variable">bw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">FileWriter</span>(filePath))) &#123;</span><br><span class="line">        bw.write(<span class="string">&quot;Hi,Mrpersimmon!&quot;</span>);</span><br><span class="line">        bw.write(<span class="string">&quot;\n&quot;</span>); <span class="comment">// 添加换行符</span></span><br><span class="line">        bw.write(<span class="string">&quot;欢迎你来到柿子博客&quot;</span>.toCharArray(), <span class="number">0</span>, <span class="number">3</span>); <span class="comment">// toCharArray 可以将字符串转换成字符数组</span></span><br><span class="line">        bw.write(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        bw.write(<span class="string">&quot;欢迎你来到柿子博客&quot;</span>, <span class="number">3</span>, <span class="number">6</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips</strong></p>
+<ol type="1">
+<li>FileWriter 要和 BufferedWriter 一起使用，性能更好；</li>
+<li>一定要关闭输出流或者 flush ，否则无法写入到文件中。</li>
+</ol>
+</blockquote>
+<p><strong>运行结果</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305141552401.png" style="zoom:50%;"></p>
+<h3 id="reader字符输入流">Reader(字符输入流)</h3>
+<p><code>Reader</code>用于从文件读取数据(字符信息)到内存中，<code>java.io.Reader</code>抽象类是所有字符输入流的父类。</p>
+<h4 id="常用方法-4">常用方法</h4>
+<table>
+<colgroup>
+<col style="width: 5%">
+<col style="width: 34%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>返回值</th>
+<th>方法名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>int</td>
+<td>read()</td>
+<td>从输入流读取一个字符。</td>
+</tr>
+<tr class="even">
+<td>int</td>
+<td>read(char[] cbuf)</td>
+<td>从输入流中读取一些字符，并将它们存储到字符数组
+<code>cbuf</code>中，等价于 <code>read(cbuf, 0, cbuf.length)</code>
+。</td>
+</tr>
+<tr class="odd">
+<td>int</td>
+<td>read(char[] cbuf, int off, int len)</td>
+<td>在<code>read(char[] cbuf)</code> 方法的基础上增加了 <code>off</code>
+参数（偏移量）和 <code>len</code> 参数（要读取的最大字符数）。</td>
+</tr>
+<tr class="even">
+<td>long</td>
+<td>skip(long n)</td>
+<td>忽略输入流中的 n 个字符，返回实际忽略的字符数。</td>
+</tr>
+<tr class="odd">
+<td>void</td>
+<td>close()</td>
+<td>关闭输入流并释放相关的系统资源。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="filereader">FileReader</h4>
+<p><code>InputStreamReader</code> 是字节流转换为字符流的桥梁，其子类
+<code>FileReader</code> 是基于该基础上的封装，可以直接操作字符文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305141606118.png" style="zoom:50%;"></p>
+<h5 id="使用案例-10">使用案例</h5>
+<p><strong>需求</strong>：读取 mrpersimmon-1.txt 中的信息</p>
+<p><strong>代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testFileReader1</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;mrpersimmon-1.txt&quot;</span>))) &#123;</span><br><span class="line">        <span class="type">char</span>[] cbuf = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">8</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((readLen = br.read(cbuf)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            System.out.print(<span class="keyword">new</span> <span class="title class_">String</span>(cbuf, <span class="number">0</span>, readLen));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hi,Mrpersimmon!</span><br><span class="line">欢迎你</span><br><span class="line">来到柿子博客</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -790,14 +977,14 @@ Hi,Mrpersimmon!</strong></p>
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">43k</span>
+    <span title="站点总字数">44k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:39</span>
   </span>
     <span class="post-meta-item" id="busuanzi_container_site_pv">
       <span class="post-meta-item-icon">
