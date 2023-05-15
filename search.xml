@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Java面试必知必会 —— I/O篇(壹)</title>
+    <title>Java面试必知必会 —— 全面解读JavaIO(基础篇)</title>
     <url>/article/4aa40f26.html</url>
     <content><![CDATA[<p>Java IO 一直以来是大厂面试题中的高频考点，本文将从 Java IO
-基础使用说起，讲解文件、字节流、字符流、缓冲流、打印流、随机访问流等基础内容，再深入到
+基础使用说起，以案例 +
+源码的方式讲解文件、字节流、字符流、缓冲流、打印流、随机访问流等基础内容，再深入到
 Java IO 模型与设计模式，从而构建起对 Java IO 的全面认知。</p>
 <p>我相信，友好的讨论交流会让彼此快速进步！文章难免有疏漏之处，十分欢迎大家在评论区中批评指正。</p>
 <span id="more"></span>
@@ -273,18 +274,30 @@ src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305131536818.p
 <p>类图关系如下：</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305132236103.png" /></p>
+<h5 id="序列化与反序列化">序列化与反序列化</h5>
 <p><strong>什么是序列化和反序列化？</strong>序列化就是在保存数据时，保存数据的值和数据类型；反序列化就是在恢复数据时，恢复数据的值和数据类型。</p>
 <p><strong>如何让类支持序列化机制呢？</strong>必须让类实现
 <code>Serializable</code> 接口(一个标记接口，没有方法)或者
 <code>Externalizable</code>
 接口(有方法需要实现)。如果类中有属性不想被序列化，需要使用
 <code>transient</code> 修饰。</p>
+<p><strong>注意事项</strong></p>
+<ol type="1">
+<li>读写顺序要一致；</li>
+<li>要求序列化和反序列化的对象，需要实现 Serializable 接口</li>
+<li>序列化的类中建议添加 serialVersionUID 以太高版本的兼容性</li>
+<li>序列化对象时，默认将所有属性进行了序列化，但除了 static 或 transient
+修饰的成员</li>
+<li>序列化对象时，要求里面属性的类型也需要实现序列化接口</li>
+<li>序列化具备可继承性，即某个类实现了序列化，那么它的所有子类也默认实现了序列化。</li>
+<li>基本类型对应的包装类都实现了序列化。</li>
+</ol>
 <h5 id="使用案例-5"><strong>使用案例</strong></h5>
 <p><strong>需求：创建一个支持序列化的 Blog 类，向 mrpersimmon3.txt
 写入一个 Blog 对象。</strong></p>
 <p>代码：</p>
 <p>Blog 类</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Blog</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    String url;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Blog</span><span class="params">(String name, String url)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.url = url;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Blog&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, url=&#x27;&quot;</span> + url + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Blog</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> -<span class="number">4970674810941727545L</span>;</span><br><span class="line">    String name;</span><br><span class="line">    String url;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Blog</span><span class="params">(String name, String url)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.url = url;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Blog&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, url=&#x27;&quot;</span> + url + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>功能代码</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testObjectOutputStream</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;mrpersimmon3.txt&quot;</span>))) &#123;</span><br><span class="line">        <span class="type">Blog</span> <span class="variable">blog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Blog</span>(<span class="string">&quot;mrpersimmon&quot;</span>, <span class="string">&quot;https://www.mrpersimmon.top&quot;</span>);</span><br><span class="line">        oos.writeObject(blog);</span><br><span class="line">        System.out.println(<span class="string">&quot;数据写入完成(序列化)&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行结果</p>
@@ -615,12 +628,12 @@ IO 操作，提高流的传输效率。</p>
 <h3 id="字节流和字节缓冲流性能对比">字节流和字节缓冲流性能对比</h3>
 <p>字节流和字节缓冲流的性能差别主要体现在调用 <code>write(int b)</code>
 和 <code>read()</code>
-这两种一次只写入/读取一个节点的方式时。由于字节缓冲流内部有缓冲区(字节数组)，因此，<strong>字节缓冲流会先将读取到的字节存放在缓存区</strong>，大幅减少
+这两种一次只写入/读取一个节点的方式时。由于<strong>字节缓冲流内部有缓冲区(字节数组)</strong>，因此，<strong>字节缓冲流会先将读取到的字节存放在缓存区</strong>，大幅减少
 IO 次数，提高读取效率。</p>
-<h4 id="测试对比单字节读取">测试对比(单字节读取)</h4>
+<h4 id="测试对比单字节处理">测试对比(单字节处理)</h4>
 <p>分别使用字节流和字节缓冲流的方式复制一个 207 MB 的 PDF
 文件，查看耗时对比。</p>
-<h4 id="代码-1">代码</h4>
+<h5 id="代码-1">代码</h5>
 <ol type="1">
 <li>使用字节流复制 PDF 文件</li>
 </ol>
@@ -629,10 +642,202 @@ IO 次数，提高读取效率。</p>
 <li>使用缓冲字节流复制 PDF 文件</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">copyFileByBufferStream</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;使用缓冲字节流复制 PDF 文件测试开始&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录开始时间</span></span><br><span class="line">    <span class="comment">// 文件大小 207 MB</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">srcPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes.pdf&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">destPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes-buffer-stream.pdf&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(srcPath));</span><br><span class="line">         <span class="type">BufferedOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(destPath))) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">content</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((content = bis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">            bos.write(content);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录结束时间</span></span><br><span class="line">    System.out.println(<span class="string">&quot;使用缓冲字节流复制 PDF 文件总耗时 &quot;</span> + (endTime - startTime) + <span class="string">&quot; 毫秒&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="结果对比">结果对比</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">使用字节流复制 PDF 文件总耗时 1052141 毫秒</span><br><span class="line"></span><br><span class="line">使用缓冲字节流复制 PDF 文件总耗时 6521 毫秒</span><br><span class="line"></span><br><span class="line">使用缓冲字节流+字节数组复制 PDF 文件总耗时 391 毫秒</span><br><span class="line"></span><br><span class="line">使用字节流 + 字节数组复制 PDF 文件总耗时 478 毫秒</span><br></pre></td></tr></table></figure>
+<h5 id="结果对比">结果对比</h5>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">使用字节流复制 PDF 文件总耗时 1052141 毫秒</span><br><span class="line"></span><br><span class="line">使用缓冲字节流复制 PDF 文件总耗时 6521 毫秒</span><br></pre></td></tr></table></figure>
 <p>可以看到，两者耗时差别绝大，相较于字节流，使用缓冲字节流节省约 161
 倍的耗时。</p>
+<h4 id="测试内容2字节数组处理">测试内容2(字节数组处理)</h4>
+<p>分别使用字节流+字节数组、字节缓冲流+字节数组的方式复制一个 207 MB 的
+PDF 文件，查看耗时对比。</p>
+<h5 id="代码-2">代码</h5>
+<ol type="1">
+<li>使用字节流+字节数组复制 PDF 文件</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">copyFileByByteArrStream</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;使用字节流+字节数组复制 PDF 文件测试开始&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录开始时间</span></span><br><span class="line">    <span class="comment">// 文件大小 207 MB</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">srcPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes.pdf&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">destPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes-arr-stream.pdf&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(srcPath);</span><br><span class="line">         <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(destPath)) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">byte</span>[] b = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">8</span> * <span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">while</span> ((readLen = fis.read(b)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            fos.write(b, <span class="number">0</span>, readLen);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录结束时间</span></span><br><span class="line">    System.out.println(<span class="string">&quot;使用字节流 + 字节数组复制 PDF 文件总耗时 &quot;</span> + (endTime - startTime) + <span class="string">&quot; 毫秒&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2" type="1">
+<li>使用缓冲字节流+字节数组复制 PDF 文件</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">copyFileByByteArrBufferStream</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;使用缓冲字节流+字节数组复制 PDF 文件测试开始&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录开始时间</span></span><br><span class="line">    <span class="comment">// 文件大小 207 MB</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">srcPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes.pdf&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">destPath</span> <span class="operator">=</span> <span class="string">&quot;/Users/sunnywinter/Downloads/深入剖析Kubernetes-arr-buf-stream.pdf&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(srcPath));</span><br><span class="line">         <span class="type">BufferedOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(destPath))) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">byte</span>[] b = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">8</span> * <span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">while</span> ((readLen = bis.read(b)) != -<span class="number">1</span>) &#123;</span><br><span class="line">            bos.write(b, <span class="number">0</span>, readLen);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">long</span> <span class="variable">endTime</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// 记录结束时间</span></span><br><span class="line">    System.out.println(<span class="string">&quot;使用缓冲字节流+字节数组复制 PDF 文件总耗时&quot;</span> + (endTime - startTime) + <span class="string">&quot;毫秒&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="结果对比-1">结果对比</h5>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">使用字节流 + 字节数组复制 PDF 文件总耗时 478 毫秒</span><br><span class="line"></span><br><span class="line">使用缓冲字节流+字节数组复制 PDF 文件总耗时 391 毫秒</span><br></pre></td></tr></table></figure>
+<p>可以看到，两者差距不是特别大，但是缓冲字节流仍具有优势。</p>
+<h4 id="结论">结论</h4>
+<p>在日常使用时，应当使用缓冲流，以获取更好的性能优势。</p>
+<p>字符缓冲流也是同理，限于篇幅，不再提供测试案例，感兴趣的同学可以自行测试。</p>
+<h3 id="源码分析">源码分析</h3>
+<h4 id="bufferedinputstream">BufferedInputStream</h4>
+<p><code>BufferedInputStream</code>
+内部维护了一个缓冲区，这个缓冲区是一个字节数组。下面是源码中的一部分内容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BufferedInputStream</span> <span class="keyword">extends</span> <span class="title class_">FilterInputStream</span> &#123;</span><br><span class="line">    <span class="comment">// 缓冲区默认大小</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">DEFAULT_BUFFER_SIZE</span> <span class="operator">=</span> <span class="number">8192</span>;</span><br><span class="line">    <span class="comment">// 内部缓冲区字节数组</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">volatile</span> <span class="type">byte</span> buf[];</span><br><span class="line">    <span class="comment">// 构造函数，使用默认的缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedInputStream</span><span class="params">(InputStream in)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(in, DEFAULT_BUFFER_SIZE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数，使用自定义的缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedInputStream</span><span class="params">(InputStream in, <span class="type">int</span> size)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(in);</span><br><span class="line">        <span class="keyword">if</span> (size &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Buffer size &lt;= 0&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        buf = <span class="keyword">new</span> <span class="title class_">byte</span>[size];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="bufferedoutputstream">BufferedOutputStream</h4>
+<p>下面是源码中的一部分内容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BufferedOutputStream</span> <span class="keyword">extends</span> <span class="title class_">FilterOutputStream</span> &#123;</span><br><span class="line">    <span class="comment">// 内部缓冲区字节数组</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="type">byte</span> buf[];</span><br><span class="line">    <span class="comment">// 构造函数，默认缓冲区大小为 8192 </span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedOutputStream</span><span class="params">(OutputStream out)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(out, <span class="number">8192</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数，使用自定义的缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedOutputStream</span><span class="params">(OutputStream out, <span class="type">int</span> size)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(out);</span><br><span class="line">        <span class="keyword">if</span> (size &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Buffer size &lt;= 0&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        buf = <span class="keyword">new</span> <span class="title class_">byte</span>[size];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="bufferedreader">BufferedReader</h4>
+<p>和 BufferedInputStream
+一样，在内部维护了一个缓冲区，不同的是，这里是字符缓冲区。下面是源码中的一部分内容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BufferedReader</span> <span class="keyword">extends</span> <span class="title class_">Reader</span> &#123;</span><br><span class="line">    <span class="comment">// 内部缓冲区字符数组</span></span><br><span class="line">	<span class="keyword">private</span> <span class="type">char</span> cb[];</span><br><span class="line">    <span class="comment">// 默认缓冲区大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">defaultCharBufferSize</span> <span class="operator">=</span> <span class="number">8192</span>;</span><br><span class="line">    <span class="comment">// 构造函数，使用自定义的缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedReader</span><span class="params">(Reader in, <span class="type">int</span> sz)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(in);</span><br><span class="line">        <span class="keyword">if</span> (sz &lt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Buffer size &lt;= 0&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.in = in;</span><br><span class="line">        cb = <span class="keyword">new</span> <span class="title class_">char</span>[sz];</span><br><span class="line">        nextChar = nChars = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数，使用默认缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedReader</span><span class="params">(Reader in)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(in, defaultCharBufferSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="bufferedwriter">BufferedWriter</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BufferedWriter</span> <span class="keyword">extends</span> <span class="title class_">Writer</span> &#123;</span><br><span class="line">	<span class="comment">// 内部缓冲区字符数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">char</span> cb[];</span><br><span class="line">    <span class="comment">// 默认缓冲区大小</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">defaultCharBufferSize</span> <span class="operator">=</span> <span class="number">8192</span>;</span><br><span class="line">    <span class="comment">// 构造函数，使用默认缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedWriter</span><span class="params">(Writer out)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(out, defaultCharBufferSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数，使用自定义的缓冲区大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BufferedWriter</span><span class="params">(Writer out, <span class="type">int</span> sz)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(out);</span><br><span class="line">        <span class="keyword">if</span> (sz &lt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Buffer size &lt;= 0&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.out = out;</span><br><span class="line">        cb = <span class="keyword">new</span> <span class="title class_">char</span>[sz];</span><br><span class="line">        nChars = sz;</span><br><span class="line">        nextChar = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        lineSeparator = java.security.AccessController.doPrivileged(</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">sun</span>.security.action.GetPropertyAction(<span class="string">&quot;line.separator&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="打印流">打印流</h2>
+<p>打印流只有输出流(内存 -&gt; 文件)，没有输入流。</p>
+<h3 id="printstream字节打印流">PrintStream(字节打印流)</h3>
+<p>我们经常使用的 <code>System.out</code> 就是用于获取一个
+<code>PrintStream</code> 对象，<code>System.out.print</code>
+方法实际调用的是 <code>PrintStream</code> 对象的 <code>write</code>
+方法。</p>
+<p>默认情况下，<code>PrintStream</code>
+输出数据的位置是标准输出，即显示器。</p>
+<p>类图关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305142047733.png" style="zoom:50%;" /></p>
+<h4 id="源码">源码</h4>
+<p>下面是 <code>PrintStream</code> 的部分源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrintStream</span> <span class="keyword">extends</span> <span class="title class_">FilterOutputStream</span></span><br><span class="line">    <span class="keyword">implements</span> <span class="title class_">Appendable</span>, Closeable</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 调用的 write 方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">print</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="literal">null</span>) &#123;</span><br><span class="line">            s = <span class="string">&quot;null&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        write(s);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">write</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">                ensureOpen();</span><br><span class="line">                textOut.write(s);</span><br><span class="line">                textOut.flushBuffer();</span><br><span class="line">                charOut.flushBuffer();</span><br><span class="line">                <span class="keyword">if</span> (autoFlush &amp;&amp; (s.indexOf(<span class="string">&#x27;\n&#x27;</span>) &gt;= <span class="number">0</span>))</span><br><span class="line">                    out.flush();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (InterruptedIOException x) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (IOException x) &#123;</span><br><span class="line">            trouble = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="printwriter字符打印流">PrintWriter(字符打印流)</h3>
+<p>包装了 <code>FileWriter</code> ，提供了更方便的方法来完成输出。</p>
+<p>类图关系如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305142048308.png" style="zoom:50%;" /></p>
+<p>这里我就给出一个案例来说明字符打印流要如何使用。</p>
+<p><strong>需求：将 mrpersimmon-1.txt 中内容打印到 mrpersimmon-copy.txt
+文件中。</strong></p>
+<p><strong>代码</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testPrintWriter</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> (<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;mrpersimmon-1.txt&quot;</span>));</span><br><span class="line">         <span class="type">PrintWriter</span> <span class="variable">pw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(<span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">FileWriter</span>(<span class="string">&quot;mrpersimmon-copy.txt&quot;</span>)))) &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123; <span class="comment">// 一次读取一行内容，为空时代表读取结束</span></span><br><span class="line">            pw.println(line); <span class="comment">// 换行并打印到指定文件中</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305142105752.png" alt="运行结果" style="zoom:50%;" /></p>
+<h2 id="随机访问流">随机访问流</h2>
+<p>在本小结，主要介绍<strong>支持随意跳转到文件任意位置读写</strong>的
+<code>RandomAccessFile</code> 类。</p>
+<p>类关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305142114997.png" style="zoom:50%;" /></p>
+<h3 id="构造函数">构造函数</h3>
+<p>构造函数的源码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// String name: 指定名称的文件</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">RandomAccessFile</span><span class="params">(String name, String mode)</span></span><br><span class="line">    <span class="keyword">throws</span> FileNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">this</span>(name != <span class="literal">null</span> ? <span class="keyword">new</span> <span class="title class_">File</span>(name) : <span class="literal">null</span>, mode);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// String file: 指定文件</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">RandomAccessFile</span><span class="params">(File file, String mode)</span></span><br><span class="line">        <span class="keyword">throws</span> FileNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 省略...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们重点介绍输入参数
+<code>mode</code>(读写模式)。根据源码中的注释，读写模式共四种：</p>
+<ol type="1">
+<li><code>r</code>: 只读模式；</li>
+<li><code>rw</code>: 读写模式；</li>
+<li><code>rws</code>: 相较于
+<code>rw</code>，还需要将对「文件内容」或「元数据」的每次更新同步写入底层存储设备；</li>
+<li><code>rwd</code>: 相较于
+<code>rw</code>，还要求对「文件内容」的每次更新都同步写入底层存储设备。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305142126492.png" style="zoom:50%;" /></p>
+<p><strong>什么是「文件内容」？什么是「元数据」？</strong></p>
+<p>「文件内容」指的是文件中实际保存的数据，「元数据」则是用来描述文件属性比如文件的大小信息、创建和修改时间。</p>
+<p>rwd 相较于 rws 来说，可以减少执行 IO 操作次数。</p>
+<h3 id="文件指针">文件指针</h3>
+<p><code>RandomAccessFile</code>
+中有一个文件指针用于表示<strong>下一个将要被写入或者读取的字节所处的位置</strong>。</p>
+<p>我们可以通过 <code>seek(long pos)</code>
+<strong>设置文件指针的偏移量</strong>(据文件开头 <code>pos</code>
+个字节处)。源码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">seek</span><span class="params">(<span class="type">long</span> pos)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="keyword">if</span> (pos &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IOException</span>(<span class="string">&quot;Negative seek offset&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        seek0(pos);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">seek0</span><span class="params">(<span class="type">long</span> pos)</span> <span class="keyword">throws</span> IOException;</span><br></pre></td></tr></table></figure>
+<p>如果想要<strong>获取文件指针当前位置</strong>的话，可以使用
+<code>getFilePointer()</code> 方法。源码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="type">long</span> <span class="title function_">getFilePointer</span><span class="params">()</span> <span class="keyword">throws</span> IOException;</span><br></pre></td></tr></table></figure>
+<h3 id="常见方法">常见方法</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 33%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>返回值</th>
+<th>常用方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>long</td>
+<td>getFilePointer()</td>
+<td>获取文件指针当前位置</td>
+</tr>
+<tr class="even">
+<td>void</td>
+<td>set(long pos)</td>
+<td>设置文件指针的偏移量</td>
+</tr>
+<tr class="odd">
+<td>long</td>
+<td>length()</td>
+<td>返回文件的长度</td>
+</tr>
+<tr class="even">
+<td>int</td>
+<td>read()</td>
+<td>读取一个字节</td>
+</tr>
+<tr class="odd">
+<td>int</td>
+<td>read(byte[] b)</td>
+<td>从该文件读取最多 <code>b.length</code>字节的数据到字节数组。</td>
+</tr>
+<tr class="even">
+<td>int</td>
+<td>read(byte[] b, int off, int len)</td>
+<td>从该文件读取最多 <code>len</code>个字节的数据到字节数组。</td>
+</tr>
+<tr class="odd">
+<td>String</td>
+<td>readLine()</td>
+<td>读取下一行文本。</td>
+</tr>
+<tr class="even">
+<td>String</td>
+<td>readUTF()</td>
+<td>从该文件读取字符串。</td>
+</tr>
+<tr class="odd">
+<td>void</td>
+<td>write(byte[] b)</td>
+<td>从指定的字节数组写入
+<code>b.length</code>个字节到该文件，从当前文件指针开始。</td>
+</tr>
+<tr class="even">
+<td>void</td>
+<td>write(byte[] b, int off, int len)</td>
+<td>从指定的字节数组写入 <code>len</code>个字节，从偏移量
+<code>off</code>开始写入此文件。</td>
+</tr>
+<tr class="odd">
+<td>void</td>
+<td>write(int b)</td>
+<td>将指定的字节写入此文件。</td>
+</tr>
+<tr class="even">
+<td>void</td>
+<td>writeUTF(String str)</td>
+<td>以机器无关的方式使用 UTF-8 编码将字符串写入文件。</td>
+</tr>
+<tr class="odd">
+<td>int</td>
+<td>skipBytes(int n)</td>
+<td>尝试跳过 <code>n</code> 字节的输入，丢弃跳过的字节。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用案例-11">使用案例</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testRandomAccessFile</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span>(<span class="type">RandomAccessFile</span> <span class="variable">raf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RandomAccessFile</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;mrpersimmon.txt&quot;</span>), <span class="string">&quot;rw&quot;</span>)) &#123;</span><br><span class="line">        <span class="comment">// readLine() 读取一行文本</span></span><br><span class="line">        System.out.println(<span class="string">&quot;起始文件内容：&quot;</span> + raf.readLine());</span><br><span class="line">        raf.seek(<span class="number">0</span>); <span class="comment">// 设置文件指针偏移量为 0，回到起始位置</span></span><br><span class="line">        <span class="comment">// read() 读取一个字节</span></span><br><span class="line">        <span class="comment">// getFilePointer 获取文件指针当前位置</span></span><br><span class="line">        System.out.println(<span class="string">&quot;读取前的偏移量：&quot;</span> + raf.getFilePointer() + <span class="string">&quot;，当前读取的字符：&quot;</span> + (<span class="type">char</span>) raf.read() + <span class="string">&quot;，读取后的偏移量：&quot;</span> + raf.getFilePointer());</span><br><span class="line">        raf.seek(<span class="number">6</span>); <span class="comment">// 设置文件指针偏移量为 6</span></span><br><span class="line">        System.out.println(<span class="string">&quot;读取前的偏移量：&quot;</span> + raf.getFilePointer() + <span class="string">&quot;，当前读取的字符：&quot;</span> + (<span class="type">char</span>) raf.read() + <span class="string">&quot;，读取后的偏移量：&quot;</span> + raf.getFilePointer());</span><br><span class="line">        raf.write(<span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;<span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>&#125;);</span><br><span class="line">        System.out.println(<span class="string">&quot;写入后的偏移量：&quot;</span> + raf.getFilePointer() + <span class="string">&quot;，当前读取的字符：&quot;</span> + (<span class="type">char</span>) raf.read() + <span class="string">&quot;，读取后的偏移量：&quot;</span> + raf.getFilePointer());</span><br><span class="line">        raf.seek(<span class="number">0</span>); <span class="comment">// 设置文件指针偏移量为 0，回到起始位置</span></span><br><span class="line">        System.out.println(<span class="string">&quot;当前文件的内容为：&quot;</span> + raf.readLine());</span><br><span class="line">        raf.seek(<span class="number">0</span>); <span class="comment">// 设置文件指针偏移量为 0，回到起始位置</span></span><br><span class="line">        raf.write(<span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>&#125;); <span class="comment">// 覆盖数据</span></span><br><span class="line">        raf.seek(<span class="number">0</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;覆盖后的文件内容为：&quot;</span> + raf.readLine());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">起始文件内容：abcdefg</span><br><span class="line">读取前的偏移量：0，当前读取的字符：a，读取后的偏移量：1</span><br><span class="line">读取前的偏移量：6，当前读取的字符：g，读取后的偏移量：7</span><br><span class="line">写入后的偏移量：9，当前读取的字符：￿，读取后的偏移量：9</span><br><span class="line">当前文件的内容为：abcdefghi</span><br><span class="line">覆盖后的文件内容为：ABCdefghi</span><br></pre></td></tr></table></figure>
+<h4 id="应用场景">应用场景</h4>
+<p><code>RandomAccessFile</code> 比较常见的一个应用就是实现大文件的
+<strong>断点续传</strong> 。</p>
+<p>何谓断点续传？简单来说就是上传文件中途暂停或失败（比如遇到网络问题）之后，不需要重新上传，只需要上传那些未成功上传的文件分片即可。分片（先将文件切分成多个文件分片）上传是断点续传的基础。</p>
+<p>该部分内容我们会在后续实战部分中，手写一个断点续传下载器进行详细讲解。</p>
+<h2 id="小结">小结</h2>
+<p>在这一讲中，我们讲解了如何判断输入、输出流，字节流和字符流的区别和使用场景，缓冲流比普通流快的实际案例，什么是打印流，最后介绍了随机访问流。</p>
+<p>在下一讲中，我们去看看设计模式是如何在 Java IO 中应用的。</p>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li>JDK 8 官方文档；</li>
+<li>JDK 9 官方文档；</li>
+<li>JavaGuide 官方网站；</li>
+<li>韩顺平</li>
+</ol>
 ]]></content>
       <categories>
         <category>Java</category>
@@ -997,31 +1202,14 @@ for 循环</strong>，比如 Dijkstra
 ]]></content>
       <categories>
         <category>算法</category>
-        <category>二叉树</category>
         <category>算法框架</category>
+        <category>二叉树</category>
       </categories>
       <tags>
         <tag>算法框架</tag>
         <tag>二叉树</tag>
         <tag>递归</tag>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从大厂面试题谈CompletableFuture的使用与案例说明</title>
-    <url>/article/d299c68e.html</url>
-    <content><![CDATA[<p>谈一谈 Future 和 CompletableFuture 的区别，有使用过 CompletableFuture
-吗？</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>JUC</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>JUC</tag>
-        <tag>CompletableFuture</tag>
       </tags>
   </entry>
   <entry>
@@ -1274,8 +1462,8 @@ DFS 算法，没有 BFS 算法的性能的优势。</p>
 ]]></content>
       <categories>
         <category>算法</category>
-        <category>二叉树</category>
         <category>算法框架</category>
+        <category>二叉树</category>
       </categories>
       <tags>
         <tag>算法框架</tag>
@@ -1404,6 +1592,23 @@ alt="双指针找环入口问题" />
       </tags>
   </entry>
   <entry>
+    <title>从大厂面试题谈CompletableFuture的使用与案例说明</title>
+    <url>/article/d299c68e.html</url>
+    <content><![CDATA[<p>谈一谈 Future 和 CompletableFuture 的区别，有使用过 CompletableFuture
+吗？</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>JUC</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JUC</tag>
+        <tag>CompletableFuture</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>双指针秒杀七道数组问题「浓缩版」</title>
     <url>/article/9d55fca6.html</url>
     <content><![CDATA[<p>在数组中，将索引当做数组中的指针。</p>
@@ -1499,8 +1704,8 @@ A。（逻辑上将两条链表拼接在了一起）这样，可以让 p1 和 p2
 ]]></content>
       <categories>
         <category>Algorithm</category>
-        <category>LinkedList</category>
         <category>Framework</category>
+        <category>LinkedList</category>
       </categories>
       <tags>
         <tag>AlgorithmFramework</tag>
@@ -1724,12 +1929,6 @@ class="math inline">\(O(n^2)\)</span></p>
         <tag>NowCoder-TOP101</tag>
         <tag>HashMap</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>回溯算法的框架思维</title>
-    <url>/article/b2c44789.html</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
   </entry>
   <entry>
     <title>基于算法(4th)单词查找树的改进</title>
@@ -2296,6 +2495,12 @@ href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
       </tags>
   </entry>
   <entry>
+    <title>回溯算法的框架思维</title>
+    <url>/article/b2c44789.html</url>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+  </entry>
+  <entry>
     <title>手撕面试算法题必备技巧(贰) —— 双指针(链表篇)</title>
     <url>/article/631e5355.html</url>
     <content><![CDATA[<p>本文介绍了双指针技巧在链表、数组以及字符串中的使用，给出了大量大厂常见面试手撕题目的思路及代码，不仅适合完全不了解双指针技巧的读者，也适合老司机复习拓展。</p>
@@ -2761,20 +2966,6 @@ alt="双指针同向遍历" />
       </tags>
   </entry>
   <entry>
-    <title>深入剖析Java集合问题(三)</title>
-    <url>/article/92332d0.html</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>深入剖析Java集合问题（一）</title>
     <url>/article/24021d57.html</url>
     <content><![CDATA[<p>本篇文章主要介绍了使用集合的好处、集合的框架体系。</p>
@@ -2809,6 +3000,20 @@ alt="双指针同向遍历" />
 <h3 id="map-接口框架图双列集合">Map 接口框架图（双列集合）</h3>
 <p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202304251512547.png" alt="Map 接口框架图" style="zoom:80%;" /></p>
 <p><strong>注意：实线是继承（extend），虚线是实现（implements）</strong></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入剖析Java集合问题(三)</title>
+    <url>/article/92332d0.html</url>
+    <content><![CDATA[<span id="more"></span>
 ]]></content>
       <categories>
         <category>Java</category>
