@@ -2465,7 +2465,7 @@ p，取最大的字符串长度作为辅助字符数组的长度，设置进位 
       </tags>
   </entry>
   <entry>
-    <title>手撕面试算法题必备技巧(壹) —— 二分搜索</title>
+    <title>手撕算法必备技巧（壹） —— 二分搜索</title>
     <url>/article/3f91e5ac.html</url>
     <content><![CDATA[<p>本文介绍了二分搜索最常见的几个场景的使用：<strong>寻找一个数</strong>、<strong>寻找左侧边界</strong>以及<strong>寻找右侧边界</strong>。文章内容既适合完全不知道二分搜索是什么的新同学，也适合老同学复习拓展。</p>
 <p>考察过该题目的公司有：拼多多、美团、腾讯、阿里巴巴...</p>
@@ -2778,7 +2778,7 @@ href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
       </tags>
   </entry>
   <entry>
-    <title>手撕面试算法题必备技巧(贰) —— 双指针(链表篇)</title>
+    <title>手撕算法必备技巧（贰） —— 双指针（链表篇）</title>
     <url>/article/631e5355.html</url>
     <content><![CDATA[<p>本文介绍了双指针技巧在链表、数组以及字符串中的使用，给出了大量大厂常见面试手撕题目的思路及代码，不仅适合完全不了解双指针技巧的读者，也适合老司机复习拓展。</p>
 <p>考察过该技巧的公司有阿里巴巴、腾讯、美团、拼多多、百度等大厂。</p>
@@ -3420,6 +3420,26 @@ Iterator，只能用于遍历集合或数组。</p>
       </tags>
   </entry>
   <entry>
+    <title>深入剖析并发锁问题</title>
+    <url>/article/2e7bdfc.html</url>
+    <content><![CDATA[<p>现有两个线程，A 线程打印 1、3、5、7、9，B 线程打印
+2、4、6、8、10，要求两个线程交替打印，打印结果为
+1、2、3、4、5、6、7、8、9、10。</p>
+<p>请手写上述代码。</p>
+<span id="more"></span>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>JUC</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JUC</tag>
+        <tag>Synchronized</tag>
+        <tag>ReentrantLock</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>算法思想</title>
     <url>/article/ba79aab0.html</url>
     <content><![CDATA[<h2 id="概览">概览</h2>
@@ -3467,26 +3487,6 @@ class="math inline">\(O(1)\)</span> 时间内得到 value。</p>
       </categories>
       <tags>
         <tag>Algorithm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入剖析并发锁问题</title>
-    <url>/article/2e7bdfc.html</url>
-    <content><![CDATA[<p>现有两个线程，A 线程打印 1、3、5、7、9，B 线程打印
-2、4、6、8、10，要求两个线程交替打印，打印结果为
-1、2、3、4、5、6、7、8、9、10。</p>
-<p>请手写上述代码。</p>
-<span id="more"></span>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>JUC</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>JUC</tag>
-        <tag>Synchronized</tag>
-        <tag>ReentrantLock</tag>
       </tags>
   </entry>
   <entry>
