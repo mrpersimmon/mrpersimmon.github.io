@@ -27,8 +27,11 @@
 <meta property="og:description" content="书接上篇手撕算法必备技巧（贰） —— 双指针（链表篇），前文提到了什么是双指针技巧，以及该技巧如何在链表中应用。本文主要讲解双指针技巧是如何解决大厂面试中常见的数组问题。 考察过该技巧的公司有阿里巴巴、腾讯、美团、拼多多、百度、华为等大厂。 食用指南： ⭐️为一刷必做题，便于快速理解双指针技巧；无星题目可在刷完⭐️题目后再做，用于拓展学习双指针技巧如何与其他算法知识结合使用。 日志更新：文章底部给">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305191519619.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305191556946.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192112657.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192032673.png">
 <meta property="article:published_time" content="2023-05-19T07:01:14.000Z">
-<meta property="article:modified_time" content="2023-05-19T07:53:34.002Z">
+<meta property="article:modified_time" content="2023-05-19T13:36:45.068Z">
 <meta property="article:author" content="柿子先生">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="双指针">
@@ -144,7 +147,8 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">快慢指针技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9C%B0%E4%BF%AE%E6%94%B9%E6%95%B0%E7%BB%84%E5%8A%9B%E6%89%A326"><span class="nav-number">1.1.</span> <span class="nav-text">原地修改数组（力扣26）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8C%E6%8C%87%E9%92%88"><span class="nav-number">1.1.2.</span> <span class="nav-text">思路（双指针）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.3.</span> <span class="nav-text">参考代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.1.4.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.1.5.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">快慢指针技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9%E5%8A%9B%E6%89%A326"><span class="nav-number">1.1.</span> <span class="nav-text">⭐️删除有序数组中的重复项（力扣26）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8C%E6%8C%87%E9%92%88"><span class="nav-number">1.1.2.</span> <span class="nav-text">思路（双指针）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.3.</span> <span class="nav-text">参考代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.1.4.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.1.5.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0%E5%8A%9B%E6%89%A3-83"><span class="nav-number">1.2.</span> <span class="nav-text">⭐️删除排序链表中的重复元素（力扣
+83）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8C%E6%8C%87%E9%92%88-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">思路（双指针）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">参考代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-1"><span class="nav-number">1.2.4.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-1"><span class="nav-number">1.2.5.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E5%85%83%E7%B4%A0ii%E7%89%9B%E5%AE%A2"><span class="nav-number">1.3.</span> <span class="nav-text">删除排序链表中重复的元素II（牛客）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8C%E6%8C%87%E9%92%88-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">思路（双指针）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-2"><span class="nav-number">1.3.3.</span> <span class="nav-text">参考代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0%E5%8A%9B%E6%89%A327"><span class="nav-number">1.4.</span> <span class="nav-text">⭐️移除元素（力扣27）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8C%E6%8C%87%E9%92%88-3"><span class="nav-number">1.4.2.</span> <span class="nav-text">思路（双指针）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-3"><span class="nav-number">1.4.3.</span> <span class="nav-text">参考代码</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -254,7 +258,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-05-19 15:01:14 / 修改时间：15:53:34" itemprop="dateCreated datePublished" datetime="2023-05-19T15:01:14+08:00">2023-05-19</time>
+      <time title="创建时间：2023-05-19 15:01:14 / 修改时间：21:36:45" itemprop="dateCreated datePublished" datetime="2023-05-19T15:01:14+08:00">2023-05-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -295,14 +299,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>771</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
+      <span>6 分钟</span>
     </span>
     <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
       <span class="post-meta-item-icon">
@@ -332,7 +336,7 @@
 <span id="more"></span>
 <p>前文已经阐述完了双指针技巧的使用，也给出了大量可以使用双指针技巧解决的链表题目。那么，接下来我们直接从题目入手，看看双指针技巧如何应用到数组题目上。</p>
 <h1 id="快慢指针技巧">快慢指针技巧</h1>
-<h2 id="原地修改数组力扣26"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/">原地修改数组（力扣26）</a></h2>
+<h2 id="删除有序数组中的重复项力扣26"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/">⭐️删除有序数组中的重复项（力扣26）</a></h2>
 <h3 id="题目描述">题目描述</h3>
 <p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305191519619.png" style="zoom:50%;"></p>
 <h3 id="思路双指针">思路（双指针）</h3>
@@ -357,6 +361,59 @@
 <h3 id="空间复杂度">空间复杂度</h3>
 <p><span class="math inline">\(O(1)\)</span></p>
 <p>只有到了常数个变量。</p>
+<h2 id="删除排序链表中的重复元素力扣-83">⭐️<a target="_blank" rel="external nofollow noopener noreferrer" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-list/">删除排序链表中的重复元素（力扣
+83）</a></h2>
+<h3 id="题目描述-1">题目描述</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305191556946.png" style="zoom:50%;"></p>
+<h3 id="思路双指针-1">思路（双指针）</h3>
+<p>这道题和上一道题的数据去重几乎一样，唯一的区别就是把更新元素的操作变成了更新指针而已。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192028834.gif"></p>
+<blockquote>
+<p>可能会有读者会问，图中的链表节点仍旧挂在那里，这有被删除吗？这就不得不提到
+Java
+的垃圾回收机制了，<strong>对于这些不可达（或者说悬空）的链表节点，JVM
+会自动回收。</strong>如果你使用的 C++
+这类没有自动垃圾回收机制的语言，你需要在代码中手动释放掉那些节点。</p>
+</blockquote>
+<h3 id="参考代码-1">参考代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">deleteDuplicates</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// 空链表直接返回</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fast.val != slow.val) &#123;</span><br><span class="line">            slow.next = fast; <span class="comment">// help GC</span></span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 别忘了这个</span></span><br><span class="line">    <span class="comment">// 断开与后面重复元素的连接</span></span><br><span class="line">    slow.next = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="时间复杂度-1">时间复杂度</h3>
+<p><span class="math inline">\(O(n)\)</span></p>
+<p>n 是链表长度，遍历一遍链表。</p>
+<h3 id="空间复杂度-1">空间复杂度</h3>
+<p><span class="math inline">\(O(1)\)</span></p>
+<p>只用到了常数个变量。</p>
+<h2 id="删除排序链表中重复的元素ii牛客"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.nowcoder.com/practice/71cef9f8b5564579bf7ed93fbe0b2024">删除排序链表中重复的元素II（牛客）</a></h2>
+<h3 id="题目描述-2">题目描述</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192112657.png" style="zoom:50%;"></p>
+<h3 id="思路双指针-2">思路（双指针）</h3>
+<p>我们直接讲解进阶思路，也就是使用双指针的方法去解决。</p>
+<p>为了便于处理删除第一个节点的情况，我们在链表的前面添加一个虚拟头节点。</p>
+<p>我们要知道一点，在升序链表中所有重复的节点都是在一起的。利用这个特性，我们每次比较相邻的两个节点，如果两个节点元素相同，我们就再开一个循环将这段所有相同的节点都遍历过去。</p>
+<p>然后让在这<strong>一连串相同的节点</strong>的前序节点，连上后续第一个不同的节点就可以啦。</p>
+<p>最后返回时去掉虚拟头节点即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192113102.gif"></p>
+<h3 id="参考代码-2">参考代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">deleteDuplicates</span> <span class="params">(ListNode head)</span> &#123;</span><br><span class="line">    <span class="comment">// write code here</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">dummy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    dummy.next = head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">p</span> <span class="operator">=</span> dummy;</span><br><span class="line">    <span class="keyword">while</span> (p.next != <span class="literal">null</span> &amp;&amp; p.next.next != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p.next.val == p.next.next.val) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> p.next.val;</span><br><span class="line">            <span class="keyword">while</span> (p.next != <span class="literal">null</span> &amp;&amp; p.next.val == tmp) &#123;</span><br><span class="line">                p.next = p.next.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="移除元素力扣27"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://leetcode.cn/problems/remove-element/">⭐️移除元素（力扣27）</a></h2>
+<h3 id="题目描述-3">题目描述</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192032673.png" style="zoom:50%;"></p>
+<h3 id="思路双指针-3">思路（双指针）</h3>
+<p>这道题和去重不同，我们需要原地删除指定元素。我们依旧准备快慢两个指针，快指针向前遍历，如果快指针
+<code>fast</code>
+遇到了指定元素，直接跳过；如果没有遇到指定元素，那么就要用
+<code>fast</code> 处的元素值更新 <code>slow</code> 处的元素值，然后
+<code>slow</code> 再前进一步。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202305192041483.gif"></p>
+<h3 id="参考代码-3">参考代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums == <span class="literal">null</span> || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">slow</span> <span class="operator">=</span> <span class="number">0</span>, fast = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (fast &lt; nums.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[fast] != val) &#123;</span><br><span class="line">            nums[slow] = nums[fast];</span><br><span class="line">            slow++;</span><br><span class="line">        &#125;</span><br><span class="line">        fast++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips！</strong></p>
+<p>在有序数组去重中，我们是先移动 <code>slow</code>
+指针，再更新值。在这里我们是先赋值再向前移动 <code>slow</code>
+指针。这样可以保证 <code>nums[0...slow-1]</code>
+是不包含指定元素的，最后的结果数组长度就是 <code>slow</code>。</p>
+</blockquote>
 
     </div>
 
@@ -414,14 +471,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">52k</span>
+    <span title="站点总字数">53k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:10</span>
+    <span title="站点阅读时长">3:13</span>
   </span>
     <span class="post-meta-item" id="busuanzi_container_site_pv">
       <span class="post-meta-item-icon">

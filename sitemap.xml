@@ -372,20 +372,6 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/tags/JUC/</loc>
-    <lastmod>2023-05-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.mrpersimmon.top/tags/CompletableFuture/</loc>
-    <lastmod>2023-05-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.mrpersimmon.top/tags/LinkedList/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -400,7 +386,14 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/tags/TwoPointers/</loc>
+    <loc>https://www.mrpersimmon.top/tags/JUC/</loc>
+    <lastmod>2023-05-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mrpersimmon.top/tags/CompletableFuture/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -408,6 +401,13 @@
   
   <url>
     <loc>https://www.mrpersimmon.top/tags/Array/</loc>
+    <lastmod>2023-05-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mrpersimmon.top/tags/TwoPointers/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -535,13 +535,6 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/Java/JUC/</loc>
-    <lastmod>2023-05-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.mrpersimmon.top/categories/Algorithm/Framework/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -556,7 +549,7 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/Algorithm/HashMap/</loc>
+    <loc>https://www.mrpersimmon.top/categories/Java/JUC/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -564,6 +557,13 @@
   
   <url>
     <loc>https://www.mrpersimmon.top/categories/Algorithm/BinarySearchAndSort/</loc>
+    <lastmod>2023-05-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mrpersimmon.top/categories/Algorithm/HashMap/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -605,14 +605,14 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/</loc>
+    <loc>https://www.mrpersimmon.top/categories/Algorithm/nSum/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/categories/Algorithm/nSum/</loc>
+    <loc>https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/</loc>
     <lastmod>2023-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
