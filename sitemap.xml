@@ -477,13 +477,6 @@
   </url>
   
   <url>
-    <loc>https://www.mrpersimmon.top/tags/%E7%89%9B%E5%AE%A2-TOP101/</loc>
-    <lastmod>2023-05-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.mrpersimmon.top/tags/Synchronized/</loc>
     <lastmod>2023-05-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -492,6 +485,13 @@
   
   <url>
     <loc>https://www.mrpersimmon.top/tags/ReentrantLock/</loc>
+    <lastmod>2023-05-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mrpersimmon.top/tags/%E7%89%9B%E5%AE%A2-TOP101/</loc>
     <lastmod>2023-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
