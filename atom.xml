@@ -6,7 +6,7 @@
   <link href="https://www.mrpersimmon.top/atom.xml" rel="self"/>
   
   <link href="https://www.mrpersimmon.top/"/>
-  <updated>2023-08-27T14:32:56.962Z</updated>
+  <updated>2023-08-27T15:02:20.572Z</updated>
   <id>https://www.mrpersimmon.top/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://www.mrpersimmon.top/article/43a71ae4.html"/>
     <id>https://www.mrpersimmon.top/article/43a71ae4.html</id>
     <published>2023-08-27T03:10:56.000Z</published>
-    <updated>2023-08-27T14:32:56.962Z</updated>
+    <updated>2023-08-27T15:02:20.572Z</updated>
     
-    <content type="html"><![CDATA[<p>将多个字段组合成一个索引，这个索引就是联合索引。联合索引会按照<strong>「最左匹配」</strong>原则，进行索引匹配。</p><p>在<strong>联合索引的范围查询</strong>中，遇到 &gt;、&lt;会停止匹配，范围查询的字段可以使用联合索引，但是范围查询字段后面的字段就无法使用了，而对于&gt;=、&lt;=、BETWEEN、like 前缀匹配的范围查询，并不会停止匹配。</p><p>MySQL 5.6引入了<strong>索引下推优化</strong>，可以在联合索引遍历过程中，对联合索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。</p><p>在建立联合索引时，<strong>要把区分度大的字段排在前面</strong>，效率更高。MySQL有查询优化器，如果字段在表的数据行中占比超过界限（30%），会忽略索引，进行全表扫描。</p><span id="more"></span><h1 id="联合索引">联合索引</h1><h2 id="联合索引-1">联合索引</h2><p>将多个字段组合成一个索引，这个索引就是联合索引。</p><p><code>CREATE INDEX idx_product_no_name ON product(product_no, name);</code></p><figure><imgsrc="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202308271529749.png"alt="联合索引" /><figcaption aria-hidden="true">联合索引</figcaption></figure><p>联合索引使用两个字段的值作为key（黄色部分），按照<strong>最左匹配原则</strong>，进行索引匹配。如果不遵循「最左匹配原则」，联合索引会失效。</p><h2 id="最左匹配原则">最左匹配原则</h2><p>假设创建了一个联合索引 <strong>(a, b,c)</strong>，联合索引生效的例子如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">where a = 1;</span><br><span class="line">where a = 1 and b = 2 and c = 3;</span><br><span class="line">where a = 1 and b = 2;</span><br><span class="line">where b = 2 and a = 1 and c = 3;</span><br></pre></td></tr></table></figure><p>因为有查询优化器，所以 <strong>a 字段在 where子句的顺序并不重要</strong>。</p><p><strong>联合索引失效</strong>的例子如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">where b = 2;</span><br><span class="line">where c = 3;</span><br><span class="line">where b = 2 and c = 3;</span><br></pre></td></tr></table></figure><p>失效原因是，(a, b, c) 是联合索引，先按 a 排序，在 a 相同的情况再按 b排序，在 b 相同的情况再按 c 排序。所以，<strong>b 和 c是全局无序，局部相对有序</strong>。如果没有遵循最左匹配原则，是无法利用索引的。</p><p>下面是联合索引(a, b)的 B+ Tree。</p><figure><imgsrc="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202308271719507.png"alt="img" /><figcaption aria-hidden="true">img</figcaption></figure><p>索引 a 全局有序 (1, 2, 2, 3, 4, 5, 6, 7, 8)，而索引 b 全局无序(12, 7,8, 2, 3, 8, 10, 5, 2)。因此，直接执行 <code>where b = 2</code>这种查询条件是无法利用联合索引的，利用索引的前提是，<strong>索引里的 key是有序的</strong>。</p><p>只有在索引 a 相同的情况下，索引 b 才是有序的，比如 a = 2 时，b 的值是(7, 8)，这时就是有序的，这个有序状态是局部的，因此，执行<code>where a = 2 and b = 7</code> 是 a 和 b字段能用到联合索引，也就是联合索引生效了。</p><h2 id="联合索引范围查询">联合索引范围查询</h2><p>联合索引有一些特殊情况，并<strong>不是查询过程使用了联合索引，就代表联合索引中的所有字段都用到了联合索引进行索引查询</strong>，可能存在部分字段用到联合索引，部分字段没有用到的情况。</p><p>这种特殊情况发生在范围查询。联合索引的最左匹配原则会从左到右匹配直到遇到「范围查询」就会停止匹配。即，<strong>范围查询的字段可以用到联合索引，但是在范围查询字段的后面的字段无法用到联合索引</strong>。</p><p>范围查询有很多种，哪些范围查询会导致联合索引的最左匹配原则会停止匹配呢？</p><p><strong>联合索引的最左匹配原则，在遇到范围查询（如&gt;、&lt;）的时候，就会停止匹配，也就是范围查询的字段可以用到联合索引，但是在范围查询字段的后面字段无法用到联合索引。</strong></p><p><strong>对于 &gt;=、&lt;=、BETWEEN、like前缀匹配的范围查询，并不会停止匹配。</strong></p><h2 id="索引下推">索引下推</h2><p>对于联合索引 (a, b)，在执行<code>select * from table where a &gt; 1 and b = 2;</code> 语句时，只有a 字段能用到索引，在联合索引的 B+ Tree 找到第一个满足条件的主键值(a =2)后，还需要判断其他条件是否满足（看 b 是否等于2），那是<strong>在联合索引里判断？还是回主键索引去判断？</strong></p><p>1、在 MySQL 5.6 之前，只能从主键值（a =2）开始一个个回表，到「主键索引」上找出数据行，再对比 b 字段值。</p><p>2、MySQL 5.6引入了<strong>索引下推优化</strong>，<strong>可以在联合索引遍历过程中，对联合索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数</strong>。</p><p>当你的查询语句的执行计划里，出现了 Extra 为<code>Using index condition</code>，那么说明使用了索引下推的优化。</p><h2 id="索引区分度">索引区分度</h2><p>联合索引的字段顺序，对索引效率有很大的影响。越靠前的字段被用于索引过滤的概率越高，因此<strong>建立联合索引时，要把区分度大的字段排在前面，这样区分度大的字段越有可能被更多的SQL 使用到</strong>。 <span class="math display">\[区分度 = \frac{distinct(column)}{count(*)}\]</span> <span class="math inline">\(distinct(column)\)</span>:某个字段 column 不同值的个数，<spanclass="math inline">\(count(*)\)</span>: 表的总行数。</p><p>比如，性别的区分度就很小，不适合做索引或排在联合索引列靠前的位置，而UUID 就区分度就很大，就很适合。</p><p>MySQL有一个查询优化器，如果发现某个值在表的数据行中的百分比（惯用界限30%）很高时，会忽略索引，进行全表扫描。</p>]]></content>
+    <content type="html"><![CDATA[<p>将多个字段组合成一个索引，这个索引就是联合索引。联合索引会按照<strong>「最左匹配」</strong>原则，进行索引匹配。</p><p>在<strong>联合索引的范围查询</strong>中，遇到 &gt;、&lt;会停止匹配，范围查询的字段可以使用联合索引，但是范围查询字段后面的字段就无法使用了，而对于&gt;=、&lt;=、BETWEEN、like 前缀匹配的范围查询，并不会停止匹配。</p><p>MySQL 5.6引入了<strong>索引下推优化</strong>，可以在联合索引遍历过程中，对联合索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。</p><p>在建立联合索引时，<strong>要把区分度大的字段排在前面</strong>，效率更高。MySQL有查询优化器，如果字段在表的数据行中占比超过界限（30%），会忽略索引，进行全表扫描。</p><p>索引的最大好处就是能够提高查询速度，但是创建索引和维护索引不仅耗时，索引还会占用空间，并且因为要动态维护索引而降低增删改的效率。</p><p>推荐对唯一字段、用于 WHERE、GROUP BY、ORDER BY的字段建立索引，不推荐对数据量很小的表、存在大量重复数据的字段以及经常更新的字段建立索引。</p><span id="more"></span><h1 id="联合索引">联合索引</h1><h2 id="联合索引-1">联合索引</h2><p>将多个字段组合成一个索引，这个索引就是联合索引。</p><p><code>CREATE INDEX idx_product_no_name ON product(product_no, name);</code></p><figure><imgsrc="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202308271529749.png"alt="联合索引" /><figcaption aria-hidden="true">联合索引</figcaption></figure><p>联合索引使用两个字段的值作为key（黄色部分），按照<strong>最左匹配原则</strong>，进行索引匹配。如果不遵循「最左匹配原则」，联合索引会失效。</p><h2 id="最左匹配原则">最左匹配原则</h2><p>假设创建了一个联合索引 <strong>(a, b,c)</strong>，联合索引生效的例子如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">where a = 1;</span><br><span class="line">where a = 1 and b = 2 and c = 3;</span><br><span class="line">where a = 1 and b = 2;</span><br><span class="line">where b = 2 and a = 1 and c = 3;</span><br></pre></td></tr></table></figure><p>因为有查询优化器，所以 <strong>a 字段在 where子句的顺序并不重要</strong>。</p><p><strong>联合索引失效</strong>的例子如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">where b = 2;</span><br><span class="line">where c = 3;</span><br><span class="line">where b = 2 and c = 3;</span><br></pre></td></tr></table></figure><p>失效原因是，(a, b, c) 是联合索引，先按 a 排序，在 a 相同的情况再按 b排序，在 b 相同的情况再按 c 排序。所以，<strong>b 和 c是全局无序，局部相对有序</strong>。如果没有遵循最左匹配原则，是无法利用索引的。</p><p>下面是联合索引(a, b)的 B+ Tree。</p><figure><imgsrc="https://cdn.jsdelivr.net/gh/mrpersimmon/myblog@master/img/202308271719507.png"alt="img" /><figcaption aria-hidden="true">img</figcaption></figure><p>索引 a 全局有序 (1, 2, 2, 3, 4, 5, 6, 7, 8)，而索引 b 全局无序(12, 7,8, 2, 3, 8, 10, 5, 2)。因此，直接执行 <code>where b = 2</code>这种查询条件是无法利用联合索引的，利用索引的前提是，<strong>索引里的 key是有序的</strong>。</p><p>只有在索引 a 相同的情况下，索引 b 才是有序的，比如 a = 2 时，b 的值是(7, 8)，这时就是有序的，这个有序状态是局部的，因此，执行<code>where a = 2 and b = 7</code> 是 a 和 b字段能用到联合索引，也就是联合索引生效了。</p><h2 id="联合索引范围查询">联合索引范围查询</h2><p>联合索引有一些特殊情况，并<strong>不是查询过程使用了联合索引，就代表联合索引中的所有字段都用到了联合索引进行索引查询</strong>，可能存在部分字段用到联合索引，部分字段没有用到的情况。</p><p>这种特殊情况发生在范围查询。联合索引的最左匹配原则会从左到右匹配直到遇到「范围查询」就会停止匹配。即，<strong>范围查询的字段可以用到联合索引，但是在范围查询字段的后面的字段无法用到联合索引</strong>。</p><p>范围查询有很多种，哪些范围查询会导致联合索引的最左匹配原则会停止匹配呢？</p><p><strong>联合索引的最左匹配原则，在遇到范围查询（如&gt;、&lt;）的时候，就会停止匹配，也就是范围查询的字段可以用到联合索引，但是在范围查询字段的后面字段无法用到联合索引。</strong></p><p><strong>对于 &gt;=、&lt;=、BETWEEN、like前缀匹配的范围查询，并不会停止匹配。</strong></p><h2 id="索引下推">索引下推</h2><p>对于联合索引 (a, b)，在执行<code>select * from table where a &gt; 1 and b = 2;</code> 语句时，只有a 字段能用到索引，在联合索引的 B+ Tree 找到第一个满足条件的主键值(a =2)后，还需要判断其他条件是否满足（看 b 是否等于2），那是<strong>在联合索引里判断？还是回主键索引去判断？</strong></p><ul><li><p>在 MySQL 5.6 之前，只能从主键值（a =2）开始一个个回表，到「主键索引」上找出数据行，再对比 b字段值。</p></li><li><p>MySQL 5.6引入了<strong>索引下推优化</strong>，<strong>可以在联合索引遍历过程中，对联合索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数</strong>。</p></li></ul><p>当你的查询语句的执行计划里，出现了 Extra 为<code>Using index condition</code>，那么说明使用了索引下推的优化。</p><h2 id="索引区分度">索引区分度</h2><p>联合索引的字段顺序，对索引效率有很大的影响。越靠前的字段被用于索引过滤的概率越高，因此<strong>建立联合索引时，要把区分度大的字段排在前面，这样区分度大的字段越有可能被更多的SQL 使用到</strong>。 <span class="math display">\[区分度 = \frac{distinct(column)}{count(*)}\]</span> <span class="math inline">\(distinct(column)\)</span>:某个字段 column 不同值的个数，<spanclass="math inline">\(count(*)\)</span>: 表的总行数。</p><p>比如，性别的区分度就很小，不适合做索引或排在联合索引列靠前的位置，而UUID 就区分度就很大，就很适合。</p><p>MySQL有一个查询优化器，如果发现某个值在表的数据行中的百分比（惯用界限30%）很高时，会忽略索引，进行全表扫描。</p><h1 id="索引使用场景">索引使用场景</h1><h2 id="索引优缺点">索引优缺点</h2><h3 id="优点">优点</h3><p>提高查询速度</p><h3 id="缺点">缺点</h3><p>1、需要占用物理空间，数量越大，占用空间越大；</p><p>2、创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增大；</p><p>3、会降低表的增删改的效率，因为每次增删改索引，B+树为了维护索引有序性，都需要动态维护。</p><h2 id="推荐使用场景">推荐使用场景</h2><p>1、字段有唯一性限制的，比如订单号；</p><p>2、经常用于 <code>WHERE</code>查询条件的字段，如果查询条件不是一个字段，可以建立联合索引。</p><p>3、经常用于 <code>GROUP BY</code> 和 <code>ORDER BY</code>的字段，这样在查询的时候就不需要再做一次排序了，因为建立索引后在 B+ Tree中的记录都是排序好的。</p><h2 id="不推荐场景">不推荐场景</h2><p>1、WHERE、GROUP BY、ORDER BY 用不到的字段；</p><p>2、字段存在大量重复数据，比如性别字段，MySQL查询优化器会忽略该索引进行全表扫描；</p><p>3、表数据太少；</p><p>4、经常更新的字段，比如用户余额，因为要动态维护索引，影响数据库性能。</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;将多个字段组合成一个索引，这个索引就是联合索引。联合索引会按照&lt;strong&gt;「最左匹配」&lt;/strong&gt;原则，进行索引匹配。&lt;/p&gt;
@@ -33,7 +33,10 @@
 &lt;p&gt;MySQL 5.6
 引入了&lt;strong&gt;索引下推优化&lt;/strong&gt;，可以在联合索引遍历过程中，对联合索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。&lt;/p&gt;
 &lt;p&gt;在建立联合索引时，&lt;strong&gt;要把区分度大的字段排在前面&lt;/strong&gt;，效率更高。MySQL
-有查询优化器，如果字段在表的数据行中占比超过界限（30%），会忽略索引，进行全表扫描。&lt;/p&gt;</summary>
+有查询优化器，如果字段在表的数据行中占比超过界限（30%），会忽略索引，进行全表扫描。&lt;/p&gt;
+&lt;p&gt;索引的最大好处就是能够提高查询速度，但是创建索引和维护索引不仅耗时，索引还会占用空间，并且因为要动态维护索引而降低增删改的效率。&lt;/p&gt;
+&lt;p&gt;推荐对唯一字段、用于 WHERE、GROUP BY、ORDER BY
+的字段建立索引，不推荐对数据量很小的表、存在大量重复数据的字段以及经常更新的字段建立索引。&lt;/p&gt;</summary>
     
     
     
@@ -101,9 +104,9 @@ href=&quot;https://www.mrpersimmon.top/article/631e5355.html&quot;&gt;手撕算�
     
     <category term="算法" scheme="https://www.mrpersimmon.top/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="双指针" scheme="https://www.mrpersimmon.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
-    
     <category term="链表" scheme="https://www.mrpersimmon.top/tags/%E9%93%BE%E8%A1%A8/"/>
+    
+    <category term="双指针" scheme="https://www.mrpersimmon.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
     
     <category term="数组" scheme="https://www.mrpersimmon.top/tags/%E6%95%B0%E7%BB%84/"/>
     
@@ -197,9 +200,9 @@ Java IO 编程基础。&lt;/p&gt;
     
     <category term="算法" scheme="https://www.mrpersimmon.top/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="双指针" scheme="https://www.mrpersimmon.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
-    
     <category term="链表" scheme="https://www.mrpersimmon.top/tags/%E9%93%BE%E8%A1%A8/"/>
+    
+    <category term="双指针" scheme="https://www.mrpersimmon.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
     
   </entry>
   
@@ -387,9 +390,9 @@ href=&quot;https://www.mrpersimmon.top/article/893f0705.html&quot;&gt;二叉树�
     
     <category term="算法" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="算法框架" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6/"/>
-    
     <category term="二叉树" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+    <category term="算法框架" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6/"/>
     
     
     <category term="算法" scheme="https://www.mrpersimmon.top/tags/%E7%AE%97%E6%B3%95/"/>
@@ -439,9 +442,9 @@ Offer 第 55 题 「二叉树的深度」&lt;/a&gt;&lt;/p&gt;</summary>
     
     <category term="算法" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="算法框架" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6/"/>
-    
     <category term="二叉树" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+    <category term="算法框架" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6/"/>
     
     
     <category term="算法" scheme="https://www.mrpersimmon.top/tags/%E7%AE%97%E6%B3%95/"/>
@@ -613,18 +616,18 @@ href=&quot;https://www.mrpersimmon.top/article/ba79aab0.html#%E5%8F%8C%E6%8C%87%
     
     <category term="算法" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="双指针" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
-    
     <category term="链表" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/"/>
+    
+    <category term="双指针" scheme="https://www.mrpersimmon.top/categories/%E7%AE%97%E6%B3%95/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
     
     
     <category term="算法" scheme="https://www.mrpersimmon.top/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="双指针" scheme="https://www.mrpersimmon.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
+    <category term="牛客-TOP101" scheme="https://www.mrpersimmon.top/tags/%E7%89%9B%E5%AE%A2-TOP101/"/>
     
     <category term="链表" scheme="https://www.mrpersimmon.top/tags/%E9%93%BE%E8%A1%A8/"/>
     
-    <category term="牛客-TOP101" scheme="https://www.mrpersimmon.top/tags/%E7%89%9B%E5%AE%A2-TOP101/"/>
+    <category term="双指针" scheme="https://www.mrpersimmon.top/tags/%E5%8F%8C%E6%8C%87%E9%92%88/"/>
     
   </entry>
   

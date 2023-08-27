@@ -730,7 +730,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-08-27 11:10:56 / 修改时间：22:32:56" itemprop="dateCreated datePublished" datetime="2023-08-27T11:10:56+08:00">2023-08-27</time>
+      <time title="创建时间：2023-08-27 11:10:56 / 修改时间：23:02:20" itemprop="dateCreated datePublished" datetime="2023-08-27T11:10:56+08:00">2023-08-27</time>
     </span>
 
   
@@ -744,14 +744,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
+      <span>1.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>7 分钟</span>
     </span>
 
 </div>
@@ -771,6 +771,9 @@
 引入了<strong>索引下推优化</strong>，可以在联合索引遍历过程中，对联合索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。</p>
 <p>在建立联合索引时，<strong>要把区分度大的字段排在前面</strong>，效率更高。MySQL
 有查询优化器，如果字段在表的数据行中占比超过界限（30%），会忽略索引，进行全表扫描。</p>
+<p>索引的最大好处就是能够提高查询速度，但是创建索引和维护索引不仅耗时，索引还会占用空间，并且因为要动态维护索引而降低增删改的效率。</p>
+<p>推荐对唯一字段、用于 WHERE、GROUP BY、ORDER BY
+的字段建立索引，不推荐对数据量很小的表、存在大量重复数据的字段以及经常更新的字段建立索引。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/article/43a71ae4.html#more" rel="contents">
@@ -944,14 +947,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">57k</span>
+    <span title="站点总字数">58k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:28</span>
+    <span title="站点阅读时长">3:30</span>
   </span>
     <span class="post-meta-item" id="busuanzi_container_site_pv">
       <span class="post-meta-item-icon">
